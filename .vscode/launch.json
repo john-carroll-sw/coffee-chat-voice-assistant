@@ -5,12 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: App",
+            "name": "Python Debugger: Start Backend",
             "type": "debugpy",
             "request": "launch",
-            "program": "app.py",
+            "program": "app/backend/app.py",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}/app/backend"
+            "cwd": "${workspaceFolder}",
+            "args": ["--reload"],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/.venv/bin/python"
+            }
         }
     ]
 }
