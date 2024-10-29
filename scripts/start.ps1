@@ -3,7 +3,7 @@
 Write-Host ""
 Write-Host "Restoring frontend npm packages"
 Write-Host ""
-Set-Location ../frontend
+Set-Location ./app/frontend
 npm install
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Failed to restore frontend npm packages"
@@ -29,7 +29,7 @@ if (Test-Path -Path "/usr") {
   # fallback to Linux venv path
   $venvPythonPath = "./.venv/bin/python"
 }
-Start-Process -FilePath $venvPythonPath -ArgumentList "-m app --reload" -Wait -NoNewWindow
+Start-Process -FilePath $venvPythonPath -ArgumentList "-m app" -Wait -NoNewWindow
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Failed to start backend"
     exit $LASTEXITCODE
