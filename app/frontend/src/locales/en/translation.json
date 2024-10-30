@@ -1,7 +1,9 @@
 {
     "app": {
         "title": "Talk to Starbucks AI",
-        "footer": "Built with GPT-4o realtime preview + Azure AI Search + Azure OpenAI",
+        "footer": "Built with GPT-4o realtime preview + Azure AI Search",
+        "showHistory": "Show Chat History",
+        "showMenu": "Show Menu",
         "stopRecording": "Stop recording",
         "startRecording": "Start recording",
         "stopConversation": "Stop conversation"
@@ -11,11 +13,14 @@
         "conversationInProgress": "Conversation in progress"
     },
     "history": {
-        "answerHistory": "Answer history",
+        "answerHistory": "Chat History",
         "noHistory": "No history yet."
     },
     "groundingFiles": {
         "title": "Grounding files",
         "description": "Files used to ground the answers."
+    },
+    "menu": {
+        "title": "Menu"
     }
 }

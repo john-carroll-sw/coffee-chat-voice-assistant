@@ -44,6 +44,7 @@ async def create_app():
     #                       "2. Always use the 'report_grounding' tool to report the source of information from the knowledge base. \n" + \
     #                       "3. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know."
     
+    rtmt.temperature = 0.6
     rtmt.system_message = (
         "You are a friendly Starbucks barista assistant. Start every conversation by asking for the user's name. "
         "Only answer questions or suggest items based on information you searched in the knowledge base, accessible with the 'search' tool. "
