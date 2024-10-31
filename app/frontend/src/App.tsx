@@ -16,12 +16,13 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 import { GroundingFile, HistoryItem, ToolResult } from "./types";
 
-import logo from "./assets/Starbucks_Corporation_Logo_2011.svg";
+import logo from "./assets/logo.svg";
+
 import { useTheme } from "./theme-context";
 
 const menuDocuments = [
-    { id: "1", name: "Menu 1", url: "/starbucks-menu-2024.pdf" },
-    { id: "2", name: "Menu 2", url: "/cafe_nouveau_ny_menu.pdf" }
+    { id: "1", name: "Menu 1", url: "/Coffee-Lovers.pdf" },
+    { id: "2", name: "Menu 2", url: "/Barista_Recipe_Book_USA" }
 ];
 
 function App() {

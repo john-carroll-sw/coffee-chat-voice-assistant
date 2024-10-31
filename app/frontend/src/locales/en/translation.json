@@ -1,6 +1,6 @@
 {
     "app": {
-        "title": "Talk to Starbucks AI",
+        "title": "Talk to Training Assistant AI",
         "footer": "Built with GPT-4o realtime preview + Azure AI Search",
         "showHistory": "Show Chat History",
         "showMenu": "Show Menu",
@@ -9,7 +9,7 @@
         "stopConversation": "Stop conversation"
     },
     "status": {
-        "notRecordingMessage": "Place a drink or food order",
+        "notRecordingMessage": "Ask about drink recipes",
         "conversationInProgress": "Conversation in progress"
     },
     "history": {
