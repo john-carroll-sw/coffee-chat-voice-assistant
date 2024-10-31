@@ -17,9 +17,22 @@ import { GroundingFile, HistoryItem, ToolResult } from "./types";
 
 import logo from "./assets/Starbucks_Corporation_Logo_2011.svg";
 
+// import menu1 from "./assets/starbucks-menu-2024.pdf";
+// import menu2 from "./assets/cafe_nouveau_ny_menu.pdf";
+// import menu3 from "./starbucks-menu-2024.pdf";
+// import menu4 from "./cafe_nouveau_ny_menu.pdf";
+
+// const menuDocuments = [
+//     // { id: "1", name: "Menu 1", url: menu1 },
+//     // { id: "2", name: "Menu 2", url: menu2 }
+//     //,
+//     { id: "3", name: "Menu 3", url: menu3 },
+//     { id: "4", name: "Menu 4", url: menu4 }
+// ];
+
 const menuDocuments = [
-    { id: "1", name: "Menu 1", url: "/assets/starbucks-menu-2024.pdf" },
-    { id: "2", name: "Menu 2", url: "/assets/cafe nouveau ny menu.pdf" }
+    { id: "1", name: "Menu 1", url: "/starbucks-menu-2024.pdf" },
+    { id: "2", name: "Menu 2", url: "/cafe_nouveau_ny_menu.pdf" }
 ];
 
 function App() {
