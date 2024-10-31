@@ -36,10 +36,11 @@ export default function HistoryPanel({ show, history, onClosed, onSelectedGround
         return `${formattedHours}:${formattedMinutes} ${ampm}`;
     };
 
-    const shouldShowTimestamp = (current: Date, previous?: Date) => {
-        if (!previous) return true;
-        const diff = (current.getTime() - previous.getTime()) / 1000; // Difference in seconds
-        return diff > 30; // Show timestamp if more than 30 seconds have passed
+    const shouldShowTimestamp = (current: Date, next?: Date, isLast?: boolean) => {
+        if (isLast) return false; // Do not show timestamp for the last message
+        if (!next) return true;
+        const diff = (next.getTime() - current.getTime()) / 1000; // Difference in seconds
+        return diff > 60; // Show timestamp if more than 30 seconds have passed
     };
 
     return (
@@ -62,16 +63,15 @@ export default function HistoryPanel({ show, history, onClosed, onSelectedGround
                         {history.length > 0 ? (
                             <div className="space-y-4">
                                 {history.map((item, index) => {
-                                    const previousItem = history[index - 1];
+                                    const nextItem = history[index + 1];
+                                    const isLast = index === history.length - 1;
                                     const showTimestamp = shouldShowTimestamp(
                                         new Date(item.timestamp),
-                                        previousItem ? new Date(previousItem.timestamp) : undefined
+                                        nextItem ? new Date(nextItem.timestamp) : undefined,
+                                        isLast
                                     );
                                     return (
                                         <div key={index}>
-                                            {showTimestamp && index !== 0 && (
-                                                <div className="text-center text-xs text-gray-500">{formatTimestamp(new Date(item.timestamp))}</div>
-                                            )}
                                             <div
                                                 className={`rounded-lg p-4 shadow ${item.sender === "user" ? "ml-auto bg-blue-100 pl-4" : "bg-gray-100"}`}
                                                 style={{ maxWidth: "75%" }} // Optional: Limit the width of the bubbles
@@ -83,6 +83,9 @@ export default function HistoryPanel({ show, history, onClosed, onSelectedGround
                                                     ))}
                                                 </div>
                                             </div>
+                                            {showTimestamp && (
+                                                <div className="mt-2 text-center text-xs text-gray-500">{formatTimestamp(new Date(item.timestamp))}</div>
+                                            )}
                                         </div>
                                     );
                                 })}

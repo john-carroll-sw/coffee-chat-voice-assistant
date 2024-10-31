@@ -11,7 +11,7 @@
 
 ## Should
 
-- TODO Add PDF view in a left side panel for all files that are grounded on
+<!-- - TODO Add PDF view in a left side panel for all files that are grounded on -->
 
 ## Could
 
@@ -20,4 +20,5 @@
 ## Would
 
 <!-- - TODO Add timestamp (7:10 AM in the middle, small) if a message hasn't been added in a few minutes.  -->
+<!-- - TODO Add a dark theme -->
 - TODO Consider adding a chat box to the bottom of Chat History. This would make it Chat, instead of Chat History

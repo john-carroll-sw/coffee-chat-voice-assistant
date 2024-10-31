@@ -38,7 +38,7 @@ export default function MenuPanel({ show, documents, onClosed }: Properties) {
         return absoluteUrl;
     };
 
-    const handleDrag = (e: any, data: any) => {
+    const handleDrag = (_e: any, data: any) => {
         const newWidth = panelWidth + data.deltaX;
         if (newWidth > window.innerWidth * 0.3 && newWidth < window.innerWidth * 0.9) {
             setPanelWidth(newWidth);
