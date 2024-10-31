@@ -16,6 +16,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "darkreader": "^4.9.96",
     "framer-motion": "^11.5.6",
     "i18next": "^23.12.2",
     "i18next-browser-languagedetector": "^8.0.0",
@@ -25,6 +26,7 @@
     "react-dom": "^18.3.1",
     "react-draggable": "^4.4.6",
     "react-i18next": "^15.0.0",
+    "react-icons": "^5.3.0",
     "react-use-websocket": "^4.8.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"

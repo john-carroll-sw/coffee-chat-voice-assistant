@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Mic, MicOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { FaSun, FaMoon } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
 import { GroundingFiles } from "@/components/ui/grounding-files";
@@ -16,19 +17,7 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { GroundingFile, HistoryItem, ToolResult } from "./types";
 
 import logo from "./assets/Starbucks_Corporation_Logo_2011.svg";
-
-// import menu1 from "./assets/starbucks-menu-2024.pdf";
-// import menu2 from "./assets/cafe_nouveau_ny_menu.pdf";
-// import menu3 from "./starbucks-menu-2024.pdf";
-// import menu4 from "./cafe_nouveau_ny_menu.pdf";
-
-// const menuDocuments = [
-//     // { id: "1", name: "Menu 1", url: menu1 },
-//     // { id: "2", name: "Menu 2", url: menu2 }
-//     //,
-//     { id: "3", name: "Menu 3", url: menu3 },
-//     { id: "4", name: "Menu 4", url: menu4 }
-// ];
+import { useTheme } from "./theme-context";
 
 const menuDocuments = [
     { id: "1", name: "Menu 1", url: "/starbucks-menu-2024.pdf" },
@@ -43,6 +32,7 @@ function App() {
     const [showMenu, setShowMenu] = useState(false);
     const [showHistory, setShowHistory] = useState(false);
     const [history, setHistory] = useState<HistoryItem[]>([]);
+    const { theme, toggleTheme } = useTheme();
 
     const { startSession, addUserAudio, inputAudioBufferClear } = useRealTime({
         enableInputAudioTranscription: true, // Enable input audio transcription from the user to show in the history
@@ -117,12 +107,17 @@ function App() {
     const { t } = useTranslation();
 
     return (
-        <div className="flex min-h-screen flex-col bg-gray-100 text-gray-900">
+        <div className={`app flex min-h-screen flex-col bg-gray-100 text-gray-900 ${theme}`}>
             <div className="p-4 sm:absolute sm:left-4 sm:top-4">
-                <img src={logo} alt="Azure logo" className="h-16 w-16" />
+                <img src={logo} alt="logo" className="h-16 w-16" />
+                <button onClick={toggleTheme} className="ml-4 mt-4 flex items-center rounded bg-gray-200 p-2">
+                    {theme === "light" ? <FaMoon className="text-yellow-500" /> : <FaSun className="text-yellow-500" />}
+                </button>
             </div>
             <main className="flex flex-grow flex-col items-center justify-center">
-                <h1 className="mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-4xl font-bold text-transparent md:text-7xl">
+                <h1
+                    className={`mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-4xl font-bold md:text-7xl ${theme === "light" ? "text-transparent" : "text-white"}`}
+                >
                     {t("app.title")}
                 </h1>
                 <div className="mb-4 flex flex-col items-center justify-center">

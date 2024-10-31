@@ -21,7 +21,7 @@ type Properties = {
 export default function MenuPanel({ show, documents, onClosed }: Properties) {
     const { t } = useTranslation();
     const [selectedDocument, setSelectedDocument] = useState<MenuDocument | null>(documents[0] || null);
-    const [panelWidth, setPanelWidth] = useState(window.innerWidth * 0.8); // default width is 80% of window width
+    const [panelWidth, setPanelWidth] = useState(window.innerWidth * 0.4); // default width is 70% of window width
     const menuEndRef = useRef<HTMLDivElement>(null);
 
     // Scroll to the bottom whenever the menu changes
@@ -38,6 +38,13 @@ export default function MenuPanel({ show, documents, onClosed }: Properties) {
         return absoluteUrl;
     };
 
+    const handleDrag = (e: any, data: any) => {
+        const newWidth = panelWidth + data.deltaX;
+        if (newWidth > window.innerWidth * 0.3 && newWidth < window.innerWidth * 0.9) {
+            setPanelWidth(newWidth);
+        }
+    };
+
     return (
         <AnimatePresence>
             {show && (
@@ -46,27 +53,27 @@ export default function MenuPanel({ show, documents, onClosed }: Properties) {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: "-100%" }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className={`fixed inset-y-0 left-0 z-40 overflow-y-auto bg-white shadow-lg`}
+                    className="fixed inset-y-0 left-0 z-40 flex h-full flex-col overflow-y-auto bg-white shadow-lg"
                     style={{ width: panelWidth }}
                 >
-                    <Draggable axis="x" bounds="parent" onDrag={(_e, data) => setPanelWidth(panelWidth + data.deltaX)}>
-                        <div className="absolute right-0 top-0 h-full w-2 cursor-col-resize bg-gray-300" />
+                    <Draggable axis="x" bounds="parent" onDrag={handleDrag}>
+                        <div className="absolute right-0 top-0 h-full w-2 cursor-ew-resize bg-gray-300" />
                     </Draggable>
-                    <div className="sticky top-0 z-10 mb-4 flex items-center justify-between bg-white px-4 py-2">
-                        <div className="flex space-x-2">
-                            <Button variant="ghost" size="sm" onClick={() => setPanelWidth(panelWidth + 50)}>
-                                +
-                            </Button>
-                            <Button variant="ghost" size="sm" onClick={() => setPanelWidth(panelWidth - 50)} disabled={panelWidth <= 200}>
-                                -
+                    <div className="flex flex-grow flex-col p-4">
+                        <div className="mb-4 flex items-center justify-between">
+                            <div className="flex space-x-2">
+                                <Button variant="ghost" size="sm" onClick={() => setPanelWidth(panelWidth + 50)}>
+                                    +
+                                </Button>
+                                <Button variant="ghost" size="sm" onClick={() => setPanelWidth(panelWidth - 50)} disabled={panelWidth <= 200}>
+                                    -
+                                </Button>
+                            </div>
+                            <h2 className="text-xl font-bold">{t("menu.title")}</h2>{" "}
+                            <Button variant="ghost" size="sm" onClick={onClosed}>
+                                <X className="h-5 w-5" />
                             </Button>
                         </div>
-                        <h2 className="text-xl font-bold">{t("menu.title")}</h2>
-                        <Button variant="ghost" size="sm" onClick={onClosed}>
-                            <X className="h-5 w-5" />
-                        </Button>
-                    </div>
-                    <div className="p-4">
                         <div className="mb-4 flex space-x-4">
                             {documents.map(doc => (
                                 <Button
@@ -80,13 +87,12 @@ export default function MenuPanel({ show, documents, onClosed }: Properties) {
                             ))}
                         </div>
                         {selectedDocument && (
-                            <div className="space-y-4">
+                            <div className="flex flex-grow flex-col space-y-4">
                                 <iframe
                                     src={getDocumentUrl(selectedDocument.url)}
                                     width="100%"
-                                    height="600"
+                                    className="flex-grow rounded-md border"
                                     title={selectedDocument.name}
-                                    className="rounded-md border"
                                 ></iframe>
                                 <div ref={menuEndRef} />
                             </div>
