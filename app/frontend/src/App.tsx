@@ -22,7 +22,7 @@ import { useTheme } from "./theme-context";
 
 const menuDocuments = [
     { id: "1", name: "Menu 1", url: "/Coffee-Lovers.pdf" },
-    { id: "2", name: "Menu 2", url: "/Barista_Recipe_Book_USA" }
+    { id: "2", name: "Menu 2", url: "/Barista_Recipe_Book_USA.pdf" }
 ];
 
 function App() {
