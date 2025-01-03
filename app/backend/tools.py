@@ -110,19 +110,20 @@ async def _report_grounding_tool(search_client: SearchClient, identifier_field: 
         docs.append({"id": r[identifier_field], "title": r[title_field], "content": r[content_field]})
     return ToolResult({"sources": docs}, ToolResultDirection.TO_CLIENT)
 
-def attach_rag_tools(rtmt: RTMiddleTier,
-    credentials: AzureKeyCredential | DefaultAzureCredential,
-    search_endpoint: str, search_index: str,
-    semantic_configuration: str,
-    identifier_field: str,
-    content_field: str,
-    embedding_field: str,
-    title_field: str,
-    use_vector_query: bool
+def attach_tools(rtmt: RTMiddleTier,
+        credentials: AzureKeyCredential | DefaultAzureCredential,
+        search_endpoint: str, search_index: str,
+        semantic_configuration: str,
+        identifier_field: str,
+        content_field: str,
+        embedding_field: str,
+        title_field: str,
+        use_vector_query: bool
     ) -> None:
+
     if not isinstance(credentials, AzureKeyCredential):
         credentials.get_token("https://search.azure.com/.default") # warm this up before we start getting requests
     search_client = SearchClient(search_endpoint, search_index, credentials, user_agent="RTMiddleTier")
 
     rtmt.tools["search"] = Tool(schema=_search_tool_schema, target=lambda args: _search_tool(search_client, semantic_configuration, identifier_field, content_field, embedding_field, use_vector_query, args))
-    rtmt.tools["report_grounding"] = Tool(schema=_grounding_tool_schema, target=lambda args: _report_grounding_tool(search_client, identifier_field, title_field, content_field, args))
+    # rtmt.tools["report_grounding"] = Tool(schema=_grounding_tool_schema, target=lambda args: _report_grounding_tool(search_client, identifier_field, title_field, content_field, args))

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import GroundingFileView from "@/components/ui/grounding-file-view";
 import StatusMessage from "@/components/ui/status-message";
 import HistoryPanel from "@/components/ui/history-panel";
+// import MenuPanel from "@/components/ui/menu-panel";
 
 import useRealTime from "@/hooks/useRealtime";
 import useAudioRecorder from "@/hooks/useAudioRecorder";
@@ -18,14 +19,13 @@ import logo from "./assets/logo.svg";
 
 import { useTheme } from "./theme-context";
 
-const menuDocuments = [{ id: "1", name: "Menu", url: "/coffee-chat-beverage-menu.pdf" }];
-
 function App() {
     const [isRecording, setIsRecording] = useState(false);
     const [selectedFile, setSelectedFile] = useState<GroundingFile | null>(null);
     const [groundingFiles, setGroundingFiles] = useState<GroundingFile[]>([]);
     const [showTranscript, setShowTranscript] = useState(false);
     const [history, setHistory] = useState<HistoryItem[]>([]);
+    const { theme, toggleTheme } = useTheme();
 
     const { startSession, addUserAudio, inputAudioBufferClear } = useRealTime({
         enableInputAudioTranscription: true, // Enable input audio transcription from the user to show in the history

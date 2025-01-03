@@ -1,14 +1,14 @@
 {
     "app": {
-        "title": "Talk to your data",
-        "footer": "Built with Azure AI Search + Azure OpenAI",
+        "title": "Coffee Chat",
+        "footer": "Built with Azure AI, Azure OpenAI, and Azure Speech",
         "showTranscript": "Show transcript",
         "stopRecording": "Stop recording",
         "startRecording": "Start recording",
         "stopConversation": "Stop conversation"
     },
     "status": {
-        "notRecordingMessage": "Ask about drink recipes",
+        "notRecordingMessage": "Let's order some coffee!",
         "conversationInProgress": "Conversation in progress"
     },
     "history": {
