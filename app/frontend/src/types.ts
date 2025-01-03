@@ -9,8 +9,8 @@ export type GroundingFile = {
 export type HistoryItem = {
     id: string;
     transcript: string;
-    groundingFiles: GroundingFile[];
-    sender: "user" | "assistant"; // Add sender field
+    groundingFiles?: GroundingFile[];
+    sender: "user" | "assistant";
     timestamp: Date; // Add timestamp field
 };
 

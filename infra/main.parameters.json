@@ -14,6 +14,9 @@
     "principalId": {
       "value": "${AZURE_PRINCIPAL_ID}"
     },
+    "openAiServiceLocation": {
+      "value": "${AZURE_OPENAI_SERVICE_LOCATION}"
+    },
     "openAiServiceName": {
       "value": "${AZURE_OPENAI_SERVICE}"
     },
@@ -28,6 +31,9 @@
     },
     "openAiRealtimeDeployment": {
       "value": "${AZURE_OPENAI_REALTIME_DEPLOYMENT}"
+    },
+    "openAiRealtimeVoiceChoice": {
+      "value": "${AZURE_OPENAI_REALTIME_VOICE_CHOICE=alloy}"
     },
     "searchIndexName": {
       "value": "${AZURE_SEARCH_INDEX=voicerag-intvect}"

@@ -17,6 +17,7 @@ async def create_app():
     if not os.environ.get("RUNNING_IN_PRODUCTION"):
         logger.info("Running in development mode, loading from .env file")
         load_dotenv()
+    
     llm_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
     llm_deployment = os.environ.get("AZURE_OPENAI_REALTIME_DEPLOYMENT")
     llm_key = os.environ.get("AZURE_OPENAI_API_KEY")
@@ -35,7 +36,12 @@ async def create_app():
     
     app = web.Application()
 
-    rtmt = RTMiddleTier(llm_endpoint, llm_deployment, llm_credential)
+    rtmt = RTMiddleTier(
+        credentials=llm_credential,
+        endpoint=llm_endpoint,
+        deployment=llm_deployment,
+        voice_choice=os.environ.get("AZURE_OPENAI_REALTIME_VOICE_CHOICE") or "alloy"
+    )
     rtmt.temperature = 0.6
     rtmt.system_message = (
         "You are an AI barista assistant for a café. "
