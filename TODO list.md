@@ -8,6 +8,12 @@
 <!-- - TODO Chat History, have it keep up to the bottom always. -->
 <!-- - TODO grounding in the history, help it show up correctly in the chat history. Consider removing it from the normal area when chat history is shown -->
 <!-- - TODO increase the silence duration, edit the sensitivity -->
+<!-- TODO Get search tool up and running with realtime -->
+TODO Implement some sort of order state management, complete with price calculations.
+TODO Add UI elements to show the menu
+TODO Add UI elements to show the order
+TODO Add in the toggle-able elements to switch to the STT-LLM-TTS services pipeline to compare the latency, phonetics, conversable AI experiences
+
 
 ## Should
 

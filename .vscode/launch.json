@@ -6,15 +6,16 @@
     "configurations": [
         {
             "name": "Python Debugger: Start Backend",
-            "type": "debugpy",
+            "type": "python",
             "request": "launch",
-            "program": "app/backend/app.py",
+            "program": "${workspaceFolder}/app/backend/app.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "args": ["--reload"],
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/.venv/bin/python"
-            }
+                "PYTHONPATH": "${workspaceFolder}/app/backend/.venv/lib/python3.12/site-packages"
+            },
+            "python": "${workspaceFolder}/app/backend/.venv/bin/python"
         }
     ]
 }

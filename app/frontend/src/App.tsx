@@ -20,10 +20,7 @@ import logo from "./assets/logo.svg";
 
 import { useTheme } from "./theme-context";
 
-const menuDocuments = [
-    { id: "1", name: "Menu 1", url: "/Coffee-Lovers.pdf" },
-    { id: "2", name: "Menu 2", url: "/Barista_Recipe_Book_USA.pdf" }
-];
+const menuDocuments = [{ id: "1", name: "Menu", url: "/coffee-chat-beverage-menu.pdf" }];
 
 function App() {
     const [isRecording, setIsRecording] = useState(false);

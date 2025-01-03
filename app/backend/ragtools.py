@@ -57,22 +57,31 @@ async def _search_tool(
     embedding_field: str,
     use_vector_query: bool,
     args: Any) -> ToolResult:
-    print(f"Searching for '{args['query']}' in the knowledge base.")
+
+    query = args['query']
+    print("\nStarting search...")
+    print(f"Searching for '{query}' in the knowledge base.")
+    
     # Hybrid + Reranking query using Azure AI Search
     vector_queries = []
     if use_vector_query:
-        vector_queries.append(VectorizableTextQuery(text=args['query'], k_nearest_neighbors=50, fields=embedding_field))
+        vector_queries.append(VectorizableTextQuery(text=query, k_nearest_neighbors=50, fields=embedding_field))
+
+    # Perform the hybrid search
     search_results = await search_client.search(
-        search_text=args['query'], 
+        search_text=query, 
         query_type="semantic",
         semantic_configuration_name=semantic_configuration,
         top=5,
         vector_queries=vector_queries,
-        select=", ".join([identifier_field, content_field])
+        # select=", ".join([identifier_field, content_field])
+        select=["id", "category", "item", "description", "price"],
     )
     result = ""
+
     async for r in search_results:
-        result += f"[{r[identifier_field]}]: {r[content_field]}\n-----\n"
+        print(f"Search result fields: {r.keys()}")  # Debugging line to print available fields
+        result += f"[{r['id']}]: Category: {r['category']}, Item: {r['item']}, Description: {r['description']}, Price: {r['price']}\n-----\n"
     return ToolResult(result, ToolResultDirection.TO_SERVER)
 
 KEY_PATTERN = re.compile(r'^[a-zA-Z0-9_=\-]+$')
@@ -80,24 +89,25 @@ KEY_PATTERN = re.compile(r'^[a-zA-Z0-9_=\-]+$')
 # TODO: move from sending all chunks used for grounding eagerly to only sending links to 
 # the original content in storage, it'll be more efficient overall
 async def _report_grounding_tool(search_client: SearchClient, identifier_field: str, title_field: str, content_field: str, args: Any) -> None:
-    sources = [s for s in args["sources"] if KEY_PATTERN.match(s)]
+    sources = [s for s in args["sources"]]
     list = " OR ".join(sources)
+    print("\nReporting grounding sources...")
     print(f"Grounding source: {list}")
     # Use search instead of filter to align with how detailt integrated vectorization indexes
     # are generated, where chunk_id is searchable with a keyword tokenizer, not filterable 
-    search_results = await search_client.search(search_text=list, 
-                                                search_fields=[identifier_field], 
-                                                select=[identifier_field, title_field, content_field], 
-                                                top=len(sources), 
-                                                query_type="full")
+    # search_results = await search_client.search(search_text=list, 
+    #                                             search_fields=[identifier_field], 
+    #                                             select=[identifier_field, title_field, content_field], 
+    #                                             top=len(sources), 
+    #                                             query_type="full")
     
     # If your index has a key field that's filterable but not searchable and with the keyword analyzer, you can 
     # use a filter instead (and you can remove the regex check above, just ensure you escape single quotes)
-    # search_results = await search_client.search(filter=f"search.in(chunk_id, '{list}')", select=["chunk_id", "title", "chunk"])
+    search_results = await search_client.search(filter=f"search.in(id, '{list}')", select=["id", "category", "item", "description", "price"])
 
     docs = []
     async for r in search_results:
-        docs.append({"chunk_id": r[identifier_field], "title": r[title_field], "chunk": r[content_field]})
+        docs.append({"id": r[identifier_field], "title": r[title_field], "content": r[content_field]})
     return ToolResult({"sources": docs}, ToolResultDirection.TO_CLIENT)
 
 def attach_rag_tools(rtmt: RTMiddleTier,

@@ -1,7 +1,7 @@
 {
     "app": {
-        "title": "Talk to Barista Training Assistant",
-        "footer": "Built with GPT-4o realtime preview + Azure AI Search",
+        "title": "Coffee Chat",
+        "footer": "",
         "showHistory": "Show Chat History",
         "showMenu": "Show Menu",
         "stopRecording": "Stop recording",
