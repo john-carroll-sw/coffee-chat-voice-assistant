@@ -155,7 +155,7 @@ function App() {
                             <SheetHeader>
                                 <SheetTitle>Our Menu</SheetTitle>
                             </SheetHeader>
-                            <div className="h-[calc(100vh-4rem)] overflow-auto">
+                            <div className="h-[calc(100vh-4rem)] overflow-auto pr-4">
                                 <MenuPanel />
                             </div>
                         </SheetContent>
@@ -164,7 +164,7 @@ function App() {
                     {/* Desktop Menu Panel */}
                     <Card className="hidden p-6 md:block">
                         <h2 className="mb-4 text-center font-semibold">Our Menu</h2>
-                        <div className="h-[calc(100vh-18rem)] overflow-auto">
+                        <div className="h-[calc(100vh-18rem)] overflow-auto pr-4">
                             <MenuPanel />
                         </div>
                     </Card>
@@ -207,7 +207,7 @@ function App() {
                             <SheetHeader>
                                 <SheetTitle>Transcript History</SheetTitle>
                             </SheetHeader>
-                            <div className="h-[calc(100vh-4rem)] overflow-auto">
+                            <div className="h-[calc(100vh-4rem)] overflow-auto pr-4">
                                 <TranscriptPanel transcripts={useDummyData ? dummyTranscripts : transcripts} />
                             </div>
                         </SheetContent>
@@ -216,7 +216,7 @@ function App() {
                     {/* Desktop Transcript Panel */}
                     <Card className="hidden p-6 md:block">
                         <h2 className="mb-4 text-center font-semibold">Transcript History</h2>
-                        <div className="h-[calc(100vh-18rem)] overflow-auto">
+                        <div className="h-[calc(100vh-18rem)] overflow-auto pr-4">
                             <TranscriptPanel transcripts={useDummyData ? dummyTranscripts : transcripts} />
                         </div>
                     </Card>

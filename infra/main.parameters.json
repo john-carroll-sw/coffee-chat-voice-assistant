@@ -27,7 +27,7 @@
       "value": "${AZURE_OPENAI_REUSE_EXISTING=false}"
     },
     "openAiEndpoint": {
-      "value": "${AZURE_OPENAI_ENDPOINT}"
+      "value": "${AZURE_OPENAI_EASTUS2_ENDPOINT}"
     },
     "openAiRealtimeDeployment": {
       "value": "${AZURE_OPENAI_REALTIME_DEPLOYMENT}"

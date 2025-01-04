@@ -14,7 +14,7 @@
 <!-- - TODO Add in the toggle-able elements to switch to the STT-LLM-TTS services pipeline to compare the latency, phonetics, conversable AI experiences -->
 - TODO Ground on the smaller menu, figure out if AI Search is needed
 - TODO Order Summary: Implement some sort of order state management, complete with price calculations. Needs to utilize function calling with the LLM.
-- TODO 
+- TODO Build out the Azure Backend Toggle to switch from the Realtime API to the STT-LLM-TTS services pipeline to compare the latency, phonetics, conversable AI experiences
 
 ## Should
 

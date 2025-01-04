@@ -24,7 +24,7 @@ Run these commands _before_ running `azd up`:
 3. Run this command to point the app code at your Azure OpenAI endpoint:
 
     ```bash
-    azd env set AZURE_OPENAI_ENDPOINT https://<YOUR_OPENAI_SERVICE>.openai.azure.com
+    azd env set AZURE_OPENAI_EASTUS2_ENDPOINT https://<YOUR_OPENAI_SERVICE>.openai.azure.com
     ```
 
 4. Run this command to point the app code at your Azure OpenAI real-time deployment. Note that the deployment name may be different from the model name:
@@ -83,7 +83,7 @@ Alternatively, you can first test the solution locally with the `azure-search-op
 
 ```bash
 AZURE_TENANT_ID=<YOUR-TENANT-ID>
-AZURE_OPENAI_ENDPOINT=https://<YOUR_OPENAI_ENDPOINT>.openai.azure.com
+AZURE_OPENAI_EASTUS2_ENDPOINT=https://<YOUR_OPENAI_ENDPOINT>.openai.azure.com
 AZURE_OPENAI_REALTIME_DEPLOYMENT=gpt-4o-realtime-preview
 AZURE_OPENAI_REALTIME_VOICE_CHOICE=<choose one: echo, alloy, shimmer>
 AZURE_SEARCH_ENDPOINT=https://<YOUR_SEARCH_SERVICE>.search.windows.net

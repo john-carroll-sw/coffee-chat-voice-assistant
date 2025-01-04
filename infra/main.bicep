@@ -209,7 +209,7 @@ module acaBackend 'core/host/container-app-upsert.bicep' = {
       AZURE_SEARCH_TITLE_FIELD: searchTitleField
       AZURE_SEARCH_EMBEDDING_FIELD: searchEmbeddingField
       AZURE_SEARCH_USE_VECTOR_QUERY: searchUseVectorQuery
-      AZURE_OPENAI_ENDPOINT: reuseExistingOpenAi ? openAiEndpoint : openAi.outputs.endpoint
+      AZURE_OPENAI_EASTUS2_ENDPOINT: reuseExistingOpenAi ? openAiEndpoint : openAi.outputs.endpoint
       AZURE_OPENAI_REALTIME_DEPLOYMENT: reuseExistingOpenAi ? openAiRealtimeDeployment : openAiDeployments[0].name
       AZURE_OPENAI_REALTIME_VOICE_CHOICE: openAiRealtimeVoiceChoice
       // CORS support, for frontends on other hosts
@@ -399,7 +399,7 @@ output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenantId
 output AZURE_RESOURCE_GROUP string = resourceGroup.name
 
-output AZURE_OPENAI_ENDPOINT string = reuseExistingOpenAi ? openAiEndpoint : openAi.outputs.endpoint
+output AZURE_OPENAI_EASTUS2_ENDPOINT string = reuseExistingOpenAi ? openAiEndpoint : openAi.outputs.endpoint
 output AZURE_OPENAI_REALTIME_DEPLOYMENT string = reuseExistingOpenAi
   ? openAiRealtimeDeployment
   : openAiDeployments[0].name

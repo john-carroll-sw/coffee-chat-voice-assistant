@@ -70,7 +70,6 @@ const menuItems = [
         ]
     }
 ];
-
 export default function MenuPanel() {
     return (
         <div className="space-y-8">
@@ -81,20 +80,22 @@ export default function MenuPanel() {
                         {category.items.map(item => (
                             <div key={item.name} className="border-b border-gray-200 pb-2 dark:border-gray-700">
                                 <div className="flex items-baseline justify-between">
-                                    <span className="font-medium text-gray-900 dark:text-gray-100">{item.name}</span>
+                                    <div>
+                                        <span className="font-medium text-gray-900 dark:text-gray-100">{item.name}</span>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
+                                    </div>
                                     {"sizes" in item ? (
-                                        <div className="text-right">
+                                        <div className="text-right" style={{ width: "14rem" }}>
                                             {Object.entries(item.sizes).map(([size, price]) => (
-                                                <div key={size} className="font-mono text-gray-700 dark:text-gray-300">
+                                                <div key={size} className="font-mono text-sm text-gray-700 dark:text-gray-300">
                                                     {size.charAt(0).toUpperCase() + size.slice(1)}: ${price.toFixed(2)}
                                                 </div>
                                             ))}
                                         </div>
                                     ) : (
-                                        <span className="font-mono text-gray-700 dark:text-gray-300">${item.price.toFixed(2)}</span>
+                                        <span className="font-mono text-sm text-gray-700 dark:text-gray-300">${item.price.toFixed(2)}</span>
                                     )}
                                 </div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
                             </div>
                         ))}
                     </div>

@@ -5,7 +5,7 @@ $envFilePath = "app\backend\.env"
 Set-Content -Path $envFilePath -Value ""
 
 # Append new values to the .env file
-$azureOpenAiEndpoint = azd env get-value AZURE_OPENAI_ENDPOINT
+$azureOpenAiEndpoint = azd env get-value AZURE_OPENAI_EASTUS2_ENDPOINT
 $azureOpenAiRealtimeDeployment = azd env get-value AZURE_OPENAI_REALTIME_DEPLOYMENT
 $azureOpenAiRealtimeVoiceChoice = azd env get-value AZURE_OPENAI_REALTIME_VOICE_CHOICE
 $azureSearchEndpoint = azd env get-value AZURE_SEARCH_ENDPOINT
@@ -18,7 +18,7 @@ $azureSearchContentField = azd env get-value AZURE_SEARCH_CONTENT_FIELD
 $azureSearchEmbeddingField = azd env get-value AZURE_SEARCH_EMBEDDING_FIELD
 $azureSearchUseVectorQuery = azd env get-value AZURE_SEARCH_USE_VECTOR_QUERY
 
-Add-Content -Path $envFilePath -Value "AZURE_OPENAI_ENDPOINT=$azureOpenAiEndpoint"
+Add-Content -Path $envFilePath -Value "AZURE_OPENAI_EASTUS2_ENDPOINT=$azureOpenAiEndpoint"
 Add-Content -Path $envFilePath -Value "AZURE_OPENAI_REALTIME_DEPLOYMENT=$azureOpenAiRealtimeDeployment"
 Add-Content -Path $envFilePath -Value "AZURE_OPENAI_REALTIME_VOICE_CHOICE=$azureOpenAiRealtimeVoiceChoice"
 Add-Content -Path $envFilePath -Value "AZURE_SEARCH_ENDPOINT=$azureSearchEndpoint"
