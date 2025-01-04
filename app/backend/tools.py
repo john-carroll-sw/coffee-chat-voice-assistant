@@ -74,14 +74,12 @@ async def _search_tool(
         semantic_configuration_name=semantic_configuration,
         top=5,
         vector_queries=vector_queries,
-        # select=", ".join([identifier_field, content_field])
-        select=["id", "category", "item", "description", "price"],
+        select=["id", "category", "name", "description", "longDescription", "origin", "caffeineContent", "brewingMethod", "popularity", "sizes"],
     )
     result = ""
 
     async for r in search_results:
-        # print(f"Search result fields: {r.keys()}")  # Debugging line to print available fields
-        result += f"[{r['id']}]: Category: {r['category']}, Item: {r['item']}, Description: {r['description']}, Price: {r['price']}\n-----\n"
+        result += f"[{r['id']}]: Category: {r['category']}, Name: {r['name']}, Description: {r['description']}, Long Description: {r['longDescription']}, Origin: {r['origin']}, Caffeine Content: {r['caffeineContent']}, Brewing Method: {r['brewingMethod']}, Popularity: {r['popularity']}, Sizes: {r['sizes']}\n-----\n"
     return ToolResult(result, ToolResultDirection.TO_SERVER)
 
 KEY_PATTERN = re.compile(r'^[a-zA-Z0-9_=\-]+$')
