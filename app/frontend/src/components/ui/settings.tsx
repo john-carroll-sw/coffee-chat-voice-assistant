@@ -5,6 +5,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useDummyDataContext } from "@/context/dummy-data-context";
 
 interface SettingsProps {
     isMobile: boolean;
@@ -17,6 +18,7 @@ export default function Settings({ isMobile }: SettingsProps) {
     const [isAzureBackend, setIsAzureBackend] = useState(() => {
         return localStorage.getItem("isAzureBackend") === "true";
     });
+    const { useDummyData, setUseDummyData } = useDummyDataContext();
 
     useEffect(() => {
         localStorage.setItem("isDarkMode", isDarkMode.toString());
@@ -39,6 +41,10 @@ export default function Settings({ isMobile }: SettingsProps) {
         setIsAzureBackend(checked);
     };
 
+    const handleDummyDataChange = (checked: boolean) => {
+        setUseDummyData(checked);
+    };
+
     const SettingsContent = () => (
         <div className="space-y-6">
             <div className="flex items-start justify-between">
@@ -58,13 +64,25 @@ export default function Settings({ isMobile }: SettingsProps) {
                     <Label htmlFor="azure-backend" className="text-gray-900 dark:text-gray-100">
                         Azure Backend
                     </Label>
-                    <p className="max-w-[16rem] text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                         Toggle between Azure OpenAI real-time API and Azure Speech SDK (TTS, LLM (GPT-4), SST)
                     </p>
                 </div>
                 <div className="ml-4 flex flex-col items-end">
                     <Switch id="azure-backend" checked={isAzureBackend} onCheckedChange={handleAzureBackendChange} aria-label="Toggle Azure backend" />
                     <span className="text-xs text-gray-500 dark:text-gray-400">{isAzureBackend ? "Realtime API" : "TTS->LLM->SST"}</span>
+                </div>
+            </div>
+            <div className="flex items-start justify-between">
+                <div className="flex-1 space-y-0.5">
+                    <Label htmlFor="dummy-data" className="text-gray-900 dark:text-gray-100">
+                        Dummy Data
+                    </Label>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Toggle between real data and dummy data</p>
+                </div>
+                <div className="ml-4 flex flex-col items-end">
+                    <Switch id="dummy-data" checked={useDummyData} onCheckedChange={handleDummyDataChange} aria-label="Toggle dummy data" />
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{useDummyData ? "Dummy Data" : "Real Data"}</span>
                 </div>
             </div>
         </div>
@@ -80,7 +98,7 @@ export default function Settings({ isMobile }: SettingsProps) {
                     </Button>
                 </SheetTrigger>
                 <SheetContent>
-                    <SheetHeader className="mb-4">
+                    <SheetHeader>
                         <SheetTitle>Settings</SheetTitle>
                         <SheetDescription>Adjust your app preferences here.</SheetDescription>
                     </SheetHeader>

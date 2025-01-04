@@ -21,15 +21,13 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 import { HistoryItem, ToolResult } from "./types";
 
 import { ThemeProvider, useTheme } from "./context/theme-context";
+import { DummyDataProvider, useDummyDataContext } from "@/context/dummy-data-context";
 
 function App() {
     const [isRecording, setIsRecording] = useState(false);
-    // const [selectedFile, setSelectedFile] = useState<GroundingFile | null>(null);
-    // const [groundingFiles, setGroundingFiles] = useState<GroundingFile[]>([]);
-    // const [showTranscript, setShowTranscript] = useState(false);
-    // const [history, setHistory] = useState<HistoryItem[]>([]);
     const { theme } = useTheme();
     const [isMobile, setIsMobile] = useState(false);
+    const { useDummyData } = useDummyDataContext();
 
     const { startSession, addUserAudio, inputAudioBufferClear } = useRealTime({
         enableInputAudioTranscription: true, // Enable input audio transcription from the user to show in the history
@@ -116,7 +114,11 @@ function App() {
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
-    const [transcripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
+    const [realTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
+        return [];
+    });
+
+    const [dummyTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
         const now = new Date();
         return [
             { text: "Hello! How can I help you today?", isUser: false, timestamp: new Date(now.getTime() - 600000) },
@@ -137,7 +139,9 @@ function App() {
         ];
     });
 
-    const [order] = useState([
+    const [realOrder] = useState([]);
+
+    const [dummyOrder] = useState([
         { item: "Large Cappuccino", price: 5.5 },
         { item: "Extra Shot", price: 1.0 },
         { item: "Regular Vanilla Latte", price: 5.9 }
@@ -185,7 +189,7 @@ function App() {
                     {/* Center Panel - Recording Button and Order Summary */}
                     <Card className="p-6 md:h-[calc(100vh-12rem)] md:overflow-auto">
                         <div className="space-y-8">
-                            <OrderSummary order={order} />
+                            <OrderSummary order={useDummyData ? dummyOrder : realOrder} />
                             <div className="mb-4 flex flex-col items-center justify-center">
                                 <Button
                                     onClick={onToggleListening}
@@ -221,7 +225,7 @@ function App() {
                                 <SheetTitle>Transcript History</SheetTitle>
                             </SheetHeader>
                             <div className="h-[calc(100vh-4rem)] overflow-auto">
-                                <TranscriptPanel transcripts={transcripts} />
+                                <TranscriptPanel transcripts={useDummyData ? dummyTranscripts : realTranscripts} />
                             </div>
                         </SheetContent>
                     </Sheet>
@@ -230,7 +234,7 @@ function App() {
                     <Card className="hidden p-6 md:block">
                         <h2 className="mb-4 text-center font-semibold">Transcript History</h2>
                         <div className="h-[calc(100vh-18rem)] overflow-auto">
-                            <TranscriptPanel transcripts={transcripts} />
+                            <TranscriptPanel transcripts={useDummyData ? dummyTranscripts : realTranscripts} />
                         </div>
                     </Card>
                 </div>
@@ -242,7 +246,9 @@ function App() {
 export default function RootApp() {
     return (
         <ThemeProvider>
-            <App />
+            <DummyDataProvider>
+                <App />
+            </DummyDataProvider>
         </ThemeProvider>
     );
 }
