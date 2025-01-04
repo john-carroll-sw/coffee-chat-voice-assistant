@@ -15,6 +15,18 @@ export default function TranscriptPanel({ transcripts }: TranscriptPanelProps) {
         }
     }, [transcripts]);
 
+    // Scroll to the bottom on window resize
+    useEffect(() => {
+        const handleResize = () => {
+            if (transcriptEndRef.current) {
+                transcriptEndRef.current.scrollIntoView({ behavior: "smooth" });
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     // Update current time every second
     useEffect(() => {
         const interval = setInterval(() => {
@@ -45,7 +57,6 @@ export default function TranscriptPanel({ transcripts }: TranscriptPanelProps) {
                 {transcripts.map((transcript, index) => (
                     <div key={index}>
                         <div
-                            key={index}
                             className={`rounded-lg p-3 ${
                                 transcript.isUser
                                     ? "ml-auto max-w-[85%] bg-purple-100 dark:bg-purple-900 dark:text-white"

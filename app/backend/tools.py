@@ -80,7 +80,7 @@ async def _search_tool(
     result = ""
 
     async for r in search_results:
-        print(f"Search result fields: {r.keys()}")  # Debugging line to print available fields
+        # print(f"Search result fields: {r.keys()}")  # Debugging line to print available fields
         result += f"[{r['id']}]: Category: {r['category']}, Item: {r['item']}, Description: {r['description']}, Price: {r['price']}\n-----\n"
     return ToolResult(result, ToolResultDirection.TO_SERVER)
 
