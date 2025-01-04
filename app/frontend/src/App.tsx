@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Mic, MicOff } from "lucide-react";
+import { Mic, MicOff, Menu, MessageSquare } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { Card } from "@/components/ui/card";
@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import StatusMessage from "@/components/ui/status-message";
 // import HistoryPanel from "@/components/ui/history-panel";
 import MenuPanel from "@/components/ui/menu-panel";
+import TranscriptPanel from "@/components/ui/transcript-panel";
 import OrderSummary from "@/components/ui/order-summary";
 import Settings from "@/components/ui/settings";
 
@@ -115,23 +116,26 @@ function App() {
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
-    // const [transcripts] = useState<Array<{ text: string; isUser: boolean }>>([
-    //     { text: "Hello! How can I help you today?", isUser: false },
-    //     { text: "I'd like to order a cappuccino please", isUser: true },
-    //     { text: "Would you like that in regular or large size?", isUser: false },
-    //     { text: "Large please", isUser: true },
-    //     { text: "Great! Would you like any extras with that?", isUser: false },
-    //     { text: "Yes, can I add an extra shot of espresso?", isUser: true },
-    //     { text: "Of course! Anything else?", isUser: false },
-    //     { text: "Can I also get a vanilla latte?", isUser: true },
-    //     { text: "What size would you like the vanilla latte?", isUser: false },
-    //     { text: "Regular is fine", isUser: true },
-    //     { text: "I've added those to your order. Would you like anything else?", isUser: false },
-    //     { text: "No that's all, thank you!", isUser: true },
-    //     { text: "Your total comes to $12.40. Would you like to complete your order?", isUser: false },
-    //     { text: "Yes please", isUser: true },
-    //     { text: "Great! Your order will be ready in about 10 minutes.", isUser: false }
-    // ]);
+    const [transcripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
+        const now = new Date();
+        return [
+            { text: "Hello! How can I help you today?", isUser: false, timestamp: new Date(now.getTime() - 600000) },
+            { text: "I'd like to order a cappuccino please", isUser: true, timestamp: new Date(now.getTime() - 590000) },
+            { text: "Would you like that in regular or large size?", isUser: false, timestamp: new Date(now.getTime() - 580000) },
+            { text: "Large please", isUser: true, timestamp: new Date(now.getTime() - 570000) },
+            { text: "Great! Would you like any extras with that?", isUser: false, timestamp: new Date(now.getTime() - 560000) },
+            { text: "Yes, can I add an extra shot of espresso?", isUser: true, timestamp: new Date(now.getTime() - 550000) },
+            { text: "Of course! Anything else?", isUser: false, timestamp: new Date(now.getTime() - 540000) },
+            { text: "Can I also get a vanilla latte?", isUser: true, timestamp: new Date(now.getTime() - 530000) },
+            { text: "What size would you like the vanilla latte?", isUser: false, timestamp: new Date(now.getTime() - 520000) },
+            { text: "Regular is fine", isUser: true, timestamp: new Date(now.getTime() - 510000) },
+            { text: "I've added those to your order. Would you like anything else?", isUser: false, timestamp: new Date(now.getTime() - 500000) },
+            { text: "No that's all, thank you!", isUser: true, timestamp: new Date(now.getTime() - 490000) },
+            { text: "Your total comes to $12.40. Would you like to complete your order?", isUser: false, timestamp: new Date(now.getTime() - 480000) },
+            { text: "Yes please", isUser: true, timestamp: new Date(now.getTime() - 470000) },
+            { text: "Great! Your order will be ready in about 10 minutes.", isUser: false, timestamp: new Date(now.getTime() - 460000) }
+        ];
+    });
 
     const [order] = useState([
         { item: "Large Cappuccino", price: 5.5 },
@@ -156,7 +160,7 @@ function App() {
                     <Sheet>
                         <SheetTrigger asChild>
                             <Button variant="outline" className="mb-4 flex w-full items-center justify-center md:hidden">
-                                {/* <Menu className="mr-2 h-4 w-4" /> */}
+                                <Menu className="mr-2 h-4 w-4" />
                                 View Menu
                             </Button>
                         </SheetTrigger>
@@ -164,14 +168,18 @@ function App() {
                             <SheetHeader>
                                 <SheetTitle>Our Menu</SheetTitle>
                             </SheetHeader>
-                            <MenuPanel />
+                            <div className="h-[calc(100vh-4rem)] overflow-auto">
+                                <MenuPanel />
+                            </div>
                         </SheetContent>
                     </Sheet>
 
                     {/* Desktop Menu Panel */}
-                    <Card className="hidden h-[calc(100vh-12rem)] overflow-auto p-6 md:block">
-                        <h2 className="mb-4 font-semibold">Our Menu</h2>
-                        <MenuPanel />
+                    <Card className="hidden p-6 md:block">
+                        <h2 className="mb-4 text-center font-semibold">Our Menu</h2>
+                        <div className="h-[calc(100vh-18rem)] overflow-auto">
+                            <MenuPanel />
+                        </div>
                     </Card>
 
                     {/* Center Panel - Recording Button and Order Summary */}
@@ -201,7 +209,7 @@ function App() {
                     </Card>
 
                     {/* Mobile Transcript Button */}
-                    {/* <Sheet>
+                    <Sheet>
                         <SheetTrigger asChild>
                             <Button variant="outline" className="mt-4 flex w-full items-center justify-center md:hidden">
                                 <MessageSquare className="mr-2 h-4 w-4" />
@@ -212,12 +220,19 @@ function App() {
                             <SheetHeader>
                                 <SheetTitle>Transcript History</SheetTitle>
                             </SheetHeader>
-                            <TranscriptPanel transcripts={transcripts} />
+                            <div className="h-[calc(100vh-4rem)] overflow-auto">
+                                <TranscriptPanel transcripts={transcripts} />
+                            </div>
                         </SheetContent>
-                    </Sheet> */}
+                    </Sheet>
 
                     {/* Desktop Transcript Panel */}
-                    <Card className="hidden h-[calc(100vh-12rem)] overflow-auto p-6 md:block">{/* <TranscriptPanel transcripts={transcripts} /> */}</Card>
+                    <Card className="hidden p-6 md:block">
+                        <h2 className="mb-4 text-center font-semibold">Transcript History</h2>
+                        <div className="h-[calc(100vh-18rem)] overflow-auto">
+                            <TranscriptPanel transcripts={transcripts} />
+                        </div>
+                    </Card>
                 </div>
             </div>
         </div>
