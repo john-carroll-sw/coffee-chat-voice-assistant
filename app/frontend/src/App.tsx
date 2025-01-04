@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mic, MicOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { FaSun, FaMoon } from "react-icons/fa";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 // import GroundingFileView from "@/components/ui/grounding-file-view";
 import StatusMessage from "@/components/ui/status-message";
 // import HistoryPanel from "@/components/ui/history-panel";
-// import MenuPanel from "@/components/ui/menu-panel";
+import MenuPanel from "@/components/ui/menu-panel";
+import OrderSummary from "@/components/ui/order-summary";
+import Settings from "@/components/ui/settings";
 
 import useRealTime from "@/hooks/useRealtime";
 import useAudioRecorder from "@/hooks/useAudioRecorder";
@@ -18,7 +19,7 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 import { HistoryItem, ToolResult } from "./types";
 
-import { useTheme } from "./theme-context";
+import { ThemeProvider, useTheme } from "./context/theme-context";
 
 function App() {
     const [isRecording, setIsRecording] = useState(false);
@@ -26,7 +27,8 @@ function App() {
     // const [groundingFiles, setGroundingFiles] = useState<GroundingFile[]>([]);
     // const [showTranscript, setShowTranscript] = useState(false);
     // const [history, setHistory] = useState<HistoryItem[]>([]);
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
+    const [isMobile, setIsMobile] = useState(false);
 
     const { startSession, addUserAudio, inputAudioBufferClear } = useRealTime({
         enableInputAudioTranscription: true, // Enable input audio transcription from the user to show in the history
@@ -104,20 +106,49 @@ function App() {
 
     const { t } = useTranslation();
 
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    // const [transcripts] = useState<Array<{ text: string; isUser: boolean }>>([
+    //     { text: "Hello! How can I help you today?", isUser: false },
+    //     { text: "I'd like to order a cappuccino please", isUser: true },
+    //     { text: "Would you like that in regular or large size?", isUser: false },
+    //     { text: "Large please", isUser: true },
+    //     { text: "Great! Would you like any extras with that?", isUser: false },
+    //     { text: "Yes, can I add an extra shot of espresso?", isUser: true },
+    //     { text: "Of course! Anything else?", isUser: false },
+    //     { text: "Can I also get a vanilla latte?", isUser: true },
+    //     { text: "What size would you like the vanilla latte?", isUser: false },
+    //     { text: "Regular is fine", isUser: true },
+    //     { text: "I've added those to your order. Would you like anything else?", isUser: false },
+    //     { text: "No that's all, thank you!", isUser: true },
+    //     { text: "Your total comes to $12.40. Would you like to complete your order?", isUser: false },
+    //     { text: "Yes please", isUser: true },
+    //     { text: "Great! Your order will be ready in about 10 minutes.", isUser: false }
+    // ]);
+
+    const [order] = useState([
+        { item: "Large Cappuccino", price: 5.5 },
+        { item: "Extra Shot", price: 1.0 },
+        { item: "Regular Vanilla Latte", price: 5.9 }
+    ]);
+
     return (
-        // <div className={`min-h-screen bg-background p-4 text-foreground md:p-8 ${isDarkMode ? "dark" : ""}`}>
         <div className={`min-h-screen bg-background p-4 text-foreground md:p-8 ${theme}`}>
-            <div className="p-4 sm:absolute sm:left-4 sm:top-4">
-                <button onClick={toggleTheme} className="ml-4 mt-4 flex items-center rounded bg-gray-200 p-2">
-                    {theme === "light" ? <FaMoon className="text-yellow-500" /> : <FaSun className="text-yellow-500" />}
-                </button>
-            </div>
             <div className="mx-auto max-w-7xl">
                 <div className="relative mb-6 flex flex-col items-center md:mb-12">
                     <h1 className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-center text-4xl font-bold text-transparent md:text-6xl">
                         Coffee Chat
                     </h1>
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 transform">{/* <Settings isMobile={isMobile} /> */}</div>
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 transform">
+                        <Settings isMobile={isMobile} />
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
@@ -133,34 +164,20 @@ function App() {
                             <SheetHeader>
                                 <SheetTitle>Our Menu</SheetTitle>
                             </SheetHeader>
-                            {/* <MenuPanel /> */}
+                            <MenuPanel />
                         </SheetContent>
                     </Sheet>
 
                     {/* Desktop Menu Panel */}
                     <Card className="hidden h-[calc(100vh-12rem)] overflow-auto p-6 md:block">
-                        <h2 className="mb-4 font-semibold">Menu</h2>
-                        {/* <MenuPanel /> */}
+                        <h2 className="mb-4 font-semibold">Our Menu</h2>
+                        <MenuPanel />
                     </Card>
 
                     {/* Center Panel - Recording Button and Order Summary */}
                     <Card className="p-6 md:h-[calc(100vh-12rem)] md:overflow-auto">
                         <div className="space-y-8">
-                            {/* <OrderSummary order={order} /> */}
-
-                            {/* <div className="text-center">
-                    <p className="mb-6">Let's order some coffee!</p>
-                    <Button
-                      size="lg"
-                      className={`h-16 w-16 rounded-full ${
-                        isRecording ? "bg-red-500 hover:bg-red-600" : "bg-purple-500 hover:bg-purple-600"
-                      }`}
-                      onClick={toggleRecording}
-                    >
-                      <Mic className={`h-8 w-8 ${isRecording ? "animate-pulse" : ""}`} />
-                      <span className="sr-only">{isRecording ? "Stop Recording" : "Start Recording"}</span>
-                    </Button>
-                  </div> */}
+                            <OrderSummary order={order} />
                             <div className="mb-4 flex flex-col items-center justify-center">
                                 <Button
                                     onClick={onToggleListening}
@@ -207,4 +224,10 @@ function App() {
     );
 }
 
-export default App;
+export default function RootApp() {
+    return (
+        <ThemeProvider>
+            <App />
+        </ThemeProvider>
+    );
+}

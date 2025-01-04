@@ -76,25 +76,25 @@ export default function MenuPanel() {
         <div className="space-y-8">
             {menuItems.map(category => (
                 <div key={category.category}>
-                    <h3 className="mb-4 font-semibold">{category.category}</h3>
+                    <h3 className="mb-4 font-semibold text-gray-900 dark:text-gray-100">{category.category}</h3>
                     <div className="space-y-4">
                         {category.items.map(item => (
-                            <div key={item.name} className="border-b pb-2">
+                            <div key={item.name} className="border-b border-gray-200 pb-2 dark:border-gray-700">
                                 <div className="flex items-baseline justify-between">
-                                    <span className="font-medium">{item.name}</span>
+                                    <span className="font-medium text-gray-900 dark:text-gray-100">{item.name}</span>
                                     {"sizes" in item ? (
                                         <div className="text-right">
                                             {Object.entries(item.sizes).map(([size, price]) => (
-                                                <div key={size} className="font-mono">
+                                                <div key={size} className="font-mono text-gray-700 dark:text-gray-300">
                                                     {size.charAt(0).toUpperCase() + size.slice(1)}: ${price.toFixed(2)}
                                                 </div>
                                             ))}
                                         </div>
                                     ) : (
-                                        <span className="font-mono">${item.price.toFixed(2)}</span>
+                                        <span className="font-mono text-gray-700 dark:text-gray-300">${item.price.toFixed(2)}</span>
                                     )}
                                 </div>
-                                <p className="text-sm text-muted-foreground">{item.description}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
                             </div>
                         ))}
                     </div>

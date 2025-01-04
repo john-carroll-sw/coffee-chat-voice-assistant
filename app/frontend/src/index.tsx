@@ -5,7 +5,7 @@ import { I18nextProvider } from "react-i18next";
 import i18next from "./i18n/config";
 
 import App from "./App.tsx";
-import { ThemeProvider } from "./theme-context";
+import { ThemeProvider } from "./context/theme-context.tsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
