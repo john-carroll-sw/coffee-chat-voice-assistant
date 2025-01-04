@@ -1,76 +1,26 @@
-const menuItems = [
-    {
-        category: "Coffee",
-        items: [
-            {
-                name: "Espresso",
-                sizes: { single: 1.0, double: 2.0 },
-                description: "Rich and bold single or double shot"
-            },
-            {
-                name: "Americano",
-                sizes: { small: 2.5, medium: 4.0, large: 5.0 },
-                description: "Espresso with hot water"
-            },
-            {
-                name: "Cappuccino",
-                sizes: { small: 3.5, medium: 4.5, large: 5.5 },
-                description: "Espresso with steamed milk and foam"
-            },
-            {
-                name: "Latte",
-                sizes: { small: 3.5, medium: 4.5, large: 5.5 },
-                description: "Espresso with steamed milk"
-            },
-            {
-                name: "Mocha",
-                sizes: { small: 4.0, medium: 5.0, large: 6.0 },
-                description: "Espresso with chocolate and steamed milk"
-            }
-        ]
-    },
-    {
-        category: "Specialty Drinks",
-        items: [
-            {
-                name: "Intermezzo Cappuccino",
-                sizes: { small: 4.5, medium: 5.9, large: 7.0 },
-                description: "Cappuccino with cinnamon and cocoa"
-            },
-            {
-                name: "Caramel Macchiato",
-                sizes: { small: 4.5, medium: 5.5, large: 6.5 },
-                description: "Vanilla and caramel with steamed milk and espresso"
-            },
-            {
-                name: "Vanilla Latte",
-                sizes: { small: 4.5, medium: 5.9, large: 7.0 },
-                description: "Latte with vanilla syrup"
-            }
-        ]
-    },
-    {
-        category: "Extras",
-        items: [
-            {
-                name: "Extra Shot",
-                price: 1.0,
-                description: "Add an extra shot of espresso"
-            },
-            {
-                name: "Flavor Shot",
-                price: 0.75,
-                description: "Add vanilla, caramel, or hazelnut"
-            },
-            {
-                name: "Whipped Cream",
-                price: 0.5,
-                description: "Add whipped cream topping"
-            }
-        ]
-    }
-];
+import { useEffect, useState } from "react";
+import menuItemsData from "@/data/menuItems.json";
+
+interface MenuItem {
+    name: string;
+    sizes?: { [key: string]: number };
+    price?: number;
+    description: string;
+}
+
+interface MenuCategory {
+    category: string;
+    items: MenuItem[];
+}
+
 export default function MenuPanel() {
+    const [menuItems, setMenuItems] = useState<MenuCategory[]>([]);
+
+    useEffect(() => {
+        // Load menu items from JSON file
+        setMenuItems(menuItemsData.menuItems as MenuCategory[]);
+    }, []);
+
     return (
         <div className="space-y-8">
             {menuItems.map(category => (
@@ -86,14 +36,14 @@ export default function MenuPanel() {
                                     </div>
                                     {"sizes" in item ? (
                                         <div className="text-right" style={{ width: "14rem" }}>
-                                            {Object.entries(item.sizes).map(([size, price]) => (
+                                            {Object.entries(item.sizes!).map(([size, price]) => (
                                                 <div key={size} className="font-mono text-sm text-gray-700 dark:text-gray-300">
                                                     {size.charAt(0).toUpperCase() + size.slice(1)}: ${price.toFixed(2)}
                                                 </div>
                                             ))}
                                         </div>
                                     ) : (
-                                        <span className="font-mono text-sm text-gray-700 dark:text-gray-300">${item.price.toFixed(2)}</span>
+                                        <span className="font-mono text-sm text-gray-700 dark:text-gray-300">${item.price!.toFixed(2)}</span>
                                     )}
                                 </div>
                             </div>

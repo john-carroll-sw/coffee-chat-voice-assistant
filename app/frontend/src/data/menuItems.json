@@ -84,6 +84,99 @@
             "popularity": "High"
           }
         ]
+      },
+      {
+        "category": "Chilled Coffees",
+        "items": [
+          {
+            "name": "Café Johannes",
+            "sizes": { "single": 5.0, "double": 6.5 },
+            "description": "Espresso doppio over two scoops of vanilla ice cream, with whipped cream",
+            "longDescription": "Café Johannes combines the boldness of double espresso with the creaminess of vanilla ice cream and whipped cream. It's a dessert-like coffee treat that's both refreshing and indulgent.",
+            "origin": "Italy",
+            "caffeineContent": "75 mg per serving",
+            "brewingMethod": "Espresso Machine",
+            "popularity": "High"
+          },
+          {
+            "name": "Granita Cappuccino",
+            "sizes": { "small": 4.5, "medium": 5.5, "large": 6.5 },
+            "description": "Granules of sugar and ice mixed with espresso, cream, cocoa, and whipped cream",
+            "longDescription": "The Granita Cappuccino is a frozen coffee blend featuring espresso, cream, cocoa, and sugar. It's topped with whipped cream for a refreshing, sweet treat on hot days.",
+            "origin": "Custom House Recipe",
+            "caffeineContent": "80 mg for medium",
+            "brewingMethod": "Blended",
+            "popularity": "Refreshing"
+          },
+          {
+            "name": "Caffé Alpine",
+            "sizes": { "small": 4.0, "medium": 5.0, "large": 6.0 },
+            "description": "Espresso, white chocolate, and cream, served over ice",
+            "longDescription": "Caffé Alpine offers a smooth combination of espresso, white chocolate, and cream served over ice. It's a creamy and cooling coffee option perfect for those who enjoy sweet iced drinks.",
+            "origin": "Custom House Recipe",
+            "caffeineContent": "70 mg for medium",
+            "brewingMethod": "Espresso Machine with ice",
+            "popularity": "Moderate"
+          }
+        ]
+      },
+      {
+        "category": "Hot Chocolates",
+        "items": [
+          {
+            "name": "Hot Chocolate Deluxe",
+            "sizes": { "small": 3.0, "medium": 4.0, "large": 5.0 },
+            "description": "Rich steamed cream and milk, Dutch chocolate, fresh whipped cream, and shaved dark chocolate",
+            "longDescription": "Hot Chocolate Deluxe is a decadent beverage featuring rich Dutch chocolate steamed with cream and milk. Topped with fresh whipped cream and shaved dark chocolate, it's a comforting indulgence.",
+            "origin": "Custom House Recipe",
+            "popularity": "Very High"
+          },
+          {
+            "name": "Intermezzo Hot Chocolate",
+            "sizes": { "small": 3.5, "medium": 4.5, "large": 5.5 },
+            "description": "Rich steamed cream, Dutch chocolate, fresh whipped cream, and the essence of almond",
+            "longDescription": "The Intermezzo Hot Chocolate adds a nutty twist to the classic hot chocolate with the essence of almond. Perfect for those who love a bit of sophistication in their chocolate beverages.",
+            "origin": "Custom House Recipe",
+            "popularity": "High"
+          },
+          {
+            "name": "Mexican Hot Chocolate",
+            "sizes": { "small": 3.5, "medium": 4.5, "large": 5.5 },
+            "description": "Semi-sweet dark chocolate, Mexican vanilla, milk, and cinnamon",
+            "longDescription": "Mexican Hot Chocolate blends semi-sweet dark chocolate with Mexican vanilla and cinnamon, creating a warm, spiced drink that's perfect for cozy evenings.",
+            "origin": "Mexico",
+            "popularity": "Cultural Favorite"
+          }
+        ]
+      },
+      {
+        "category": "Extras",
+        "items": [
+          {
+            "name": "Extra Shot",
+            "price": 1.0,
+            "description": "Add an extra shot of espresso",
+            "longDescription": "Boost your beverage with an extra shot of espresso, adding richness and a caffeine kick to your favorite drink.",
+            "caffeineContent": "63 mg",
+            "availability": "Always"
+          },
+          {
+            "name": "Flavor Shot",
+            "price": 0.75,
+            "description": "Add vanilla, caramel, or hazelnut",
+            "longDescription": "Customize your coffee with a flavor shot. Choose from vanilla, caramel, or hazelnut to enhance the taste of your drink.",
+            "options": ["Vanilla", "Caramel", "Hazelnut"],
+            "availability": "Always"
+          },
+          {
+            "name": "Whipped Cream",
+            "price": 0.5,
+            "description": "Add whipped cream topping",
+            "longDescription": "Top your coffee or hot chocolate with our fresh whipped cream, made from heavy cream, sugar, and a hint of vanilla for added indulgence.",
+            "ingredients": ["Heavy Cream", "Sugar", "Vanilla"],
+            "availability": "Always"
+          }
+        ]
       }
     ]
   }
