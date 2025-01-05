@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 
 import StatusMessage from "@/components/ui/status-message";
 import MenuPanel from "@/components/ui/menu-panel";
-import OrderSummary from "@/components/ui/order-summary";
+import OrderSummary, { OrderItem } from "@/components/ui/order-summary";
 import TranscriptPanel from "@/components/ui/transcript-panel";
 import Settings from "@/components/ui/settings";
 
@@ -51,11 +51,12 @@ function App() {
         ];
     });
 
-    const [order, setOrder] = useState<Array<{ item: string; price: number }>>([]);
-    const [dummyOrder] = useState([
-        { item: "Large Cappuccino", price: 5.5 },
-        { item: "Extra Shot", price: 1.0 },
-        { item: "Regular Vanilla Latte", price: 5.9 }
+    const [order, setOrder] = useState<OrderItem[]>([]);
+    const [dummyOrder] = useState<OrderItem[]>([
+        { item: "Cappuccino", size: "Large", quantity: 1, price: 5.5, display: "Large Cappuccino" },
+        { item: "Vanilla Latte", size: "Regular", quantity: 2, price: 5.9, display: "Regular Vanilla Latte" },
+        { item: "Whipped Cream", size: "", quantity: 2, price: 1, display: "Whipped Cream" },
+        { item: "Extra Shot", size: "", quantity: 2, price: 1.0, display: "Extra Shot" }
     ]);
 
     const { startSession, addUserAudio, inputAudioBufferClear } = useRealTime({
@@ -75,10 +76,8 @@ function App() {
             // Handle order updates based on tool response
             if (message.tool_name === "update_order") {
                 const toolResult = JSON.parse(message.tool_result);
-                const { action, item_name, size, price } = toolResult;
-                // Format the size to be capitalized and if it's standard, remove it
-                const formattedSize = size.toLowerCase() === "standard" ? "" : `${size.charAt(0).toUpperCase()}${size.slice(1)} `;
-                handleOrderUpdate(action, `${formattedSize}${item_name}`, price);
+                const { action, item_name, size, quantity, price } = toolResult;
+                handleOrderUpdate(action, item_name, size, quantity, price);
             }
         },
         onReceivedInputAudioTranscriptionCompleted: message => {
@@ -105,15 +104,44 @@ function App() {
     const { reset: resetAudioPlayer, play: playAudio, stop: stopAudioPlayer } = useAudioPlayer();
     const { start: startAudioRecording, stop: stopAudioRecording } = useAudioRecorder({ onAudioRecorded: addUserAudio });
 
-    const handleOrderUpdate = (action: string, item: string, price: number) => {
+    // Function to handle order updates based on tool response
+    const handleOrderUpdate = (action: string, item_name: string, size: string, quantity: number, price: number) => {
+        // Format the display name based on the size
+        let formattedSize = "";
+        if (size.toLowerCase() === "standard") {
+            formattedSize = "";
+        } else if (size.toLowerCase() === "kannchen") {
+            formattedSize = "Kannchen of ";
+        } else if (size.toLowerCase() === "pot") {
+            formattedSize = "Pot of ";
+        } else {
+            formattedSize = `${size.charAt(0).toUpperCase()}${size.slice(1)} `;
+        }
+        const display = `${formattedSize} ${item_name}`.trim();
+
         setOrder(prevOrder => {
+            // Check if the item already exists in the order by matching the item name and size
+            const existingItemIndex = prevOrder.findIndex(orderItem => orderItem.item === item_name && orderItem.size === size);
+
             if (action === "add") {
-                return [...prevOrder, { item, price }];
-            } else if (action === "remove") {
-                const index = prevOrder.findIndex(orderItem => orderItem.item === item);
-                if (index !== -1) {
+                if (existingItemIndex !== -1) {
+                    // If item exists, update the quantity
                     const updatedOrder = [...prevOrder];
-                    updatedOrder.splice(index, 1);
+                    updatedOrder[existingItemIndex].quantity += quantity;
+                    return updatedOrder;
+                } else {
+                    // If item does not exist, add new item
+                    return [...prevOrder, { item: item_name, size, quantity, price, display }];
+                }
+            } else if (action === "remove") {
+                if (existingItemIndex !== -1) {
+                    // If item exists, decrement the quantity or remove it if quantity becomes zero
+                    const updatedOrder = [...prevOrder];
+                    if (updatedOrder[existingItemIndex].quantity > quantity) {
+                        updatedOrder[existingItemIndex].quantity -= quantity;
+                    } else {
+                        updatedOrder.splice(existingItemIndex, 1);
+                    }
                     return updatedOrder;
                 }
             }

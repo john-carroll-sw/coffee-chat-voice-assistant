@@ -94,12 +94,16 @@ update_order_tool_schema = {
                 "type": "string", 
                 "description": "Size of the item to update, e.g., 'Large'."
             },
+            "quantity": { 
+                "type": "integer", 
+                "description": "Quantity of the item to update."
+            },
             "price": { 
                 "type": "number", 
                 "description": "Price of the item to add. Required only for 'add' action."
             }
         },
-        "required": ["action", "item_name", "size"],
+        "required": ["action", "item_name", "size", "quantity"],
         "additionalProperties": False
     }
 }
