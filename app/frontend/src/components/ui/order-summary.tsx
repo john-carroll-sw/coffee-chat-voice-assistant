@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-interface OrderSummaryProps {
-    order: OrderItem[];
-}
-
 export interface OrderItem {
     item: string;
     size: string;
@@ -13,11 +9,29 @@ export interface OrderItem {
     display: string;
 }
 
-export default function OrderSummary({ order }: OrderSummaryProps) {
-    const [isExpanded, setIsExpanded] = useState(true);
-    const total = order.reduce((sum, item) => sum + item.price * item.quantity, 0);
+export interface OrderSummaryProps {
+    items: OrderItem[];
+    total: number;
+    tax: number;
+    finalTotal: number;
+}
+
+export function calculateOrderSummary(items: OrderItem[]): OrderSummaryProps {
+    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const tax = total * 0.08; // 8% tax
     const finalTotal = total + tax;
+
+    return {
+        items,
+        total,
+        tax,
+        finalTotal
+    };
+}
+
+export default function OrderSummary({ order }: { order: OrderSummaryProps }) {
+    const [isExpanded, setIsExpanded] = useState(true);
+    const { items, total, tax, finalTotal } = order;
 
     return (
         <div className="rounded-lg border bg-white p-4 dark:bg-gray-800">
@@ -36,7 +50,7 @@ export default function OrderSummary({ order }: OrderSummaryProps) {
                 </button>
             </div>
             <div className={`space-y-2 ${isExpanded ? "block" : "hidden md:block"}`}>
-                {order.map((item, index) => (
+                {items.map((item, index) => (
                     <div key={index} className="flex justify-between text-sm text-gray-700 dark:text-gray-300">
                         <span>
                             {item.display} {item.quantity > 1 && `(x${item.quantity})`}
