@@ -84,8 +84,3 @@ export type ExtensionMiddleTierToolResponse = {
     tool_name: string;
     tool_result: string; // JSON string that needs to be parsed into ToolResult
 };
-
-// Represents the result from a tool
-export type ToolResult = {
-    sources: { chunk_id: string; title: string; chunk: string }[];
-};

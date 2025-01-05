@@ -12,8 +12,8 @@
 <!-- - TODO Add UI elements to show the menu -->
 <!-- - TODO Add UI elements to show the order -->
 <!-- - TODO Add in the toggle-able elements to switch to the STT-LLM-TTS services pipeline to compare the latency, phonetics, conversable AI experiences -->
-- TODO Update Azure AI Search index to be on the menuItems.json
-- TODO Order Summary: Implement some sort of order state management, complete with price calculations. Needs to utilize function calling with the LLM.
+<!-- - TODO Update Azure AI Search index to be on the menuItems.json -->
+<!-- - TODO Order Summary: Implement some sort of order state management, complete with price calculations. Needs to utilize function calling with the LLM. -->
 - TODO Build out the Azure Backend Toggle to switch from the Realtime API to the STT-LLM-TTS services pipeline to compare the latency, phonetics, conversable AI experiences
 
 ## Should

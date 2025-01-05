@@ -1,0 +1,363 @@
+{
+    "menuItems": [
+        {
+            "category": "Coffee",
+            "items": [
+                {
+                    "name": "Espresso",
+                    "description": "Rich and bold single or double shot",
+                    "longDescription": "Espresso is the quintessential coffee experience, brewed under pressure to extract its bold, rich flavor. A favorite in Italy and around the world, it forms the base for many coffee drinks, including cappuccinos and lattes. Perfect for those who enjoy an intense coffee kick with a creamy layer of crema.",
+                    "origin": "Italy",
+                    "caffeineContent": "63 mg per shot",
+                    "brewingMethod": "Espresso Machine",
+                    "popularity": "High",
+                    "sizes": [
+                        {
+                            "size": "single",
+                            "price": 1
+                        },
+                        {
+                            "size": "double",
+                            "price": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "Americano",
+                    "description": "Espresso with hot water",
+                    "longDescription": "The Americano is a smooth, diluted espresso drink inspired by American GIs in Italy during WWII who added water to espresso to mimic drip coffee. It retains the rich essence of espresso while offering a milder flavor profile, perfect for those who prefer a less intense coffee experience.",
+                    "origin": "United States",
+                    "caffeineContent": "95 mg for medium",
+                    "brewingMethod": "Espresso Machine with water dilution",
+                    "popularity": "Moderate",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 2.5
+                        },
+                        {
+                            "size": "medium",
+                            "price": 4
+                        },
+                        {
+                            "size": "large",
+                            "price": 5
+                        }
+                    ]
+                },
+                {
+                    "name": "Cappuccino",
+                    "description": "Espresso with steamed milk and foam",
+                    "longDescription": "Cappuccino combines the boldness of espresso with a luxurious layer of steamed milk and a light, frothy foam topping. Originating in Italy, it's a classic choice for those who enjoy a balanced, creamy texture with every sip.",
+                    "origin": "Italy",
+                    "caffeineContent": "75 mg for medium",
+                    "brewingMethod": "Espresso Machine with milk frothing",
+                    "popularity": "High",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 3.5
+                        },
+                        {
+                            "size": "medium",
+                            "price": 4.5
+                        },
+                        {
+                            "size": "large",
+                            "price": 5.5
+                        }
+                    ]
+                },
+                {
+                    "name": "Latte",
+                    "description": "Espresso with steamed milk",
+                    "longDescription": "The Latte, meaning 'milk' in Italian, is a creamy coffee beverage made with espresso and a generous amount of steamed milk, topped with a thin layer of foam. It's perfect for those who prefer a milder coffee taste and pairs well with flavored syrups.",
+                    "origin": "Italy",
+                    "caffeineContent": "75 mg for medium",
+                    "brewingMethod": "Espresso Machine with milk steaming",
+                    "popularity": "Very High",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 3.5
+                        },
+                        {
+                            "size": "medium",
+                            "price": 4.5
+                        },
+                        {
+                            "size": "large",
+                            "price": 5.5
+                        }
+                    ]
+                },
+                {
+                    "name": "Mocha",
+                    "description": "Espresso with chocolate and steamed milk",
+                    "longDescription": "The Mocha is a delightful blend of espresso, steamed milk, and rich chocolate syrup, often topped with whipped cream. Originating from Yemen, it offers a sweet and indulgent coffee experience that's perfect for chocolate lovers.",
+                    "origin": "Yemen",
+                    "caffeineContent": "80 mg for medium",
+                    "brewingMethod": "Espresso Machine with chocolate mix",
+                    "popularity": "High",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 4
+                        },
+                        {
+                            "size": "medium",
+                            "price": 5
+                        },
+                        {
+                            "size": "large",
+                            "price": 6
+                        }
+                    ]
+                },
+                {
+                    "name": "Coffee Infusion",
+                    "description": "French Press infused at your table (about 3 cups; please wait 2 minutes to push the press).",
+                    "longDescription": "Our Coffee Infusion is a table-side experience using the French Press method. This technique allows coffee grounds to steep in hot water, enhancing their natural flavors and oils for a rich, full-bodied brew. Ideal for sharing or savoring solo.",
+                    "origin": "France",
+                    "caffeineContent": "120 mg per serving",
+                    "brewingMethod": "French Press",
+                    "popularity": "Unique",
+                    "sizes": [
+                        {
+                            "size": "kannchen",
+                            "price": 6
+                        }
+                    ]
+                },
+                {
+                    "name": "Turkish Coffee",
+                    "description": "Pulverized light roast beans blended with cardamom and sugar, boiled 3 times, as served traditionally.",
+                    "longDescription": "Turkish Coffee is a traditional preparation involving finely ground coffee beans, cardamom, and sugar boiled together. It's a rich, aromatic brew served in small cups with grounds settled at the bottom. Perfect for savoring slowly.",
+                    "origin": "Turkey",
+                    "caffeineContent": "50 mg per small cup",
+                    "brewingMethod": "Boiled",
+                    "popularity": "Traditional",
+                    "sizes": [
+                        {
+                            "size": "pot",
+                            "price": 4.5
+                        }
+                    ]
+                },
+                {
+                    "name": "Café Cubano",
+                    "description": "Double-rich espresso extraction with caramelized sugar.",
+                    "longDescription": "Café Cubano is a Cuban specialty featuring espresso sweetened with sugar during the brewing process, creating a thick, syrupy coffee shot. It's a perfect blend of boldness and sweetness for an energizing treat.",
+                    "origin": "Cuba",
+                    "caffeineContent": "63 mg per shot",
+                    "brewingMethod": "Espresso Machine",
+                    "popularity": "High",
+                    "sizes": [
+                        {
+                            "size": "single",
+                            "price": 2.5
+                        },
+                        {
+                            "size": "double",
+                            "price": 4
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "category": "Chilled Coffees",
+            "items": [
+                {
+                    "name": "Café Johannes",
+                    "description": "Espresso doppio over two scoops of vanilla ice cream, with whipped cream",
+                    "longDescription": "Café Johannes combines the boldness of double espresso with the creaminess of vanilla ice cream and whipped cream. It's a dessert-like coffee treat that's both refreshing and indulgent.",
+                    "origin": "Italy",
+                    "caffeineContent": "75 mg per serving",
+                    "brewingMethod": "Espresso Machine",
+                    "popularity": "High",
+                    "sizes": [
+                        {
+                            "size": "single",
+                            "price": 5
+                        },
+                        {
+                            "size": "double",
+                            "price": 6.5
+                        }
+                    ]
+                },
+                {
+                    "name": "Granita Cappuccino",
+                    "description": "Granules of sugar and ice mixed with espresso, cream, cocoa, and whipped cream",
+                    "longDescription": "The Granita Cappuccino is a frozen coffee blend featuring espresso, cream, cocoa, and sugar. It's topped with whipped cream for a refreshing, sweet treat on hot days.",
+                    "origin": "Custom House Recipe",
+                    "caffeineContent": "80 mg for medium",
+                    "brewingMethod": "Blended",
+                    "popularity": "Refreshing",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 4.5
+                        },
+                        {
+                            "size": "medium",
+                            "price": 5.5
+                        },
+                        {
+                            "size": "large",
+                            "price": 6.5
+                        }
+                    ]
+                },
+                {
+                    "name": "Caffé Alpine",
+                    "description": "Espresso, white chocolate, and cream, served over ice",
+                    "longDescription": "Caffé Alpine offers a smooth combination of espresso, white chocolate, and cream served over ice. It's a creamy and cooling coffee option perfect for those who enjoy sweet iced drinks.",
+                    "origin": "Custom House Recipe",
+                    "caffeineContent": "70 mg for medium",
+                    "brewingMethod": "Espresso Machine with ice",
+                    "popularity": "Moderate",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 4
+                        },
+                        {
+                            "size": "medium",
+                            "price": 5
+                        },
+                        {
+                            "size": "large",
+                            "price": 6
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "category": "Hot Chocolates",
+            "items": [
+                {
+                    "name": "Hot Chocolate Deluxe",
+                    "description": "Rich steamed cream and milk, Dutch chocolate, fresh whipped cream, and shaved dark chocolate",
+                    "longDescription": "Hot Chocolate Deluxe is a decadent beverage featuring rich Dutch chocolate steamed with cream and milk. Topped with fresh whipped cream and shaved dark chocolate, it's a comforting indulgence.",
+                    "origin": "Custom House Recipe",
+                    "caffeineContent": "",
+                    "brewingMethod": "",
+                    "popularity": "Very High",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 3
+                        },
+                        {
+                            "size": "medium",
+                            "price": 4
+                        },
+                        {
+                            "size": "large",
+                            "price": 5
+                        }
+                    ]
+                },
+                {
+                    "name": "Intermezzo Hot Chocolate",
+                    "description": "Rich steamed cream, Dutch chocolate, fresh whipped cream, and the essence of almond",
+                    "longDescription": "The Intermezzo Hot Chocolate adds a nutty twist to the classic hot chocolate with the essence of almond. Perfect for those who love a bit of sophistication in their chocolate beverages.",
+                    "origin": "Custom House Recipe",
+                    "caffeineContent": "",
+                    "brewingMethod": "",
+                    "popularity": "High",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 3.5
+                        },
+                        {
+                            "size": "medium",
+                            "price": 4.5
+                        },
+                        {
+                            "size": "large",
+                            "price": 5.5
+                        }
+                    ]
+                },
+                {
+                    "name": "Mexican Hot Chocolate",
+                    "description": "Semi-sweet dark chocolate, Mexican vanilla, milk, and cinnamon",
+                    "longDescription": "Mexican Hot Chocolate blends semi-sweet dark chocolate with Mexican vanilla and cinnamon, creating a warm, spiced drink that's perfect for cozy evenings.",
+                    "origin": "Mexico",
+                    "caffeineContent": "",
+                    "brewingMethod": "",
+                    "popularity": "Cultural Favorite",
+                    "sizes": [
+                        {
+                            "size": "small",
+                            "price": 3.5
+                        },
+                        {
+                            "size": "medium",
+                            "price": 4.5
+                        },
+                        {
+                            "size": "large",
+                            "price": 5.5
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "category": "Extras",
+            "items": [
+                {
+                    "name": "Extra Shot",
+                    "description": "Add an extra shot of espresso",
+                    "longDescription": "Boost your beverage with an extra shot of espresso, adding richness and a caffeine kick to your favorite drink.",
+                    "origin": "",
+                    "caffeineContent": "63 mg",
+                    "brewingMethod": "",
+                    "popularity": "",
+                    "sizes": [
+                        {
+                            "size": "standard",
+                            "price": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "Flavor Shot",
+                    "description": "Add vanilla, caramel, or hazelnut",
+                    "longDescription": "Customize your coffee with a flavor shot. Choose from vanilla, caramel, or hazelnut to enhance the taste of your drink.",
+                    "origin": "",
+                    "caffeineContent": "",
+                    "brewingMethod": "",
+                    "popularity": "",
+                    "sizes": [
+                        {
+                            "size": "standard",
+                            "price": 0.75
+                        }
+                    ]
+                },
+                {
+                    "name": "Whipped Cream",
+                    "description": "Add whipped cream topping",
+                    "longDescription": "Top your coffee or hot chocolate with our fresh whipped cream, made from heavy cream, sugar, and a hint of vanilla for added indulgence.",
+                    "origin": "",
+                    "caffeineContent": "",
+                    "brewingMethod": "",
+                    "popularity": "",
+                    "sizes": [
+                        {
+                            "size": "standard",
+                            "price": 0.5
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

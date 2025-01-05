@@ -55,8 +55,9 @@ async def create_app():
         
         "Always use the following step-by-step instructions to respond: "
         "1. Always use the 'search' tool to check the knowledge base before answering a question. "
-        # "2. Always use the 'report_grounding' tool to report the source of information from the knowledge base. "
-        "2. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know."
+        "2. Use the 'update_order' tool to add items to the order when the customer requests and confirms a new item for their order, specifying the item name, size, and price. "
+        "3. Use the 'update_order' tool to remove items from the order when the customer requests to remove an item, specifying the item name and size. "
+        "4. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know."
     )
 
     attach_tools(rtmt,

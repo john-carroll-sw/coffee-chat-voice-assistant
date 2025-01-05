@@ -16,7 +16,7 @@ import useRealTime from "@/hooks/useRealtime";
 import useAudioRecorder from "@/hooks/useAudioRecorder";
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
-import { ToolResult } from "./types";
+import { ExtensionMiddleTierToolResponse } from "./types";
 
 import { ThemeProvider, useTheme } from "./context/theme-context";
 import { DummyDataProvider, useDummyDataContext } from "@/context/dummy-data-context";
@@ -51,7 +51,7 @@ function App() {
         ];
     });
 
-    const [order] = useState([]);
+    const [order, setOrder] = useState<Array<{ item: string; price: number }>>([]);
     const [dummyOrder] = useState([
         { item: "Large Cappuccino", price: 5.5 },
         { item: "Extra Shot", price: 1.0 },
@@ -70,31 +70,33 @@ function App() {
         onReceivedInputAudioBufferSpeechStarted: () => {
             stopAudioPlayer();
         },
-        onReceivedExtensionMiddleTierToolResponse: message => {
-            const result: ToolResult = JSON.parse(message.tool_result);
-            console.log("Tool result received:", result);
+        onReceivedExtensionMiddleTierToolResponse: (message: ExtensionMiddleTierToolResponse) => {
+            console.log("Received tool response", message);
+            // Handle order updates based on tool response
+            if (message.tool_name === "update_order") {
+                const toolResult = JSON.parse(message.tool_result);
+                const { action, item_name, size, price } = toolResult;
+                // Format the size to be capitalized and if it's standard, remove it
+                const formattedSize = size.toLowerCase() === "standard" ? "" : `${size.charAt(0).toUpperCase()}${size.slice(1)} `;
+                handleOrderUpdate(action, `${formattedSize}${item_name}`, price);
+            }
         },
         onReceivedInputAudioTranscriptionCompleted: message => {
-            // Update transcripts with input audio transcription when completed
             const newTranscriptItem = {
                 text: message.transcript,
                 isUser: true,
-                timestamp: new Date() // Add timestamp
+                timestamp: new Date()
             };
-
             setTranscripts(prev => [...prev, newTranscriptItem]);
         },
         onReceivedResponseDone: message => {
             const transcript = message.response.output.map(output => output.content?.map(content => content.transcript).join(" ")).join(" ");
-            if (!transcript) {
-                return;
-            }
+            if (!transcript) return;
 
-            // Update transcripts with response done
             const newTranscriptItem = {
                 text: transcript,
                 isUser: false,
-                timestamp: new Date() // Add timestamp
+                timestamp: new Date()
             };
             setTranscripts(prev => [...prev, newTranscriptItem]);
         }
@@ -102,6 +104,22 @@ function App() {
 
     const { reset: resetAudioPlayer, play: playAudio, stop: stopAudioPlayer } = useAudioPlayer();
     const { start: startAudioRecording, stop: stopAudioRecording } = useAudioRecorder({ onAudioRecorded: addUserAudio });
+
+    const handleOrderUpdate = (action: string, item: string, price: number) => {
+        setOrder(prevOrder => {
+            if (action === "add") {
+                return [...prevOrder, { item, price }];
+            } else if (action === "remove") {
+                const index = prevOrder.findIndex(orderItem => orderItem.item === item);
+                if (index !== -1) {
+                    const updatedOrder = [...prevOrder];
+                    updatedOrder.splice(index, 1);
+                    return updatedOrder;
+                }
+            }
+            return prevOrder;
+        });
+    };
 
     const onToggleListening = async () => {
         if (!isRecording) {

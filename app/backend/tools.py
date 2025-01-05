@@ -8,7 +8,7 @@ from azure.search.documents.models import VectorizableTextQuery
 
 from rtmt import RTMiddleTier, Tool, ToolResult, ToolResultDirection
 
-_search_tool_schema = {
+search_tool_schema = {
     "type": "function",
     "name": "search",
     "description": "Search the knowledge base. The knowledge base is in English, translate to and from English if " + \
@@ -27,29 +27,7 @@ _search_tool_schema = {
     }
 }
 
-_grounding_tool_schema = {
-    "type": "function",
-    "name": "report_grounding",
-    "description": "Report use of a source from the knowledge base as part of an answer (effectively, cite the source). Sources " + \
-                   "appear in square brackets before each knowledge base passage. Always use this tool to cite sources when responding " + \
-                   "with information from the knowledge base.",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "sources": {
-                "type": "array",
-                "items": {
-                    "type": "string"
-                },
-                "description": "List of source names from last statement actually used, do not include the ones not used to formulate a response"
-            }
-        },
-        "required": ["sources"],
-        "additionalProperties": False
-    }
-}
-
-async def _search_tool(
+async def search(
     search_client: SearchClient, 
     semantic_configuration: str,
     identifier_field: str,
@@ -76,37 +54,63 @@ async def _search_tool(
         vector_queries=vector_queries,
         select=["id", "category", "name", "description", "longDescription", "origin", "caffeineContent", "brewingMethod", "popularity", "sizes"],
     )
-    result = ""
+    results = ""
 
     async for r in search_results:
-        result += f"[{r['id']}]: Category: {r['category']}, Name: {r['name']}, Description: {r['description']}, Long Description: {r['longDescription']}, Origin: {r['origin']}, Caffeine Content: {r['caffeineContent']}, Brewing Method: {r['brewingMethod']}, Popularity: {r['popularity']}, Sizes: {r['sizes']}\n-----\n"
-    return ToolResult(result, ToolResultDirection.TO_SERVER)
+        results += f"[{r['id']}]: Category: {r['category']}, Name: {r['name']}, Description: {r['description']}, Long Description: {r['longDescription']}, Origin: {r['origin']}, Caffeine Content: {r['caffeineContent']}, Brewing Method: {r['brewingMethod']}, Popularity: {r['popularity']}, Sizes: {r['sizes']}\n-----\n"
+    print(f"Search results: {results}")
+    return ToolResult(results, ToolResultDirection.TO_SERVER)
 
-KEY_PATTERN = re.compile(r'^[a-zA-Z0-9_=\-]+$')
 
-# TODO: move from sending all chunks used for grounding eagerly to only sending links to 
-# the original content in storage, it'll be more efficient overall
-async def _report_grounding_tool(search_client: SearchClient, identifier_field: str, title_field: str, content_field: str, args: Any) -> None:
-    sources = [s for s in args["sources"]]
-    list = " OR ".join(sources)
-    print("\nReporting grounding sources...")
-    print(f"Grounding source: {list}")
-    # Use search instead of filter to align with how detailt integrated vectorization indexes
-    # are generated, where chunk_id is searchable with a keyword tokenizer, not filterable 
-    # search_results = await search_client.search(search_text=list, 
-    #                                             search_fields=[identifier_field], 
-    #                                             select=[identifier_field, title_field, content_field], 
-    #                                             top=len(sources), 
-    #                                             query_type="full")
-    
-    # If your index has a key field that's filterable but not searchable and with the keyword analyzer, you can 
-    # use a filter instead (and you can remove the regex check above, just ensure you escape single quotes)
-    search_results = await search_client.search(filter=f"search.in(id, '{list}')", select=["id", "category", "item", "description", "price"])
 
-    docs = []
-    async for r in search_results:
-        docs.append({"id": r[identifier_field], "title": r[title_field], "content": r[content_field]})
-    return ToolResult({"sources": docs}, ToolResultDirection.TO_CLIENT)
+"""
+Purpose of the Tool:
+    Dynamic Price Retrieval:
+        Whenever GPT-4o encounters a pricing-related request (e.g., "How much is a Large Cappuccino?" or "Add a Large Mocha to my order"), it should query the menu for the item's price and size.
+    State Management:
+        Update the order state in both the frontend (UI) and backend to reflect the current items and prices.
+    Error Prevention:
+        Avoid hallucination by always calling the backend function for price lookup and calculation instead of relying on the model to calculate totals.
+    Support User Queries:
+        Enable GPT-4o to explain price breakdowns (e.g., "The Large Cappuccino costs $5.50, and the extra shot adds $1.00.").
+"""
+update_order_tool_schema = {
+    "type": "function",
+    "name": "update_order",
+    "description": "Update the current order by adding or removing items.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "action": { 
+                "type": "string", 
+                "description": "Action to perform: 'add' or 'remove'.", 
+                "enum": ["add", "remove"]
+            },
+            "item_name": { 
+                "type": "string", 
+                "description": "Name of the item to update, e.g., 'Cappuccino'."
+            },
+            "size": { 
+                "type": "string", 
+                "description": "Size of the item to update, e.g., 'Large'."
+            },
+            "price": { 
+                "type": "number", 
+                "description": "Price of the item to add. Required only for 'add' action."
+            }
+        },
+        "required": ["action", "item_name", "size"],
+        "additionalProperties": False
+    }
+}
+
+async def update_order(args):
+    """
+    Update the current order by adding or removing items.
+    """
+    print("\nStarting update_order...")
+    print(args)
+    return ToolResult(args, ToolResultDirection.TO_CLIENT)
 
 def attach_tools(rtmt: RTMiddleTier,
         credentials: AzureKeyCredential | DefaultAzureCredential,
@@ -123,5 +127,6 @@ def attach_tools(rtmt: RTMiddleTier,
         credentials.get_token("https://search.azure.com/.default") # warm this up before we start getting requests
     search_client = SearchClient(search_endpoint, search_index, credentials, user_agent="RTMiddleTier")
 
-    rtmt.tools["search"] = Tool(schema=_search_tool_schema, target=lambda args: _search_tool(search_client, semantic_configuration, identifier_field, content_field, embedding_field, use_vector_query, args))
-    # rtmt.tools["report_grounding"] = Tool(schema=_grounding_tool_schema, target=lambda args: _report_grounding_tool(search_client, identifier_field, title_field, content_field, args))
+    rtmt.tools["search"] = Tool(schema=search_tool_schema, target=lambda args: search(search_client, semantic_configuration, identifier_field, content_field, embedding_field, use_vector_query, args))
+    rtmt.tools["update_order"] = Tool(schema=update_order_tool_schema, target=lambda args: update_order(args))
+    
