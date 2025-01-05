@@ -65,12 +65,12 @@ export default function Settings({ isMobile }: SettingsProps) {
                         Azure Backend
                     </Label>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Toggle between Azure OpenAI real-time API and Azure Speech SDK (TTS, LLM (GPT-4), SST)
+                        Toggle between Azure OpenAI real-time API and Azure Speech SDK (STT, LLM(GPT-4o), TTS)
                     </p>
                 </div>
                 <div className="ml-4 flex flex-col items-end">
                     <Switch id="azure-backend" checked={isAzureBackend} onCheckedChange={handleAzureBackendChange} aria-label="Toggle Azure backend" />
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{isAzureBackend ? "Realtime API" : "TTS->LLM->SST"}</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{isAzureBackend ? "Realtime API" : "STT->LLM->TTS"}</span>
                 </div>
             </div>
             <div className="flex items-start justify-between">
