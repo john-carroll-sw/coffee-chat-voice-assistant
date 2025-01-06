@@ -1,5 +1,3 @@
-# Azure Speech with GPT-4o Mini Assistant
-
 import os
 from dotenv import load_dotenv
 import azure.cognitiveservices.speech as speechsdk
@@ -8,59 +6,68 @@ import openai
 # Load environment variables from .env file
 load_dotenv()
 
-# Azure Speech Service configuration
-speech_key = os.getenv("AZURE_SPEECH_KEY")
-speech_region = os.getenv("AZURE_SPEECH_REGION")
-speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=speech_region)
-
-# Azure OpenAI Service configuration
+# Set up Azure OpenAI API credentials
 openai.api_type = "azure"
 openai.api_base = os.getenv("AZURE_OPENAI_EASTUS_ENDPOINT")
-openai.api_version = os.getenv("AZURE_OPENAI_API_VERSION")
+openai.api_version = "2023-03-15-preview"
 openai.api_key = os.getenv("AZURE_OPENAI_EASTUS_API_KEY")
-
-# Specify GPT-4o Mini Deployment Name
 gpt4o_mini_deployment = os.getenv("AZURE_OPENAI_GPT4O_MINI_DEPLOYMENT")
 
-# Speech-to-Text (STT) Function
+# Set up Azure Speech-to-Text and Text-to-Speech credentials
+speech_key = os.getenv("AZURE_SPEECH_KEY")
+speech_region = os.getenv("AZURE_SPEECH_REGION")
+speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_region)
+speech_config.speech_synthesis_language = "en-NZ"
+
+# Set up the voice configuration
+speech_config.speech_synthesis_voice_name = "en-NZ-MollyNeural"
+speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+
+# Define the speech-to-text function
 def speech_to_text():
-    audio_config = speechsdk.AudioConfig(use_default_microphone=True)
-    recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
-    print("Listening...")
-    result = recognizer.recognize_once()
+    # Set up the audio configuration
+    audio_config = speechsdk.audio.AudioConfig(use_default_microphone=True)
+
+    # Create a speech recognizer and start the recognition
+    speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
+    print("Say something...")
+
+    result = speech_recognizer.recognize_once_async().get()
+
     if result.reason == speechsdk.ResultReason.RecognizedSpeech:
-        print(f"Recognized: {result.text}")
         return result.text
-    else:
-        print("Speech not recognized.")
-        return None
-
-# Process Text with GPT-4o Mini
-def process_with_gpt4o_mini(prompt):
-    response = openai.Completion.create(
-        engine=gpt4o_mini_deployment,
-        prompt=prompt,
-        max_tokens=150
+    elif result.reason == speechsdk.ResultReason.NoMatch:
+        return "Sorry, I didn't catch that."
+    elif result.reason == speechsdk.ResultReason.Canceled:
+        return "Recognition canceled."
+    
+# Define the Azure OpenAI language generation function
+def generate_text(prompt):
+    response = openai.ChatCompletion.create(
+        engine="chenjd-test",
+        messages=[
+            {"role": "system", "content": "You are an AI assistant that helps people find information."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.7,
+        max_tokens=800,
+        top_p=0.95,
+        frequency_penalty=0,
+        presence_penalty=0,
+        stop=None
     )
-    generated_text = response.choices[0].text.strip()
-    print(f"GPT-4o Mini Response: {generated_text}")
-    return generated_text
+    return response['choices'][0]['message']['content']
 
-# Text-to-Speech (TTS) Function
+# Define the text-to-speech function
 def text_to_speech(text):
-    synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
-    result = synthesizer.speak_text_async(text).get()
-    if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
-        print("Speech synthesized successfully.")
-    else:
-        print("Speech synthesis failed.")
-
-# Main Function to Orchestrate the Workflow
-def main():
-    user_input = speech_to_text()
-    if user_input:
-        response = process_with_gpt4o_mini(user_input)
-        text_to_speech(response)
-
-if __name__ == "__main__":
-    main()
+    try:
+        result = speech_synthesizer.speak_text_async(text).get()
+        if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
+            print("Text-to-speech conversion successful.")
+            return True
+        else:
+            print(f"Error synthesizing audio: {result}")
+            return False
+    except Exception as ex:
+        print(f"Error synthesizing audio: {ex}")
+        return False
