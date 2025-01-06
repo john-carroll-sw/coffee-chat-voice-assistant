@@ -28,8 +28,12 @@ aoai_client = AzureOpenAI(
 speech_key = os.getenv("AZURE_SPEECH_KEY")
 speech_region = os.getenv("AZURE_SPEECH_REGION")
 speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=speech_region)
-speech_config.speech_synthesis_language = "en-NZ"
-speech_config.speech_synthesis_voice_name = "en-NZ-MollyNeural"
+# speech_config.speech_synthesis_language = "en-NZ"
+speech_config.speech_synthesis_voice_name = "en-US-AvaMultilingualNeural"
+# "en-US-AlloyMultilingualNeural"
+# "en-US-Andrew:DragonHDLatestNeural" 
+# "en-NZ-MollyNeural"
+
 speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
 
 # Global flags
