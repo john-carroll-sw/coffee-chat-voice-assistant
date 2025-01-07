@@ -7,12 +7,17 @@ from azure.core.credentials import AzureKeyCredential
 from azure.identity import AzureDeveloperCliCredential, DefaultAzureCredential
 from dotenv import load_dotenv
 
-from tools import attach_tools
+from tools import attach_tools_rtmt
 from rtmt import RTMiddleTier
+from azurespeech import AzureSpeech
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("voicerag")
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Create the web application
 async def create_app():
     if not os.environ.get("RUNNING_IN_PRODUCTION"):
         logger.info("Running in development mode, loading from .env file")
@@ -66,7 +71,7 @@ async def create_app():
 
 
 
-    attach_tools(rtmt,
+    attach_tools_rtmt(rtmt,
         credentials=search_credential,
         search_endpoint=os.environ.get("AZURE_SEARCH_ENDPOINT"),
         search_index=os.environ.get("AZURE_SEARCH_INDEX"),
@@ -79,6 +84,9 @@ async def create_app():
     )
 
     rtmt.attach_to_app(app, "/realtime")
+
+    azurespeech = AzureSpeech(system_message=rtmt.system_message)
+    azurespeech.attach_to_app(app, "/azurespeech")
 
     current_directory = Path(__file__).parent
     app.add_routes([web.get('/', lambda _: web.FileResponse(current_directory / 'static/index.html'))])

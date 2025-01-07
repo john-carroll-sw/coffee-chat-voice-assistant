@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useDummyDataContext } from "@/context/dummy-data-context";
+import { useAzureSpeechOnContext } from "@/context/azure-speech-context";
 
 interface SettingsProps {
     isMobile: boolean;
@@ -15,9 +16,7 @@ export default function Settings({ isMobile }: SettingsProps) {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         return localStorage.getItem("isDarkMode") === "true";
     });
-    const [isAzureBackend, setIsAzureBackend] = useState(() => {
-        return localStorage.getItem("isAzureBackend") === "true";
-    });
+    const { useAzureSpeechOn, setUseAzureSpeechOn } = useAzureSpeechOnContext();
     const { useDummyData, setUseDummyData } = useDummyDataContext();
 
     useEffect(() => {
@@ -29,16 +28,12 @@ export default function Settings({ isMobile }: SettingsProps) {
         }
     }, [isDarkMode]);
 
-    useEffect(() => {
-        localStorage.setItem("isAzureBackend", isAzureBackend.toString());
-    }, [isAzureBackend]);
-
     const handleDarkModeChange = (checked: boolean) => {
         setIsDarkMode(checked);
     };
 
     const handleAzureBackendChange = (checked: boolean) => {
-        setIsAzureBackend(checked);
+        setUseAzureSpeechOn(checked);
     };
 
     const handleDummyDataChange = (checked: boolean) => {
@@ -69,8 +64,8 @@ export default function Settings({ isMobile }: SettingsProps) {
                     </p>
                 </div>
                 <div className="ml-4 flex flex-col items-end">
-                    <Switch id="azure-backend" checked={isAzureBackend} onCheckedChange={handleAzureBackendChange} aria-label="Toggle Azure backend" />
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{isAzureBackend ? "Realtime API" : "STT->LLM->TTS"}</span>
+                    <Switch id="azure-backend" checked={useAzureSpeechOn} onCheckedChange={handleAzureBackendChange} aria-label="Toggle Azure backend" />
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{useAzureSpeechOn ? "STT->LLM->TTS" : "Realtime API"}</span>
                 </div>
             </div>
             <div className="flex items-start justify-between">

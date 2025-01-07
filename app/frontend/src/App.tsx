@@ -13,6 +13,7 @@ import TranscriptPanel from "@/components/ui/transcript-panel";
 import Settings from "@/components/ui/settings";
 
 import useRealTime from "@/hooks/useRealtime";
+import useAzureSpeech from "@/hooks/useAzureSpeech";
 import useAudioRecorder from "@/hooks/useAudioRecorder";
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
@@ -20,12 +21,14 @@ import { ExtensionMiddleTierToolResponse } from "./types";
 
 import { ThemeProvider, useTheme } from "./context/theme-context";
 import { DummyDataProvider, useDummyDataContext } from "@/context/dummy-data-context";
+import { AzureSpeechProvider, useAzureSpeechOnContext } from "@/context/azure-speech-context";
 
 function App() {
     const [isRecording, setIsRecording] = useState(false);
-    const { theme } = useTheme();
     const [isMobile, setIsMobile] = useState(false);
+    const { useAzureSpeechOn } = useAzureSpeechOnContext();
     const { useDummyData } = useDummyDataContext();
+    const { theme } = useTheme();
 
     const [transcripts, setTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
         return [];
@@ -67,8 +70,8 @@ function App() {
 
     const [order, setOrder] = useState<OrderSummaryProps>(initialOrder);
 
-    const { startSession, addUserAudio, inputAudioBufferClear } = useRealTime({
-        enableInputAudioTranscription: true, // Enable input audio transcription from the user to show in the history
+    const realtime = useRealTime({
+        enableInputAudioTranscription: true,
         onWebSocketOpen: () => console.log("WebSocket connection opened"),
         onWebSocketClose: () => console.log("WebSocket connection closed"),
         onWebSocketError: event => console.error("WebSocket error:", event),
@@ -110,21 +113,64 @@ function App() {
         }
     });
 
+    const azureSpeech = useAzureSpeech({
+        onReceivedToolResponse: ({ tool_name, tool_result }: ExtensionMiddleTierToolResponse) => {
+            if (tool_name === "update_order") {
+                const orderSummary: OrderSummaryProps = JSON.parse(tool_result);
+                setOrder(orderSummary);
+
+                console.log("Order Total:", orderSummary.total);
+                console.log("Tax:", orderSummary.tax);
+                console.log("Final Total:", orderSummary.finalTotal);
+            }
+        },
+        onSpeechToTextTranscriptionCompleted: (message: { transcript: any }) => {
+            const newTranscriptItem = {
+                text: message.transcript,
+                isUser: true,
+                timestamp: new Date()
+            };
+            setTranscripts(prev => [...prev, newTranscriptItem]);
+        },
+        onModelResponseDone: (message: { response: { output: any[] } }) => {
+            const transcript = message.response.output
+                .map(output => output.content?.map((content: { transcript: any }) => content.transcript).join(" "))
+                .join(" ");
+            if (!transcript) return;
+
+            const newTranscriptItem = {
+                text: transcript,
+                isUser: false,
+                timestamp: new Date()
+            };
+            setTranscripts(prev => [...prev, newTranscriptItem]);
+        },
+        onError: (error: any) => console.error("Error:", error)
+    });
+
     const { reset: resetAudioPlayer, play: playAudio, stop: stopAudioPlayer } = useAudioPlayer();
-    const { start: startAudioRecording, stop: stopAudioRecording } = useAudioRecorder({ onAudioRecorded: addUserAudio });
+    const { start: startAudioRecording, stop: stopAudioRecording } = useAudioRecorder({
+        onAudioRecorded: useAzureSpeechOn ? azureSpeech.addUserAudio : realtime.addUserAudio
+    });
 
     const onToggleListening = async () => {
         if (!isRecording) {
-            startSession();
+            if (useAzureSpeechOn) {
+                azureSpeech.startSession();
+            } else {
+                realtime.startSession();
+            }
             await startAudioRecording();
             resetAudioPlayer();
-
             setIsRecording(true);
         } else {
             await stopAudioRecording();
             stopAudioPlayer();
-            inputAudioBufferClear();
-
+            if (useAzureSpeechOn) {
+                azureSpeech.inputAudioBufferClear();
+            } else {
+                realtime.inputAudioBufferClear();
+            }
             setIsRecording(false);
         }
     };
@@ -240,7 +286,9 @@ export default function RootApp() {
     return (
         <ThemeProvider>
             <DummyDataProvider>
-                <App />
+                <AzureSpeechProvider>
+                    <App />
+                </AzureSpeechProvider>
             </DummyDataProvider>
         </ThemeProvider>
     );
