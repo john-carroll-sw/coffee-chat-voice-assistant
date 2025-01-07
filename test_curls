@@ -1,0 +1,5 @@
+curl -X POST -F "audio=@coffeetest.wav" http://localhost:8765/azurespeech/speech-to-text
+
+curl -X POST -F "audio=@test_audio.wav" http://localhost:8765/azurespeech/speech-to-text
+
+curl -X POST -H "Content-Type: application/json"     -d '{"content": "Hello, this is a test"}'     http://localhost:8765/azurespeech/text-to-speech
