@@ -146,12 +146,15 @@ class RTMiddleTier:
                         })
                     if "response" in message:
                         replace = False
-                        for i, output in enumerate(reversed(message["response"]["output"])):
-                            if output["type"] == "function_call":
-                                message["response"]["output"].pop(i)
-                                replace = True
+                        try:
+                            for i in range(len(message["response"]["output"]) - 1, -1, -1):
+                                if message["response"]["output"][i]["type"] == "function_call":
+                                    message["response"]["output"].pop(i)
+                                    replace = True
+                        except IndexError as e:
+                            logging.error(f"Error processing message: {e}")
                         if replace:
-                            updated_message = json.dumps(message)                        
+                            updated_message = json.dumps(message)
 
         return updated_message
 

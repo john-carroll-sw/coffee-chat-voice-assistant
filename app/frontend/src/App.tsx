@@ -95,6 +95,76 @@ function App() {
         ];
     });
 
+    // const [dummyTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
+    //     const now = new Date();
+    //     return [
+    //         { text: "Hello", isUser: true, timestamp: new Date(now.getTime() - 600000) },
+    //         {
+    //             text: "Hi there! How can I assist you today? Are you looking to order a coffee or perhaps something else from our menu?",
+    //             isUser: false,
+    //             timestamp: new Date(now.getTime() - 590000)
+    //         },
+    //         { text: "Of course. I am with a few friends and would like to see what your menu is.", isUser: true, timestamp: new Date(now.getTime() - 580000) },
+    //         {
+    //             text: "Great! I will bring the menu. We offer a variety of drinks including coffee, tea, and special beverages. If you have a specific drink in mind, please let me know and I can provide more details!",
+    //             isUser: false,
+    //             timestamp: new Date(now.getTime() - 570000)
+    //         },
+    //         { text: "How about 5 shots of espresso?", isUser: true, timestamp: new Date(now.getTime() - 560000) },
+    //         {
+    //             text: "I have added 5 shots of espresso to your order. Do you need anything else? Would you like additional items for your friends or flavor additions?",
+    //             isUser: false,
+    //             timestamp: new Date(now.getTime() - 550000)
+    //         },
+    //         { text: "I'd like to order a cappuccino please", isUser: true, timestamp: new Date(now.getTime() - 540000) },
+    //         { text: "Would you like that in regular or large size?", isUser: false, timestamp: new Date(now.getTime() - 530000) },
+    //         { text: "Large please", isUser: true, timestamp: new Date(now.getTime() - 520000) },
+    //         { text: "Great! Would you like any extras with that?", isUser: false, timestamp: new Date(now.getTime() - 510000) },
+    //         { text: "No, but I am thinking of adding another drink", isUser: true, timestamp: new Date(now.getTime() - 500000) },
+    //         { text: "Of course! Anything else?", isUser: false, timestamp: new Date(now.getTime() - 490000) },
+    //         {
+    //             text: "What is Turkish coffee? I saw it on the menu, is it from Turkey? Can you tell me more about it?",
+    //             isUser: true,
+    //             timestamp: new Date(now.getTime() - 480000)
+    //         },
+    //         {
+    //             text: "Turkish coffee is a traditional beverage made by brewing very finely ground coffee with sugar and cardamom three times, it is very aromatic and best enjoyed slowly.",
+    //             isUser: false,
+    //             timestamp: new Date(now.getTime() - 470000)
+    //         },
+    //         { text: "Oh, that sounds cool. Can I order one?", isUser: true, timestamp: new Date(now.getTime() - 460000) },
+    //         {
+    //             text: "Of course! It is served in a small pot, perfect for sharing among several people.",
+    //             isUser: false,
+    //             timestamp: new Date(now.getTime() - 450000)
+    //         },
+    //         { text: "Oh, that's perfect!", isUser: true, timestamp: new Date(now.getTime() - 440000) },
+    //         {
+    //             text: "Alright, I have added a pot of Turkish coffee to your order. Do you need anything else?",
+    //             isUser: false,
+    //             timestamp: new Date(now.getTime() - 430000)
+    //         },
+    //         { text: "Can I also order two vanilla lattes with extra shots and whipped cream?", isUser: true, timestamp: new Date(now.getTime() - 420000) },
+    //         { text: "What size would you like for the vanilla lattes?", isUser: false, timestamp: new Date(now.getTime() - 410000) },
+    //         { text: "Regular is fine", isUser: true, timestamp: new Date(now.getTime() - 400000) },
+    //         { text: "I've added those to your order. Would you like anything else?", isUser: false, timestamp: new Date(now.getTime() - 390000) },
+    //         { text: "I would like a Mexican hot chocolate, please.", isUser: true, timestamp: new Date(now.getTime() - 380000) },
+    //         { text: "Understood. What size would you like?", isUser: false, timestamp: new Date(now.getTime() - 370000) },
+    //         { text: "Please make it small with whipped cream.", isUser: true, timestamp: new Date(now.getTime() - 360000) },
+    //         { text: "Got it. A small Mexican hot chocolate with whipped cream.", isUser: false, timestamp: new Date(now.getTime() - 350000) },
+    //         { text: "What are the most popular drinks on the menu?", isUser: true, timestamp: new Date(now.getTime() - 340000) },
+    //         {
+    //             text: "The classic latte is the most popular. Would you like to add one to your order?",
+    //             isUser: false,
+    //             timestamp: new Date(now.getTime() - 330000)
+    //         },
+    //         { text: "No that's all, thank you!", isUser: true, timestamp: new Date(now.getTime() - 320000) },
+    //         { text: "Your total comes to $42.34. Would you like to complete your order?", isUser: false, timestamp: new Date(now.getTime() - 310000) },
+    //         { text: "Yes please", isUser: true, timestamp: new Date(now.getTime() - 300000) },
+    //         { text: "Great! Your order will be ready in about 10 minutes.", isUser: false, timestamp: new Date(now.getTime() - 290000) }
+    //     ];
+    // });
+
     const initialOrder: OrderSummaryProps = {
         items: [],
         total: 0,
