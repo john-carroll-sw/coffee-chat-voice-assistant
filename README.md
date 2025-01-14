@@ -6,38 +6,62 @@ As users place their orders, live updates are dynamically reflected on the scree
 
 Beyond coffee enthusiasts, this technology can enhance accessibility and inclusivity, providing a hands-free, voice-driven experience for retail, hospitality, transportation, and more. Whether ordering on-the-go in a car, placing a contactless order from home, or supporting users with mobility challenges, this assistant demonstrates the limitless potential of AI-driven solutions for seamless user interactions.
 
+## Table of Contents
+
+- [Coffee Chat Voice Assistant](#coffee-chat-voice-assistant)
+  - [Table of Contents](#table-of-contents)
+  - [Acknowledgment](#acknowledgment)
+  - [Visual Demonstrations](#visual-demonstrations)
+    - [Desktop 4 Minute Interaction Big Order Demo](#desktop-4-minute-interaction-big-order-demo)
+    - [Mobile Multilingual Ordering Demo](#mobile-multilingual-ordering-demo)
+    - [UI Elements Walkthrough](#ui-elements-walkthrough)
+  - [Features](#features)
+    - [Architecture Diagram](#architecture-diagram)
+  - [Getting Started](#getting-started)
+    - [GitHub Codespaces](#github-codespaces)
+    - [VS Code Dev Containers](#vs-code-dev-containers)
+    - [Local environment](#local-environment)
+  - [Deploying the app](#deploying-the-app)
+  - [Development server](#development-server)
+  - [Contributing](#contributing)
+  - [Resources](#resources)
+
 ## Acknowledgment
 
 This project builds upon the [VoiceRAG Repository](https://github.com/Azure-Samples/aisearch-openai-rag-audio): an example of how to implement RAG support in applications that use voice as their user interface, powered by the GPT-4o realtime API for audio. The pattern is described in more detail in this [blog post](https://aka.ms/voicerag), and you can see this sample app in action in this [short video](https://youtu.be/vXJka8xZ9Ko). For the Voice RAG README, see [voice_rag_README.md](voice_rag_README.md)."
 
-## Visual Demo of Coffee Chat
+## Visual Demonstrations
 
-### Desktop 4 Minute Interaction Big Order Demo
+![app screenshot](docs/Demo/DesktopViewPreloadedData.png)
 
-This video showcases a 4-minute interaction where a user places a large order using the Coffee Chat Voice Assistant.
+### Desktop 4 Minute Interaction Big Order Demo  
 
-<video width="100%" controls>
-  <source src="docs/Demo/Desktop4MinuteInteractionBigOrder_smaller.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+This video showcases a 4-minute interaction where a user places a large order using the Coffee Chat Voice Assistant.  
 
-### Mobile Multilingual Ordering Demo
+![Desktop 4 Minute Interaction Big Order Demo](docs/Demo/Desktop4MinuteInteractionBigOrder_preview.gif)
 
-This video demonstrates the multilingual ordering capabilities of the Coffee Chat Voice Assistant.
+[Watch the full video with audio](https://raw.githubusercontent.com/john-carroll-sw/coffee-chat-voice-assistant/main/docs/Demo/Desktop4MinuteInteractionBigOrder_smaller.mp4)  
 
-<video width="100%" controls>
-  <source src="docs/Demo/MultilingualOrdering_smaller.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+---  
 
-### UI Elements Walkthrough
+### Mobile Multilingual Ordering Demo  
 
-This video provides a walkthrough of the various UI elements in the Coffee Chat Voice Assistant.
+This video demonstrates the multilingual ordering capabilities of the Coffee Chat Voice Assistant.  
 
-<video width="100%" controls>
-  <source src="docs/Demo/UIElementsWalkThrough_smaller.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![Mobile Multilingual Ordering Demo](docs/Demo/MultilingualOrdering_preview.gif)
+
+[Watch the full video with audio](https://raw.githubusercontent.com/john-carroll-sw/coffee-chat-voice-assistant/main/docs/Demo/MultilingualOrdering_smaller.mp4)  
+
+---  
+
+### UI Elements Walkthrough  
+
+This video provides a walkthrough of the various UI elements in the Coffee Chat Voice Assistant.  
+
+![UI Elements Walkthrough](docs/Demo/UIElementsWalkThrough_preview.gif)
+
+[Watch the full video with audio](https://raw.githubusercontent.com/john-carroll-sw/coffee-chat-voice-assistant/main/docs/Demo/UIElementsWalkThrough_smaller.mp4)
+
 
 ## Features
 
@@ -160,9 +184,7 @@ You can run this app locally using either the Azure services you provisioned by 
 
 4. The app is available on [http://localhost:8765](http://localhost:8765).
 
-   Once the app is running, when you navigate to the URL above you should see the start screen of the app:
-   ![app screenshot](docs/Demo/DesktopViewPreloadedData.png)
-   
+   Once the app is running, when you navigate to the URL above you should see the start screen of the app shown in the [Visual Demonstrations](#visual-demonstrations) section.
 
    To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "What is the whistleblower policy for Contoso electronics?"
 
