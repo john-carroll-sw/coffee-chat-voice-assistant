@@ -16,11 +16,15 @@
 <!-- - TODO Order Summary: Implement some sort of order state management, complete with price calculations. Needs to utilize function calling with the LLM. -->
 <!-- - TODO Order Summary: Implement a way to provide the current order summary to the model. Maybe after each order update there is a call to the server after maybe four seconds to send to the server the order summary. -->
 <!-- - TODO Move to its own github: voice assistant coffee chat -->
+<!-- - TODO Update Readme for just Realtime MiddleTier -->
+
 - TODO Move state management of order to the front-end, this may mean that the tools calls related to the order, meaning updates and the order summary need to be on the frontend vs backend
 - TODO Build out the Azure Backend Toggle to switch from the Realtime API to the STT-LLM-TTS services pipeline to compare the latency, phonetics, conversable AI experiences
 - TODO Deploy it
+ 
 - TODO Add in tokens for session; research audio tokenizer from openai if it is openly available
 - TODO Add in Azure AI Speech Backend
+- TODO Update Readme to include Azure AI Speech backend separate process
 
 ## Should
 

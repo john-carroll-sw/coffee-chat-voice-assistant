@@ -1,25 +1,51 @@
-# VoiceRAG: An Application Pattern for RAG + Voice Using Azure AI Search and the GPT-4o Realtime API for Audio
+# Coffee Chat Voice Assistant
 
-[![Open in GitHub Codespaces](https://img.shields.io/static/v1?style=for-the-badge&label=GitHub+Codespaces&message=Open&color=brightgreen&logo=github)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&skip_quickstart=true&machine=basicLinux32gb&repo=860141324&devcontainer_path=.devcontainer%2Fdevcontainer.json&geo=WestUs2)
-[![Open in Dev Containers](https://img.shields.io/static/v1?style=for-the-badge&label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/Azure-Samples/aisearch-openai-rag-audio)
+Coffee Chat Voice Assistant is an advanced, voice-driven ordering system leveraging Azure OpenAI GPT-4o Realtime API and Azure AI Speech to recreate the authentic experience of ordering coffee from a friendly café barista. This system provides natural conversations to deliver engaging and intuitive responses, ensuring a seamless and enjoyable user experience. With real-time transcription, every spoken word is captured and displayed, ensuring clarity and accessibility.
 
-This repo contains an example of how to implement RAG support in applications that use voice as their user interface, powered by the GPT-4o realtime API for audio. We describe the pattern in more detail in [this blog post](https://aka.ms/voicerag), and you can see this sample app in action in [this short video](https://youtu.be/vXJka8xZ9Ko).
+As users place their orders, live updates are dynamically reflected on the screen, allowing them to see their selections build in real time. By simulating a true-to-life customer interaction, Coffee Chat Voice Assistant highlights the transformative potential of AI to enhance convenience and personalize the customer experience, creating a uniquely interactive and intuitive journey, adaptable for various industries and scenarios.
 
-* [Features](#features)
-* [Architecture Diagram](#architecture-diagram)
-* [Getting Started](#getting-started)
-  * [GitHub Codespaces](#github-codespaces)
-  * [VS Code Dev Containers](#vs-code-dev-containers)
-  * [Local environment](#local-environment)
-* [Deploying the app](#deploying-the-app)
-* [Development server](#development-server)
+Beyond coffee enthusiasts, this technology can enhance accessibility and inclusivity, providing a hands-free, voice-driven experience for retail, hospitality, transportation, and more. Whether ordering on-the-go in a car, placing a contactless order from home, or supporting users with mobility challenges, this assistant demonstrates the limitless potential of AI-driven solutions for seamless user interactions.
+
+## Acknowledgment
+
+This project builds upon the [VoiceRAG Repository](https://github.com/Azure-Samples/aisearch-openai-rag-audio): an example of how to implement RAG support in applications that use voice as their user interface, powered by the GPT-4o realtime API for audio. The pattern is described in more detail in this [blog post](https://aka.ms/voicerag), and you can see this sample app in action in this [short video](https://youtu.be/vXJka8xZ9Ko). For the Voice RAG README, see [voice_rag_README.md](voice_rag_README.md)."
+
+## Visual Demo of Coffee Chat
+
+### Desktop 4 Minute Interaction Big Order Demo
+
+This video showcases a 4-minute interaction where a user places a large order using the Coffee Chat Voice Assistant.
+
+<video width="100%" controls>
+  <source src="docs/Demo/Desktop4MinuteInteractionBigOrder_smaller.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+### Mobile Multilingual Ordering Demo
+
+This video demonstrates the multilingual ordering capabilities of the Coffee Chat Voice Assistant.
+
+<video width="100%" controls>
+  <source src="docs/Demo/MultilingualOrdering_smaller.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+### UI Elements Walkthrough
+
+This video provides a walkthrough of the various UI elements in the Coffee Chat Voice Assistant.
+
+<video width="100%" controls>
+  <source src="docs/Demo/UIElementsWalkThrough_smaller.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Features
 
-* **Voice interface**: The app uses the browser's microphone to capture voice input, and sends it to the backend where it is processed by the Azure OpenAI GPT-4o Realtime API.
-* **RAG (Retrieval Augmented Generation)**: The app uses the Azure AI Search service to answer questions about a knowledge base, and sends the retrieved documents to the GPT-4o Realtime API to generate a response.
-* **Audio output**: The app plays the response from the GPT-4o Realtime API as audio, using the browser's audio capabilities.
-* **Citations**: The app shows the search results that were used to generate the response.
+- **Voice Interface**: Speak naturally to the app, and it processes your voice input in real-time using a flexible backend that supports various voice-to-text and processing services.
+- **Retrieval-Augmented Generation (RAG)**: Leverages knowledge bases to ground responses in relevant and contextual information, such as menu-based ordering.
+- **Real-Time Transcription**: Captures spoken input and provides clear, on-screen text transcriptions for transparency and accessibility.
+- **Live Order Updates**: Dynamically displays order changes during the conversation by integrating advanced function-calling capabilities.
+- **Audio Output**: Converts generated responses into human-like speech, with the app playing audio output through the browser's audio capabilities for seamless hands-free interactions.
 
 ### Architecture Diagram
 
@@ -48,7 +74,7 @@ You can run the project in your local VS Code Dev Container using the [Dev Conta
 1. Start Docker Desktop (install it if not already installed)
 2. Open the project:
 
-    [![Open in Dev Containers](https://img.shields.io/static/v1?style=for-the-badge&label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/azure-samples/aisearch-openai-rag-audio)
+    [![Open in Dev Containers](https://img.shields.io/static/v1?style=for-the-badge&label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/john-carroll-sw/coffee-chat-voice-assistant)
 3. In the VS Code window that opens, once the project files show up (this may take several minutes), open a new terminal, and proceed to [deploying the app](#deploying-the-app).
 
 ### Local environment
@@ -62,7 +88,7 @@ You can run the project in your local VS Code Dev Container using the [Dev Conta
    * [Git](https://git-scm.com/downloads)
    * [Powershell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell) - For Windows users only.
 
-2. Clone the repo (`git clone https://github.com/Azure-Samples/aisearch-openai-rag-audio`)
+2. Clone the repo (`git clone https://github.com/john-carroll-sw/coffee-chat-voice-assistant`)
 3. Proceed to the next section to [deploy the app](#deploying-the-app).
 
 ## Deploying the app
@@ -103,25 +129,20 @@ The steps below will provision Azure resources and deploy the application code t
 
 1. After the application has been successfully deployed you will see a URL printed to the console.  Navigate to that URL to interact with the app in your browser. To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "What is the whistleblower policy for Contoso electronics?" You can also now run the app locally by following the instructions in [the next section](#development-server).
 
+
 ## Development server
 
 You can run this app locally using either the Azure services you provisioned by following the [deployment instructions](#deploying-the-app), or by pointing the local app at already [existing services](docs/existing_services.md).
 
 1. If you deployed with `azd up`, you should see a `app/backend/.env` file with the necessary environment variables.
 
-2. If did *not* use `azd up`, you will need to create `app/backend/.env` file with the following environment variables:
+2. If did *not* use `azd up`, you will need to create `app/backend/.env` file with the necessary environment variables. You can use the provided sample file as a template:
 
    ```shell
-   AZURE_OPENAI_EASTUS2_ENDPOINT=wss://<your instance name>.openai.azure.com
-   AZURE_OPENAI_REALTIME_DEPLOYMENT=gpt-4o-realtime-preview
-   AZURE_OPENAI_REALTIME_VOICE_CHOICE=<choose one: echo, alloy, shimmer>
-   AZURE_OPENAI_EASTUS2_API_KEY=<your api key>
-   AZURE_SEARCH_ENDPOINT=https://<your service name>.search.windows.net
-   AZURE_SEARCH_INDEX=<your index name>
-   AZURE_SEARCH_API_KEY=<your api key>
+   cp app/backend/.env-sample.ini app/backend/.env
    ```
 
-   To use Entra ID (your user when running locally, managed identity when deployed) simply don't set the keys.
+   Then, fill in the required values in the `app/backend/.env` file. You can find the sample file [here](app/backend/.env-sample.ini).
 
 3. Run this command to start the app:
 
@@ -140,38 +161,17 @@ You can run this app locally using either the Azure services you provisioned by 
 4. The app is available on [http://localhost:8765](http://localhost:8765).
 
    Once the app is running, when you navigate to the URL above you should see the start screen of the app:
-   ![app screenshot](docs/talktoyourdataapp.png)
+   ![app screenshot](docs/Demo/DesktopViewPreloadedData.png)
+   
 
    To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "What is the whistleblower policy for Contoso electronics?"
 
-## Guidance
+## Contributing
 
-### Costs
-
-Pricing varies per region and usage, so it isn't possible to predict exact costs for your usage.
-However, you can try the [Azure pricing calculator](https://azure.com/e/a87a169b256e43c089015fda8182ca87) for the resources below.
-
-* Azure Container Apps: Consumption plan with 1 CPU core, 2.0 GB RAM. Pricing with Pay-as-You-Go. [Pricing](https://azure.microsoft.com/pricing/details/container-apps/)
-* Azure OpenAI: Standard tier, gpt-4o-realtime and text-embedding-3-large models. Pricing per 1K tokens used. [Pricing](https://azure.microsoft.com/pricing/details/cognitive-services/openai-service/)
-* Azure AI Search: Standard tier, 1 replica, free level of semantic search. Pricing per hour. [Pricing](https://azure.microsoft.com/pricing/details/search/)
-* Azure Blob Storage: Standard tier with ZRS (Zone-redundant storage). Pricing per storage and read operations. [Pricing](https://azure.microsoft.com/pricing/details/storage/blobs/)
-* Azure Monitor: Pay-as-you-go tier. Costs based on data ingested. [Pricing](https://azure.microsoft.com/pricing/details/monitor/)
-
-To reduce costs, you can switch to free SKUs for various services, but those SKUs have limitations.
-
-⚠️ To avoid unnecessary costs, remember to take down your app if it's no longer in use,
-either by deleting the resource group in the Portal or running `azd down`.
-
-### Security
-
-This template uses [Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) to eliminate the need for developers to manage these credentials. Applications can use managed identities to obtain Microsoft Entra tokens without having to manage any credentials.To ensure best practices in your repo we recommend anyone creating solutions based on our templates ensure that the [Github secret scanning](https://docs.github.com/code-security/secret-scanning/about-secret-scanning) setting is enabled in your repos.
-
-### Notes
-
->Sample data: The PDF documents used in this demo contain information generated using a language model (Azure OpenAI Service). The information contained in these documents is only for demonstration purposes and does not reflect the opinions or beliefs of Microsoft. Microsoft makes no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the information contained in this document. All rights reserved to Microsoft.
+Contributions are welcome! Please follow the [contribution guidelines](CONTRIBUTING.md).
 
 ## Resources
 
-* [Blog post: VoiceRAG](https://aka.ms/voicerag)
-* [Demo video: VoiceRAG](https://youtu.be/vXJka8xZ9Ko)
-* [Azure OpenAI Realtime Documentation](https://github.com/Azure-Samples/aoai-realtime-audio-sdk/)
+- [Azure OpenAI Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/)
+- [VoiceRAG Repository](https://github.com/Azure-Samples/aisearch-openai-rag-audio): This repo contains an example of how to implement RAG support in applications that use voice as their user interface, powered by the GPT-4o realtime API for audio. We describe the pattern in more detail in this [blog post](https://aka.ms/voicerag), and you can see this sample app in action in this [short video](https://youtu.be/vXJka8xZ9Ko).
+- [Demo Video](https://youtu.be/your-demo-video)
