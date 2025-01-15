@@ -1,60 +1,64 @@
 [
-    { "text": "Hello", "isUser": true, "timestamp": "2023-10-01T10:00:00Z" },
+    { "text": "Hello", "isUser": true, "timestamp": "2023-10-01T10:00:00Z", "translation": "Hello" },
     {
         "text": "Hi there! How can I assist you today? Are you looking to order a coffee or perhaps something else from our menu?",
         "isUser": false,
-        "timestamp": "2023-10-01T10:01:00Z"
+        "timestamp": "2023-10-01T10:01:00Z",
+        "translation": "Hi there! How can I assist you today? Are you looking to order a coffee or perhaps something else from our menu?"
     },
     {
         "text": "물론입니다. 저는 몇몇 친구들과 함께 있으며, 당신의 메뉴가 무엇인지 보고 싶습니다.",
         "isUser": true,
-        "timestamp": "2023-10-01T10:02:00Z"
+        "timestamp": "2023-10-01T10:02:00Z",
+        "translation": "Of course. I am with a few friends and would like to see what your menu is."
     },
     {
         "text": "좋습니다! 메뉴를 가져올게요. 우리는 커피, 차 및 스페셜 음료를 포함해 다양한 음료를 제공합니다. 관심 있는 특정 음료가 있으면 말씀해 주시면 더 자세한 정보를 드리겠습니다!",
         "isUser": false,
-        "timestamp": "2023-10-01T10:03:00Z"
+        "timestamp": "2023-10-01T10:03:00Z",
+        "translation": "Great! I will bring the menu. We offer a variety of drinks including coffee, tea, and special beverages. If you have a specific drink in mind, please let me know and I can provide more details!"
     },
-    { "text": "에스프레소 5샷은 어떤가요?", "isUser": true, "timestamp": "2023-10-01T10:04:00Z" },
+    { "text": "에스프레소 5샷은 어떤가요?", "isUser": true, "timestamp": "2023-10-01T10:04:00Z", "translation": "How about 5 shots of espresso?" },
     {
         "text": "주문에 에스프레소 5샷을 추가했습니다. 그 외에 다른 것도 필요하신가요? 친구들을 위한 추가 아이템이나 맛추가를 원하시나요?",
         "isUser": false,
-        "timestamp": "2023-10-01T10:05:00Z"
+        "timestamp": "2023-10-01T10:05:00Z",
+        "translation": "I have added 5 shots of espresso to your order. Do you need anything else? Would you like additional items for your friends or flavor additions?"
     },
-    { "text": "I'd like to order a cappuccino please", "isUser": true, "timestamp": "2023-10-01T10:06:00Z" },
-    { "text": "Would you like that in regular or large size?", "isUser": false, "timestamp": "2023-10-01T10:07:00Z" },
-    { "text": "Large please", "isUser": true, "timestamp": "2023-10-01T10:08:00Z" },
-    { "text": "Great! Would you like any extras with that?", "isUser": false, "timestamp": "2023-10-01T10:09:00Z" },
-    { "text": "No, but I am thinking of adding another drink", "isUser": true, "timestamp": "2023-10-01T10:10:00Z" },
-    { "text": "Of course! Anything else?", "isUser": false, "timestamp": "2023-10-01T10:11:00Z" },
-    { "text": "土耳其咖啡是什麼？我在菜單上看到了，它是來自土耳其的嗎？你能多告訴我一些嗎？", "isUser": true, "timestamp": "2023-10-01T10:12:00Z" },
+    { "text": "I'd like to order a cappuccino please", "isUser": true, "timestamp": "2023-10-01T10:06:00Z", "translation": "I'd like to order a cappuccino please" },
+    { "text": "Would you like that in regular or large size?", "isUser": false, "timestamp": "2023-10-01T10:07:00Z", "translation": "Would you like that in regular or large size?" },
+    { "text": "Large please", "isUser": true, "timestamp": "2023-10-01T10:08:00Z", "translation": "Large please" },
+    { "text": "Great! Would you like any extras with that?", "isUser": false, "timestamp": "2023-10-01T10:09:00Z", "translation": "Great! Would you like any extras with that?" },
+    { "text": "No, but I am thinking of adding another drink", "isUser": true, "timestamp": "2023-10-01T10:10:00Z", "translation": "No, but I am thinking of adding another drink" },
+    { "text": "Of course! Anything else?", "isUser": false, "timestamp": "2023-10-01T10:11:00Z", "translation": "Of course! Anything else?" },
+    { "text": "土耳其咖啡是什麼？我在菜單上看到了，它是來自土耳其的嗎？你能多告訴我一些嗎？", "isUser": true, "timestamp": "2023-10-01T10:12:00Z", "translation": "What is Turkish coffee? I saw it on the menu, is it from Turkey? Can you tell me more about it?" },
     {
         "text": "土耳其咖啡是一種傳統的飲品，用非常細膩的咖啡粉與糖和豆蔻一同煮三次，非常香濃，適合慢慢品嘗。",
         "isUser": false,
-        "timestamp": "2023-10-01T10:13:00Z"
+        "timestamp": "2023-10-01T10:13:00Z",
+        "translation": "Turkish coffee is a traditional beverage made by brewing very finely ground coffee with sugar and cardamom three times, it is very aromatic and best enjoyed slowly."
     },
-    { "text": "哦，聽起來很酷。我可以點一份嗎？", "isUser": true, "timestamp": "2023-10-01T10:14:00Z" },
-    { "text": "當然可以！它是以小壺形式提供的，非常適合多人分享。", "isUser": false, "timestamp": "2023-10-01T10:15:00Z" },
-    { "text": "哦，太完美了！", "isUser": true, "timestamp": "2023-10-01T10:16:00Z" },
-    { "text": "好的，我已經將一壺土耳其咖啡加入您的訂單。還需要別的嗎？", "isUser": false, "timestamp": "2023-10-01T10:17:00Z" },
-    { "text": "¿Puedo también pedir dos lattes de vainilla con extra shots y crema batida?", "isUser": true, "timestamp": "2023-10-01T10:18:00Z" },
-    { "text": "¿Qué tamaño le gustaría para los lattes de vainilla?", "isUser": false, "timestamp": "2023-10-01T10:19:00Z" },
-    { "text": "Regular is fine", "isUser": true, "timestamp": "2023-10-01T10:20:00Z" },
-    { "text": "I've added those to your order. Would you like anything else?", "isUser": false, "timestamp": "2023-10-01T10:21:00Z" },
-    { "text": "メキシカンホットチョコレートをお願いします。", "isUser": true, "timestamp": "2023-10-01T10:22:00Z" },
-    { "text": "わかりました。どのサイズになさいますか？", "isUser": false, "timestamp": "2023-10-01T10:23:00Z" },
-    { "text": "小サイズでホイップクリーム付きにしてください。", "isUser": true, "timestamp": "2023-10-01T10:24:00Z" },
-    { "text": "了解です。小サイズのメキシカンホットチョコレートとホイップクリームですね。", "isUser": false, "timestamp": "2023-10-01T10:25:00Z" },
-    { "text": "Vad är de mest populära dryckerna på menyn?", "isUser": true, "timestamp": "2023-10-01T10:26:00Z" },
+    { "text": "哦，聽起來很酷。我可以點一份嗎？", "isUser": true, "timestamp": "2023-10-01T10:14:00Z", "translation": "Oh, that sounds cool. Can I order one?" },
+    { "text": "當然可以！它是以小壺形式提供的，非常適合多人分享。", "isUser": false, "timestamp": "2023-10-01T10:15:00Z", "translation": "Of course! It is served in a small pot, perfect for sharing among several people." },
+    { "text": "哦，太完美了！", "isUser": true, "timestamp": "2023-10-01T10:16:00Z", "translation": "Oh, that's perfect!" },
+    { "text": "好的，我已經將一壺土耳其咖啡加入您的訂單。還需要別的嗎？", "isUser": false, "timestamp": "2023-10-01T10:17:00Z", "translation": "Alright, I have added a pot of Turkish coffee to your order. Do you need anything else?" },
+    { "text": "¿Puedo también pedir dos lattes de vainilla con extra shots y crema batida?", "isUser": true, "timestamp": "2023-10-01T10:18:00Z", "translation": "Can I also order two vanilla lattes with extra shots and whipped cream?" },
+    { "text": "¿Qué tamaño le gustaría para los lattes de vainilla?", "isUser": false, "timestamp": "2023-10-01T10:19:00Z", "translation": "What size would you like for the vanilla lattes?" },
+    { "text": "Regular is fine", "isUser": true, "timestamp": "2023-10-01T10:20:00Z", "translation": "Regular is fine" },
+    { "text": "I've added those to your order. Would you like anything else?", "isUser": false, "timestamp": "2023-10-01T10:21:00Z", "translation": "I've added those to your order. Would you like anything else?" },
+    { "text": "メキシカンホットチョコレートをお願いします。", "isUser": true, "timestamp": "2023-10-01T10:22:00Z", "translation": "I would like a Mexican hot chocolate, please." },
+    { "text": "わかりました。どのサイズになさいますか？", "isUser": false, "timestamp": "2023-10-01T10:23:00Z", "translation": "Understood. What size would you like?" },
+    { "text": "小サイズでホイップクリーム付きにしてください。", "isUser": true, "timestamp": "2023-10-01T10:24:00Z", "translation": "Please make it small with whipped cream." },
+    { "text": "了解です。小サイズのメキシカンホットチョコレートとホイップクリームですね。", "isUser": false, "timestamp": "2023-10-01T10:25:00Z", "translation": "Got it. A small Mexican hot chocolate with whipped cream." },
+    { "text": "Vad är de mest populära dryckerna på menyn?", "isUser": true, "timestamp": "2023-10-01T10:26:00Z", "translation": "What are the most popular drinks on the menu?" },
     {
         "text": "Den klassiska latten är mest populär. Vill du lägga till en till i din beställning?",
         "isUser": false,
-        "timestamp": "2023-10-01T10:27:00Z"
+        "timestamp": "2023-10-01T10:27:00Z",
+        "translation": "The classic latte is the most popular. Would you like to add one to your order?"
     },
-    { "text": "No that's all, thank you!", "isUser": true, "timestamp": "2023-10-01T10:28:00Z" },
-    { "text": "Your total comes to $39.10. Would you like to complete your order?", "isUser": false, "timestamp": "2023-10-01T10:29:00Z" },
-    { "text": "Yes please", "isUser": true, "timestamp": "2023-10-01T10:30:00Z" },
-    { "text": "Great! Your order will be ready in about 10 minutes.", "isUser": false, "timestamp": "2023-10-01T10:31:00Z" }
+    { "text": "No that's all, thank you!", "isUser": true, "timestamp": "2023-10-01T10:28:00Z", "translation": "No that's all, thank you!" },
+    { "text": "Your total comes to $39.10. Would you like to complete your order?", "isUser": false, "timestamp": "2023-10-01T10:29:00Z", "translation": "Your total comes to $39.10. Would you like to complete your order?" },
+    { "text": "Yes please", "isUser": true, "timestamp": "2023-10-01T10:30:00Z", "translation": "Yes please" },
+    { "text": "Great! Your order will be ready in about 10 minutes.", "isUser": false, "timestamp": "2023-10-01T10:31:00Z", "translation": "Great! Your order will be ready in about 10 minutes." }
 ]
-
-
