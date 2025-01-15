@@ -189,26 +189,3 @@ def attach_tools_rtmt(rtmt: RTMiddleTier,
     rtmt.tools["get_order"] = Tool(schema=get_order_tool_schema, target=lambda _, session_id: get_order(session_id))
 
 
-# # Attach tools to the GPT-4o-mini model
-# def attach_tools_gpt4o_mini(gpt4o_mini: RTMiddleTier,
-#     credentials: AzureKeyCredential | DefaultAzureCredential,
-#     search_endpoint: str, search_index: str,
-#     semantic_configuration: str,
-#     identifier_field: str,
-#     content_field: str,
-#     embedding_field: str,
-#     title_field: str,
-#     use_vector_query: bool
-#     ) -> None:
-
-#     if not isinstance(credentials, AzureKeyCredential):
-#         credentials.get_token("https://search.azure.com/.default") # warm this up before we start getting requests
-#     search_client = SearchClient(search_endpoint, search_index, credentials, user_agent="GPT-4o-mini")
-
-#     gpt4o_mini.tools["search"] = Tool(schema=search_tool_schema, target=lambda args: search(search_client, semantic_configuration, identifier_field, content_field, embedding_field, use_vector_query, args))
-#     gpt4o_mini.tools["update_order"] = Tool(schema=update_order_tool_schema, target=lambda args: update_order(args))
-#     gpt4o_mini.tools["get_order"] = Tool(schema=get_order_tool_schema, target=lambda _: get_order())
-
-
-
-
