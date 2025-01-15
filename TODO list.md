@@ -19,6 +19,9 @@
 <!-- - TODO Update Readme for just Realtime MiddleTier -->
 
 <!-- - TODO Move state management of order to the front-end, this may mean that the tools calls related to the order, meaning updates and the order summary need to be on the frontend vs backend -->
+- TODO Create menu images, add to menu_images folder under data for the frontend
+- TODO Could add a 'Show me what this drink looks like' feature, which upon user request, the application would pop up an image of the menu item.
+- 
 - TODO Build out the Azure Backend Toggle to switch from the Realtime API to the STT-LLM-TTS services pipeline to compare the latency, phonetics, conversable AI experiences
 - TODO Deploy it
  
@@ -34,7 +37,6 @@
 
 ## Could
 
-- TODO Could add a 'Show me what this drink looks like' feature, which upon user request, the application would pop up an image of the menu item.
 - TODO Could add in Bing API for searching latest coffee info on the web
 - TODO Create audio actions/tools/functions to open and close chat history as well as show menu
 

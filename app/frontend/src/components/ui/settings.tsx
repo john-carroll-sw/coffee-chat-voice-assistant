@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useDummyDataContext } from "@/context/dummy-data-context";
 import { useAzureSpeechOnContext } from "@/context/azure-speech-context";
+import { Tooltip } from "@/components/ui/tooltip";
 
 interface SettingsProps {
     isMobile: boolean;
@@ -64,7 +65,17 @@ export default function Settings({ isMobile }: SettingsProps) {
                     </p>
                 </div>
                 <div className="ml-4 flex flex-col items-end">
-                    <Switch id="azure-backend" checked={useAzureSpeechOn} onCheckedChange={handleAzureBackendChange} aria-label="Toggle Azure backend" />
+                    <Tooltip content="Work in progress">
+                        <div>
+                            <Switch
+                                id="azure-backend"
+                                checked={useAzureSpeechOn}
+                                onCheckedChange={handleAzureBackendChange}
+                                aria-label="Toggle Azure backend"
+                                disabled
+                            />
+                        </div>
+                    </Tooltip>
                     <span className="text-xs text-gray-500 dark:text-gray-400">{useAzureSpeechOn ? "STT->LLM->TTS" : "Realtime API"}</span>
                 </div>
             </div>

@@ -188,7 +188,7 @@ function App() {
     }, []);
 
     return (
-        <div className={`min-h-screen bg-background p-4 text-foreground md:p-8 ${theme}`}>
+        <div className={`min-h-screen bg-background p-4 text-foreground ${theme}`}>
             <div className="mx-auto max-w-7xl">
                 <div className="relative mb-6 flex flex-col items-center md:mb-4">
                     <h1 className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-center text-4xl font-bold text-transparent md:text-6xl">
@@ -221,13 +221,13 @@ function App() {
                     {/* Desktop Menu Panel */}
                     <Card className="hidden p-6 md:block">
                         <h2 className="mb-4 text-center font-semibold">Our Menu</h2>
-                        <div className="h-[calc(100vh-18rem)] overflow-auto pr-4">
+                        <div className="h-[calc(100vh-13rem)] overflow-auto pr-4">
                             <MenuPanel />
                         </div>
                     </Card>
 
                     {/* Center Panel - Recording Button and Order Summary */}
-                    <Card className="p-6 md:h-[calc(100vh-12rem)] md:overflow-auto">
+                    <Card className="p-6 md:overflow-auto">
                         <div className="space-y-8">
                             <OrderSummary order={useDummyData ? dummyOrder : order} />
                             <div className="mb-4 flex flex-col items-center justify-center">
@@ -273,7 +273,7 @@ function App() {
                     {/* Desktop Transcript Panel */}
                     <Card className="hidden p-6 md:block">
                         <h2 className="mb-4 text-center font-semibold">Transcript History</h2>
-                        <div className="h-[calc(100vh-18rem)] overflow-auto pr-4">
+                        <div className="h-[calc(100vh-13rem)] overflow-auto pr-4">
                             <TranscriptPanel transcripts={useDummyData ? dummyTranscripts : transcripts} />
                         </div>
                     </Card>
