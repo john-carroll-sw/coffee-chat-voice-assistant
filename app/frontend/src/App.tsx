@@ -11,7 +11,7 @@ import MenuPanel from "@/components/ui/menu-panel";
 import OrderSummary, { calculateOrderSummary, OrderSummaryProps } from "@/components/ui/order-summary";
 import TranscriptPanel from "@/components/ui/transcript-panel";
 import Settings from "@/components/ui/settings";
-import ImageDialog from "@/components/ui/ImageDialog";
+// import ImageDialog from "@/components/ui/ImageDialog";
 
 import useRealTime from "@/hooks/useRealtime";
 import useAzureSpeech from "@/hooks/useAzureSpeech";
@@ -33,22 +33,22 @@ function App() {
     const { useAzureSpeechOn } = useAzureSpeechOnContext();
     const { useDummyData } = useDummyDataContext();
     const { theme } = useTheme();
-    const [imageDialogOpen, setImageDialogOpen] = useState(false);
-    const [imageUrl, setImageUrl] = useState("");
+    // const [imageDialogOpen, setImageDialogOpen] = useState(false);
+    // const [imageUrl, setImageUrl] = useState("");
 
-    const handleShowImage = (url: string) => {
-        setImageUrl(url);
-        setImageDialogOpen(true);
-    };
+    // const handleShowImage = (url: string) => {
+    //     setImageUrl(url);
+    //     setImageDialogOpen(true);
+    // };
 
-    // Example usage of handleShowImage when a user requests to see an image of a specific drink
-    const onUserRequestShowImage = (drinkName: string) => {
-        const drink = dummyOrderData.find(item => item.item === drinkName);
-        if (drink) {
-            const imageUrl = `/images/${drinkName.toLowerCase().replace(/\s+/g, "_")}_image.jpg`;
-            handleShowImage(imageUrl);
-        }
-    };
+    // // Example usage of handleShowImage when a user requests to see an image of a specific drink
+    // const onUserRequestShowImage = (drinkName: string) => {
+    //     const drink = dummyOrderData.find(item => item.item === drinkName);
+    //     if (drink) {
+    //         const imageUrl = `/images/${drinkName.toLowerCase().replace(/\s+/g, "_")}_image.jpg`;
+    //         handleShowImage(imageUrl);
+    //     }
+    // };
 
     const [transcripts, setTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
         return [];
@@ -279,8 +279,8 @@ function App() {
                     </Card>
                 </div>
             </div>
-            <Button onClick={() => onUserRequestShowImage("Espresso")}>Show Espresso Image</Button>
-            {imageDialogOpen && <ImageDialog imageUrl={imageUrl} onClose={() => setImageDialogOpen(false)} />}
+            {/* <Button onClick={() => onUserRequestShowImage("Espresso")}>Show Espresso Image</Button>
+            {imageDialogOpen && <ImageDialog imageUrl={imageUrl} onClose={() => setImageDialogOpen(false)} />} */}
         </div>
     );
 }
