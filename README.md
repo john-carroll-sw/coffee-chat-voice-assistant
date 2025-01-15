@@ -21,6 +21,11 @@ Beyond coffee enthusiasts, this technology can enhance accessibility and inclusi
     - [GitHub Codespaces](#github-codespaces)
     - [VS Code Dev Containers](#vs-code-dev-containers)
     - [Local environment](#local-environment)
+  - [Ingesting Menu Items into Azure AI Search](#ingesting-menu-items-into-azure-ai-search)
+    - [From JSON](#from-json)
+      - [Steps:](#steps)
+    - [From PDF](#from-pdf)
+      - [Steps:](#steps-1)
   - [Deploying the app](#deploying-the-app)
   - [Development server](#development-server)
   - [Contributing](#contributing)
@@ -114,6 +119,36 @@ You can run the project in your local VS Code Dev Container using the [Dev Conta
 
 2. Clone the repo (`git clone https://github.com/john-carroll-sw/coffee-chat-voice-assistant`)
 3. Proceed to the next section to [deploy the app](#deploying-the-app).
+
+## Ingesting Menu Items into Azure AI Search
+
+### From JSON
+If you have a JSON file containing the menu items for your café, you can use the provided Jupyter notebook to ingest the data into Azure AI Search.
+
+#### Steps:
+1. Open the `menu_ingestion_search_json.ipynb` notebook.
+2. Follow the instructions to configure Azure OpenAI and Azure AI Search services.
+3. Prepare the JSON data for ingestion.
+4. Upload the prepared data to Azure AI Search.
+
+This notebook demonstrates how to configure Azure OpenAI and Azure AI Search services, prepare the JSON data for ingestion, and upload the data to Azure AI Search for hybrid semantic search capabilities.
+
+[Link to JSON Ingestion Notebook](scripts/menu_ingestion_search_json.ipynb)
+
+### From PDF
+If you have a PDF file of a café's menu that you would like to use, you can use the provided Jupyter notebook to extract text from the PDF, parse it into structured JSON format, and ingest the data into Azure AI Search.
+
+#### Steps:
+1. Open the `menu_ingestion_search_pdf.ipynb` notebook.
+2. Follow the instructions to extract text from the PDF using OCR.
+3. Parse the extracted text using GPT-4o into structured JSON format.
+4. Configure Azure OpenAI and Azure AI Search services.
+5. Prepare the parsed data for ingestion.
+6. Upload the prepared data to Azure AI Search.
+
+This notebook demonstrates how to extract text from a menu PDF using OCR, parse the extracted text into structured JSON format, configure Azure OpenAI and Azure AI Search services, prepare the parsed data for ingestion, and upload the data to Azure AI Search for hybrid semantic search capabilities.
+
+[Link to PDF Ingestion Notebook](scripts/menu_ingestion_search_pdf.ipynb)
 
 ## Deploying the app
 
