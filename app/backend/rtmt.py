@@ -66,6 +66,7 @@ class RTMiddleTier:
     api_version: str = "2024-10-01-preview"
     _tools_pending = {}
     _token_provider = None
+    _session_map = {}
 
     def __init__(self, endpoint: str, deployment: str, credentials: AzureKeyCredential | DefaultAzureCredential, voice_choice: Optional[str] = None):
         self.endpoint = endpoint
@@ -82,6 +83,7 @@ class RTMiddleTier:
     async def _process_message_to_client(self, msg: str, client_ws: web.WebSocketResponse, server_ws: web.WebSocketResponse) -> Optional[str]:
         message = json.loads(msg.data)
         updated_message = msg.data
+        session_id = self._session_map[client_ws]
         if message is not None:
             match message["type"]:
                 case "session.created":
@@ -120,7 +122,10 @@ class RTMiddleTier:
                         tool_call = self._tools_pending[message["item"]["call_id"]]
                         tool = self.tools[item["name"]]
                         args = item["arguments"]
-                        result = await tool.target(json.loads(args))
+                        if item["name"] in ["update_order", "get_order"]:
+                            result = await tool.target(json.loads(args), session_id)
+                        else:
+                            result = await tool.target(json.loads(args))
                         await server_ws.send_json({
                             "type": "conversation.item.create",
                             "item": {
@@ -222,14 +227,18 @@ class RTMiddleTier:
                 except ConnectionResetError:
                     # Ignore the errors resulting from the client disconnecting the socket
                     pass
+                finally:
+                    # Clean up the session map when the connection is closed
+                    if ws in self._session_map:
+                        del self._session_map[ws]
 
     async def _websocket_handler(self, request: web.Request):
         ws = web.WebSocketResponse()
         await ws.prepare(request)
         
-        # Reset the order state when a new WebSocket connection is established
-        order_state_singleton.order_state = []
-        order_state_singleton._update_summary()
+        # Create a new session for each WebSocket connection
+        session_id = order_state_singleton.create_session()
+        self._session_map[ws] = session_id
 
         await self._forward_messages(ws)
         return ws

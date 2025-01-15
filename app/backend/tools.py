@@ -47,8 +47,7 @@ async def search(
     args: Any) -> ToolResult:
 
     query = args['query']
-    print("\nStarting search...")
-    print(f"Searching for '{query}' in the knowledge base.")
+    print(f"\nStarting search for '{query}' in the knowledge base.")
     
     # Hybrid + Reranking query using Azure AI Search
     vector_queries = []
@@ -116,20 +115,20 @@ update_order_tool_schema = {
     }
 }
 
-async def update_order(args) -> ToolResult:
+async def update_order(args, session_id: str) -> ToolResult:
     """
     Update the current order by adding or removing items.
     """
-    print("\nUpdating the current order.")
-    print(args)
+    print(f"\nUpdating the current order for session {session_id}.")
+    print(f"Arguments: {args}")
     
     # Update the order state on the backend
-    order_state_singleton.handle_order_update(args["action"], args["item_name"], args["size"], args.get("quantity", 0), args.get("price", 0.0))
+    order_state_singleton.handle_order_update(session_id, args["action"], args["item_name"], args["size"], args.get("quantity", 0), args.get("price", 0.0))
 
-    order_summary = order_state_singleton.get_order_summary()
+    order_summary = order_state_singleton.get_order_summary(session_id)
     
     json_order_summary = order_summary.model_dump_json()
-    print(json_order_summary)
+    print(f"Updated Order Summary: {json_order_summary}")
 
     # Return the updated order state to the frontend client
     return ToolResult(json_order_summary, ToolResultDirection.TO_CLIENT)
@@ -156,18 +155,16 @@ get_order_tool_schema = {
     }
 }
 
-async def get_order() -> ToolResult:
+async def get_order(session_id: str) -> ToolResult:
     """
     Retrieve the current order summary.
     """
-    print("\nRetrieving the current order summary.")
+    print(f"\nRetrieving the current order summary for session {session_id}.")
     
-    order_summary = order_state_singleton.get_order_summary()
-    print(f"Order summary: {order_summary}")
+    order_summary = order_state_singleton.get_order_summary(session_id)
+    print(f"Order Summary: {order_summary}")
         
     # Return the order summary to the model
-    # return ToolResult(order_summary, ToolResultDirection.TO_SERVER)
-
     return ToolResult(order_summary.model_dump_json(), ToolResultDirection.TO_SERVER)
 
 
@@ -188,8 +185,8 @@ def attach_tools_rtmt(rtmt: RTMiddleTier,
     search_client = SearchClient(search_endpoint, search_index, credentials, user_agent="RTMiddleTier")
 
     rtmt.tools["search"] = Tool(schema=search_tool_schema, target=lambda args: search(search_client, semantic_configuration, identifier_field, content_field, embedding_field, use_vector_query, args))
-    rtmt.tools["update_order"] = Tool(schema=update_order_tool_schema, target=lambda args: update_order(args))
-    rtmt.tools["get_order"] = Tool(schema=get_order_tool_schema, target=lambda _: get_order())
+    rtmt.tools["update_order"] = Tool(schema=update_order_tool_schema, target=lambda args, session_id: update_order(args, session_id))
+    rtmt.tools["get_order"] = Tool(schema=get_order_tool_schema, target=lambda _, session_id: get_order(session_id))
 
 
 # # Attach tools to the GPT-4o-mini model
@@ -211,7 +208,7 @@ def attach_tools_rtmt(rtmt: RTMiddleTier,
 #     gpt4o_mini.tools["search"] = Tool(schema=search_tool_schema, target=lambda args: search(search_client, semantic_configuration, identifier_field, content_field, embedding_field, use_vector_query, args))
 #     gpt4o_mini.tools["update_order"] = Tool(schema=update_order_tool_schema, target=lambda args: update_order(args))
 #     gpt4o_mini.tools["get_order"] = Tool(schema=get_order_tool_schema, target=lambda _: get_order())
-    
-    
+
+
 
 

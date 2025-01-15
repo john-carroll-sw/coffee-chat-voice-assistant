@@ -1,6 +1,7 @@
-from typing import List
+from typing import List, Dict
 from models import OrderItem, OrderSummary
 import logging
+import uuid
 
 logger = logging.getLogger("order_state")
 
@@ -10,20 +11,31 @@ class OrderState:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super(OrderState, cls).__new__(cls)
-            cls._instance.order_state = []
-            cls._instance.order_summary = OrderSummary(items=[], total=0.0, tax=0.0, finalTotal=0.0)
-            cls._instance._update_summary()  # Print the initial order summary
+            cls._instance.sessions = {}
         return cls._instance
 
-    def _update_summary(self):
-        total = sum(item.price * item.quantity for item in self.order_state)
+    def _update_summary(self, session_id: str):
+        session = self.sessions[session_id]
+        total = sum(item.price * item.quantity for item in session["order_state"])
         tax = total * 0.08  # 8% tax
         finalTotal = total + tax
-        self.order_summary = OrderSummary(items=self.order_state, total=total, tax=tax, finalTotal=finalTotal)
-        logger.info(f"Order Summary Updated: {self.order_summary}")  # Print the updated order summary
+        session["order_summary"] = OrderSummary(items=session["order_state"], total=total, tax=tax, finalTotal=finalTotal)
+        logger.info(f"Order Summary Updated for session {session_id}: {session['order_summary']}")
 
-    def handle_order_update(self, action: str, item_name: str, size: str, quantity: int, price: float):
-        # Format the display name based on the size
+    def create_session(self) -> str:
+        session_id = str(uuid.uuid4())
+        self.sessions[session_id] = {
+            "order_state": [],
+            "order_summary": OrderSummary(items=[], total=0.0, tax=0.0, finalTotal=0.0)
+        }
+        self._update_summary(session_id)
+        logger.info(f"Session created with ID {session_id}")
+        return session_id
+
+    def handle_order_update(self, session_id: str, action: str, item_name: str, size: str, quantity: int, price: float):
+        session = self.sessions[session_id]
+        order_state = session["order_state"]
+
         formatted_size = ""
         if size.lower() == "standard":
             formatted_size = ""
@@ -36,29 +48,30 @@ class OrderState:
 
         display = f"{formatted_size}{item_name}".strip()
 
-        # Check if the item already exists in the order by matching the item name and size
-        existing_item_index = next((index for index, order_item in enumerate(self.order_state) if order_item.item == item_name and order_item.size == size), -1)
+        existing_item_index = next((index for index, order_item in enumerate(order_state) if order_item.item == item_name and order_item.size == size), -1)
 
         if action == "add":
             if existing_item_index != -1:
-                # If item exists, update the quantity
-                self.order_state[existing_item_index].quantity += quantity
+                order_state[existing_item_index].quantity += quantity
+                logger.info(f"Updated quantity for {display} in session {session_id}")
             else:
-                # If item does not exist, add new item
-                self.order_state.append(OrderItem(item=item_name, size=size, quantity=quantity, price=price, display=display))
+                order_state.append(OrderItem(item=item_name, size=size, quantity=quantity, price=price, display=display))
+                logger.info(f"Added {display} to session {session_id}")
         elif action == "remove":
             if existing_item_index != -1:
-                # If item exists, decrement the quantity or remove it if quantity becomes zero
-                if self.order_state[existing_item_index].quantity > quantity:
-                    self.order_state[existing_item_index].quantity -= quantity
+                if order_state[existing_item_index].quantity > quantity:
+                    order_state[existing_item_index].quantity -= quantity
+                    logger.info(f"Decreased quantity for {display} in session {session_id}")
                 else:
-                    self.order_state.pop(existing_item_index)
+                    order_state.pop(existing_item_index)
+                    logger.info(f"Removed {display} from session {session_id}")
 
-        # Update the order summary
-        self._update_summary()
+        self._update_summary(session_id)
 
-    def get_order_summary(self) -> OrderSummary:
-        return self.order_summary
+    def get_order_summary(self, session_id: str) -> OrderSummary:
+        order_summary = self.sessions[session_id]["order_summary"]
+        logger.info(f"Order Summary Retrieved for session {session_id}: {order_summary}")
+        return order_summary
 
 # Create a singleton instance of OrderState
 order_state_singleton = OrderState()
