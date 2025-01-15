@@ -225,7 +225,7 @@ You can run this app locally using either the Azure services you provisioned by 
 
 ## Contributing
 
-Contributions are welcome! Please follow the [contribution guidelines](CONTRIBUTING.md).
+Contributions are welcome! Please open an issue or submit a pull request.
 
 ## Resources
 
