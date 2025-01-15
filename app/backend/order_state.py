@@ -1,6 +1,8 @@
-
 from typing import List
 from models import OrderItem, OrderSummary
+import logging
+
+logger = logging.getLogger("order_state")
 
 class OrderState:
     _instance = None
@@ -10,6 +12,7 @@ class OrderState:
             cls._instance = super(OrderState, cls).__new__(cls)
             cls._instance.order_state = []
             cls._instance.order_summary = OrderSummary(items=[], total=0.0, tax=0.0, finalTotal=0.0)
+            cls._instance._update_summary()  # Print the initial order summary
         return cls._instance
 
     def _update_summary(self):
@@ -17,6 +20,7 @@ class OrderState:
         tax = total * 0.08  # 8% tax
         finalTotal = total + tax
         self.order_summary = OrderSummary(items=self.order_state, total=total, tax=tax, finalTotal=finalTotal)
+        logger.info(f"Order Summary Updated: {self.order_summary}")  # Print the updated order summary
 
     def handle_order_update(self, action: str, item_name: str, size: str, quantity: int, price: float):
         # Format the display name based on the size

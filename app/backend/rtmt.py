@@ -9,6 +9,8 @@ from aiohttp import web
 from azure.core.credentials import AzureKeyCredential
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
+from order_state import order_state_singleton  # Import the order state singleton
+
 logger = logging.getLogger("voicerag")
 
 class ToolResultDirection(Enum):
@@ -224,6 +226,11 @@ class RTMiddleTier:
     async def _websocket_handler(self, request: web.Request):
         ws = web.WebSocketResponse()
         await ws.prepare(request)
+        
+        # Reset the order state when a new WebSocket connection is established
+        order_state_singleton.order_state = []
+        order_state_singleton._update_summary()
+
         await self._forward_messages(ws)
         return ws
     
