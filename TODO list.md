@@ -23,6 +23,7 @@
 - TODO Deploy it
  
 - TODO Add in tokens for session; research audio tokenizer from openai if it is openly available
+  
 - TODO Add in Azure AI Speech Backend
 - TODO Update Readme to include Azure AI Speech backend separate process
 

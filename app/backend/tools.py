@@ -104,11 +104,11 @@ update_order_tool_schema = {
             },
             "quantity": { 
                 "type": "integer", 
-                "description": "Quantity of the item to update."
+                "description": "Quantity of the item to update. Represents the number of items."
             },
             "price": { 
                 "type": "number", 
-                "description": "Price of the item to add. Required only for 'add' action."
+                "description": "Price of a single item to add. Required only for 'add' action. Note: This is the price per individual item, not the total price for the quantity."
             }
         },
         "required": ["action", "item_name", "size", "quantity"],
