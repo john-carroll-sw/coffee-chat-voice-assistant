@@ -11,6 +11,7 @@ import MenuPanel from "@/components/ui/menu-panel";
 import OrderSummary, { calculateOrderSummary, OrderSummaryProps } from "@/components/ui/order-summary";
 import TranscriptPanel from "@/components/ui/transcript-panel";
 import Settings from "@/components/ui/settings";
+import ImageDialog from "@/components/ui/ImageDialog";
 
 import useRealTime from "@/hooks/useRealtime";
 import useAzureSpeech from "@/hooks/useAzureSpeech";
@@ -23,147 +24,41 @@ import { ThemeProvider, useTheme } from "./context/theme-context";
 import { DummyDataProvider, useDummyDataContext } from "@/context/dummy-data-context";
 import { AzureSpeechProvider, useAzureSpeechOnContext } from "@/context/azure-speech-context";
 
+import dummyTranscriptsData from "@/data/dummyTranscripts.json";
+import dummyOrderData from "@/data/dummyOrder.json";
+
 function App() {
     const [isRecording, setIsRecording] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const { useAzureSpeechOn } = useAzureSpeechOnContext();
     const { useDummyData } = useDummyDataContext();
     const { theme } = useTheme();
+    const [imageDialogOpen, setImageDialogOpen] = useState(false);
+    const [imageUrl, setImageUrl] = useState("");
+
+    const handleShowImage = (url: string) => {
+        setImageUrl(url);
+        setImageDialogOpen(true);
+    };
+
+    // Example usage of handleShowImage when a user requests to see an image of a specific drink
+    const onUserRequestShowImage = (drinkName: string) => {
+        const drink = dummyOrderData.find(item => item.item === drinkName);
+        if (drink) {
+            const imageUrl = `/images/${drinkName.toLowerCase().replace(/\s+/g, "_")}_image.jpg`;
+            handleShowImage(imageUrl);
+        }
+    };
 
     const [transcripts, setTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
         return [];
     });
     const [dummyTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
-        const now = new Date();
-        return [
-            { text: "Hello", isUser: true, timestamp: new Date(now.getTime() - 600000) },
-            {
-                text: "Hi there! How can I assist you today? Are you looking to order a coffee or perhaps something else from our menu?",
-                isUser: false,
-                timestamp: new Date(now.getTime() - 590000)
-            },
-            {
-                text: "물론입니다. 저는 몇몇 친구들과 함께 있으며, 당신의 메뉴가 무엇인지 보고 싶습니다.",
-                isUser: true,
-                timestamp: new Date(now.getTime() - 580000)
-            },
-            {
-                text: "좋습니다! 메뉴를 가져올게요. 우리는 커피, 차 및 스페셜 음료를 포함해 다양한 음료를 제공합니다. 관심 있는 특정 음료가 있으면 말씀해 주시면 더 자세한 정보를 드리겠습니다!",
-                isUser: false,
-                timestamp: new Date(now.getTime() - 570000)
-            },
-            { text: "에스프레소 5샷은 어떤가요?", isUser: true, timestamp: new Date(now.getTime() - 560000) },
-            {
-                text: "주문에 에스프레소 5샷을 추가했습니다. 그 외에 다른 것도 필요하신가요? 친구들을 위한 추가 아이템이나 맛추가를 원하시나요?",
-                isUser: false,
-                timestamp: new Date(now.getTime() - 550000)
-            },
-            { text: "I'd like to order a cappuccino please", isUser: true, timestamp: new Date(now.getTime() - 540000) },
-            { text: "Would you like that in regular or large size?", isUser: false, timestamp: new Date(now.getTime() - 530000) },
-            { text: "Large please", isUser: true, timestamp: new Date(now.getTime() - 520000) },
-            { text: "Great! Would you like any extras with that?", isUser: false, timestamp: new Date(now.getTime() - 510000) },
-            { text: "No, but I am thinking of adding another drink", isUser: true, timestamp: new Date(now.getTime() - 500000) },
-            { text: "Of course! Anything else?", isUser: false, timestamp: new Date(now.getTime() - 490000) },
-            { text: "土耳其咖啡是什麼？我在菜單上看到了，它是來自土耳其的嗎？你能多告訴我一些嗎？", isUser: true, timestamp: new Date(now.getTime() - 480000) },
-            {
-                text: "土耳其咖啡是一種傳統的飲品，用非常細膩的咖啡粉與糖和豆蔻一同煮三次，非常香濃，適合慢慢品嘗。",
-                isUser: false,
-                timestamp: new Date(now.getTime() - 470000)
-            },
-            { text: "哦，聽起來很酷。我可以點一份嗎？", isUser: true, timestamp: new Date(now.getTime() - 460000) },
-            { text: "當然可以！它是以小壺形式提供的，非常適合多人分享。", isUser: false, timestamp: new Date(now.getTime() - 450000) },
-            { text: "哦，太完美了！", isUser: true, timestamp: new Date(now.getTime() - 440000) },
-            { text: "好的，我已經將一壺土耳其咖啡加入您的訂單。還需要別的嗎？", isUser: false, timestamp: new Date(now.getTime() - 430000) },
-            { text: "¿Puedo también pedir dos lattes de vainilla con extra shots y crema batida?", isUser: true, timestamp: new Date(now.getTime() - 420000) },
-            { text: "¿Qué tamaño le gustaría para los lattes de vainilla?", isUser: false, timestamp: new Date(now.getTime() - 410000) },
-            { text: "Regular is fine", isUser: true, timestamp: new Date(now.getTime() - 400000) },
-            { text: "I've added those to your order. Would you like anything else?", isUser: false, timestamp: new Date(now.getTime() - 390000) },
-            { text: "メキシカンホットチョコレートをお願いします。", isUser: true, timestamp: new Date(now.getTime() - 380000) },
-            { text: "わかりました。どのサイズになさいますか？", isUser: false, timestamp: new Date(now.getTime() - 370000) },
-            { text: "小サイズでホイップクリーム付きにしてください。", isUser: true, timestamp: new Date(now.getTime() - 360000) },
-            { text: "了解です。小サイズのメキシカンホットチョコレートとホイップクリームですね。", isUser: false, timestamp: new Date(now.getTime() - 350000) },
-            { text: "Vad är de mest populära dryckerna på menyn?", isUser: true, timestamp: new Date(now.getTime() - 340000) },
-            {
-                text: "Den klassiska latten är mest populär. Vill du lägga till en till i din beställning?",
-                isUser: false,
-                timestamp: new Date(now.getTime() - 330000)
-            },
-            { text: "No that's all, thank you!", isUser: true, timestamp: new Date(now.getTime() - 320000) },
-            { text: "Your total comes to $39.10. Would you like to complete your order?", isUser: false, timestamp: new Date(now.getTime() - 310000) },
-            { text: "Yes please", isUser: true, timestamp: new Date(now.getTime() - 300000) },
-            { text: "Great! Your order will be ready in about 10 minutes.", isUser: false, timestamp: new Date(now.getTime() - 290000) }
-        ];
+        return dummyTranscriptsData.map(transcript => ({
+            ...transcript,
+            timestamp: new Date(transcript.timestamp)
+        }));
     });
-
-    // const [dummyTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
-    //     const now = new Date();
-    //     return [
-    //         { text: "Hello", isUser: true, timestamp: new Date(now.getTime() - 600000) },
-    //         {
-    //             text: "Hi there! How can I assist you today? Are you looking to order a coffee or perhaps something else from our menu?",
-    //             isUser: false,
-    //             timestamp: new Date(now.getTime() - 590000)
-    //         },
-    //         { text: "Of course. I am with a few friends and would like to see what your menu is.", isUser: true, timestamp: new Date(now.getTime() - 580000) },
-    //         {
-    //             text: "Great! I will bring the menu. We offer a variety of drinks including coffee, tea, and special beverages. If you have a specific drink in mind, please let me know and I can provide more details!",
-    //             isUser: false,
-    //             timestamp: new Date(now.getTime() - 570000)
-    //         },
-    //         { text: "How about 5 shots of espresso?", isUser: true, timestamp: new Date(now.getTime() - 560000) },
-    //         {
-    //             text: "I have added 5 shots of espresso to your order. Do you need anything else? Would you like additional items for your friends or flavor additions?",
-    //             isUser: false,
-    //             timestamp: new Date(now.getTime() - 550000)
-    //         },
-    //         { text: "I'd like to order a cappuccino please", isUser: true, timestamp: new Date(now.getTime() - 540000) },
-    //         { text: "Would you like that in regular or large size?", isUser: false, timestamp: new Date(now.getTime() - 530000) },
-    //         { text: "Large please", isUser: true, timestamp: new Date(now.getTime() - 520000) },
-    //         { text: "Great! Would you like any extras with that?", isUser: false, timestamp: new Date(now.getTime() - 510000) },
-    //         { text: "No, but I am thinking of adding another drink", isUser: true, timestamp: new Date(now.getTime() - 500000) },
-    //         { text: "Of course! Anything else?", isUser: false, timestamp: new Date(now.getTime() - 490000) },
-    //         {
-    //             text: "What is Turkish coffee? I saw it on the menu, is it from Turkey? Can you tell me more about it?",
-    //             isUser: true,
-    //             timestamp: new Date(now.getTime() - 480000)
-    //         },
-    //         {
-    //             text: "Turkish coffee is a traditional beverage made by brewing very finely ground coffee with sugar and cardamom three times, it is very aromatic and best enjoyed slowly.",
-    //             isUser: false,
-    //             timestamp: new Date(now.getTime() - 470000)
-    //         },
-    //         { text: "Oh, that sounds cool. Can I order one?", isUser: true, timestamp: new Date(now.getTime() - 460000) },
-    //         {
-    //             text: "Of course! It is served in a small pot, perfect for sharing among several people.",
-    //             isUser: false,
-    //             timestamp: new Date(now.getTime() - 450000)
-    //         },
-    //         { text: "Oh, that's perfect!", isUser: true, timestamp: new Date(now.getTime() - 440000) },
-    //         {
-    //             text: "Alright, I have added a pot of Turkish coffee to your order. Do you need anything else?",
-    //             isUser: false,
-    //             timestamp: new Date(now.getTime() - 430000)
-    //         },
-    //         { text: "Can I also order two vanilla lattes with extra shots and whipped cream?", isUser: true, timestamp: new Date(now.getTime() - 420000) },
-    //         { text: "What size would you like for the vanilla lattes?", isUser: false, timestamp: new Date(now.getTime() - 410000) },
-    //         { text: "Regular is fine", isUser: true, timestamp: new Date(now.getTime() - 400000) },
-    //         { text: "I've added those to your order. Would you like anything else?", isUser: false, timestamp: new Date(now.getTime() - 390000) },
-    //         { text: "I would like a Mexican hot chocolate, please.", isUser: true, timestamp: new Date(now.getTime() - 380000) },
-    //         { text: "Understood. What size would you like?", isUser: false, timestamp: new Date(now.getTime() - 370000) },
-    //         { text: "Please make it small with whipped cream.", isUser: true, timestamp: new Date(now.getTime() - 360000) },
-    //         { text: "Got it. A small Mexican hot chocolate with whipped cream.", isUser: false, timestamp: new Date(now.getTime() - 350000) },
-    //         { text: "What are the most popular drinks on the menu?", isUser: true, timestamp: new Date(now.getTime() - 340000) },
-    //         {
-    //             text: "The classic latte is the most popular. Would you like to add one to your order?",
-    //             isUser: false,
-    //             timestamp: new Date(now.getTime() - 330000)
-    //         },
-    //         { text: "No that's all, thank you!", isUser: true, timestamp: new Date(now.getTime() - 320000) },
-    //         { text: "Your total comes to $42.34. Would you like to complete your order?", isUser: false, timestamp: new Date(now.getTime() - 310000) },
-    //         { text: "Yes please", isUser: true, timestamp: new Date(now.getTime() - 300000) },
-    //         { text: "Great! Your order will be ready in about 10 minutes.", isUser: false, timestamp: new Date(now.getTime() - 290000) }
-    //     ];
-    // });
 
     const initialOrder: OrderSummaryProps = {
         items: [],
@@ -172,15 +67,7 @@ function App() {
         finalTotal: 0
     };
 
-    const dummyOrder: OrderSummaryProps = calculateOrderSummary([
-        { item: "Espresso", size: "Single", quantity: 5, price: 1, display: "Single Espresso" },
-        { item: "Cappuccino", size: "Large", quantity: 1, price: 5.5, display: "Large Cappuccino" },
-        { item: "Turkish Coffee", size: "Pot", quantity: 1, price: 4.5, display: "Pot of Turkish Coffee" },
-        { item: "Vanilla Latte", size: "Regular", quantity: 2, price: 5.9, display: "Regular Vanilla Latte" },
-        { item: "Mexican Hot Chocolate", size: "Small", quantity: 1, price: 5.9, display: "Small Mexican Hot Chocolate" },
-        { item: "Whipped Cream", size: "", quantity: 3, price: 0.5, display: "Whipped Cream" },
-        { item: "Extra Shot", size: "", quantity: 2, price: 1.0, display: "Extra Shot" }
-    ]);
+    const dummyOrder: OrderSummaryProps = calculateOrderSummary(dummyOrderData);
 
     const [order, setOrder] = useState<OrderSummaryProps>(initialOrder);
 
@@ -392,6 +279,8 @@ function App() {
                     </Card>
                 </div>
             </div>
+            <Button onClick={() => onUserRequestShowImage("Espresso")}>Show Espresso Image</Button>
+            {imageDialogOpen && <ImageDialog imageUrl={imageUrl} onClose={() => setImageDialogOpen(false)} />}
         </div>
     );
 }

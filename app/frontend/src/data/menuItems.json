@@ -14,7 +14,8 @@
                     "origin": "Italy",
                     "caffeineContent": "63 mg per shot",
                     "brewingMethod": "Espresso Machine",
-                    "popularity": "High"
+                    "popularity": "High",
+                    "image": "menu_images/espresso_image"
                 },
                 {
                     "name": "Americano",
@@ -28,7 +29,8 @@
                     "origin": "United States",
                     "caffeineContent": "95 mg for medium",
                     "brewingMethod": "Espresso Machine with water dilution",
-                    "popularity": "Moderate"
+                    "popularity": "Moderate",
+                    "image": "menu_images/americano_image"
                 },
                 {
                     "name": "Cappuccino",
@@ -42,7 +44,8 @@
                     "origin": "Italy",
                     "caffeineContent": "75 mg for medium",
                     "brewingMethod": "Espresso Machine with milk frothing",
-                    "popularity": "High"
+                    "popularity": "High",
+                    "image": "menu_images/cappuccino_image"
                 },
                 {
                     "name": "Latte",
@@ -56,7 +59,8 @@
                     "origin": "Italy",
                     "caffeineContent": "75 mg for medium",
                     "brewingMethod": "Espresso Machine with milk steaming",
-                    "popularity": "Very High"
+                    "popularity": "Very High",
+                    "image": "menu_images/latte_image"
                 },
                 {
                     "name": "Mocha",
@@ -70,7 +74,8 @@
                     "origin": "Yemen",
                     "caffeineContent": "80 mg for medium",
                     "brewingMethod": "Espresso Machine with chocolate mix",
-                    "popularity": "High"
+                    "popularity": "High",
+                    "image": "menu_images/mocha_image"
                 },
                 {
                     "name": "Coffee Infusion",
@@ -80,7 +85,8 @@
                     "origin": "France",
                     "caffeineContent": "120 mg per serving",
                     "brewingMethod": "French Press",
-                    "popularity": "Unique"
+                    "popularity": "Unique",
+                    "image": "menu_images/coffee_infusion_image"
                 },
                 {
                     "name": "Turkish Coffee",
@@ -90,7 +96,8 @@
                     "origin": "Turkey",
                     "caffeineContent": "50 mg per small cup",
                     "brewingMethod": "Boiled",
-                    "popularity": "Traditional"
+                    "popularity": "Traditional",
+                    "image": "menu_images/turkish_coffee_image"
                 },
                 {
                     "name": "Café Cubano",
@@ -103,7 +110,8 @@
                     "origin": "Cuba",
                     "caffeineContent": "63 mg per shot",
                     "brewingMethod": "Espresso Machine",
-                    "popularity": "High"
+                    "popularity": "High",
+                    "image": "menu_images/cafe_cubano_image"
                 }
             ]
         },
@@ -121,7 +129,8 @@
                     "origin": "Italy",
                     "caffeineContent": "75 mg per serving",
                     "brewingMethod": "Espresso Machine",
-                    "popularity": "High"
+                    "popularity": "High",
+                    "image": "menu_images/cafe_johannes_image"
                 },
                 {
                     "name": "Granita Cappuccino",
@@ -135,7 +144,8 @@
                     "origin": "Custom House Recipe",
                     "caffeineContent": "80 mg for medium",
                     "brewingMethod": "Blended",
-                    "popularity": "Refreshing"
+                    "popularity": "Refreshing",
+                    "image": "menu_images/granita_cappuccino_image"
                 },
                 {
                     "name": "Caffé Alpine",
@@ -149,7 +159,8 @@
                     "origin": "Custom House Recipe",
                     "caffeineContent": "70 mg for medium",
                     "brewingMethod": "Espresso Machine with ice",
-                    "popularity": "Moderate"
+                    "popularity": "Moderate",
+                    "image": "menu_images/caffe_alpine_image"
                 }
             ]
         },
@@ -166,7 +177,8 @@
                     "description": "Rich steamed cream and milk, Dutch chocolate, fresh whipped cream, and shaved dark chocolate",
                     "longDescription": "Hot Chocolate Deluxe is a decadent beverage featuring rich Dutch chocolate steamed with cream and milk. Topped with fresh whipped cream and shaved dark chocolate, it's a comforting indulgence.",
                     "origin": "Custom House Recipe",
-                    "popularity": "Very High"
+                    "popularity": "Very High",
+                    "image": "menu_images/hot_chocolate_deluxe_image"
                 },
                 {
                     "name": "Intermezzo Hot Chocolate",
@@ -178,7 +190,8 @@
                     "description": "Rich steamed cream, Dutch chocolate, fresh whipped cream, and the essence of almond",
                     "longDescription": "The Intermezzo Hot Chocolate adds a nutty twist to the classic hot chocolate with the essence of almond. Perfect for those who love a bit of sophistication in their chocolate beverages.",
                     "origin": "Custom House Recipe",
-                    "popularity": "High"
+                    "popularity": "High",
+                    "image": "menu_images/intermezzo_hot_chocolate_image"
                 },
                 {
                     "name": "Mexican Hot Chocolate",
@@ -190,7 +203,8 @@
                     "description": "Semi-sweet dark chocolate, Mexican vanilla, milk, and cinnamon",
                     "longDescription": "Mexican Hot Chocolate blends semi-sweet dark chocolate with Mexican vanilla and cinnamon, creating a warm, spiced drink that's perfect for cozy evenings.",
                     "origin": "Mexico",
-                    "popularity": "Cultural Favorite"
+                    "popularity": "Cultural Favorite",
+                    "image": "menu_images/mexican_hot_chocolate_image"
                 }
             ]
         },
@@ -203,7 +217,8 @@
                     "description": "Add an extra shot of espresso",
                     "longDescription": "Boost your beverage with an extra shot of espresso, adding richness and a caffeine kick to your favorite drink.",
                     "caffeineContent": "63 mg",
-                    "availability": "Always"
+                    "availability": "Always",
+                    "image": "menu_images/extra_shot_image"
                 },
                 {
                     "name": "Flavor Shot",
@@ -211,7 +226,8 @@
                     "description": "Add vanilla, caramel, or hazelnut",
                     "longDescription": "Customize your coffee with a flavor shot. Choose from vanilla, caramel, or hazelnut to enhance the taste of your drink.",
                     "options": ["Vanilla", "Caramel", "Hazelnut"],
-                    "availability": "Always"
+                    "availability": "Always",
+                    "image": "menu_images/flavor_shot_image"
                 },
                 {
                     "name": "Whipped Cream",
@@ -219,7 +235,8 @@
                     "description": "Add whipped cream topping",
                     "longDescription": "Top your coffee or hot chocolate with our fresh whipped cream, made from heavy cream, sugar, and a hint of vanilla for added indulgence.",
                     "ingredients": ["Heavy Cream", "Sugar", "Vanilla"],
-                    "availability": "Always"
+                    "availability": "Always",
+                    "image": "menu_images/whipped_cream_image"
                 }
             ]
         }

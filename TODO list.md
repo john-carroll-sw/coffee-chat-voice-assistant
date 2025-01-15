@@ -18,7 +18,7 @@
 <!-- - TODO Move to its own github: voice assistant coffee chat -->
 <!-- - TODO Update Readme for just Realtime MiddleTier -->
 
-- TODO Move state management of order to the front-end, this may mean that the tools calls related to the order, meaning updates and the order summary need to be on the frontend vs backend
+<!-- - TODO Move state management of order to the front-end, this may mean that the tools calls related to the order, meaning updates and the order summary need to be on the frontend vs backend -->
 - TODO Build out the Azure Backend Toggle to switch from the Realtime API to the STT-LLM-TTS services pipeline to compare the latency, phonetics, conversable AI experiences
 - TODO Deploy it
  
@@ -26,6 +26,7 @@
   
 - TODO Add in Azure AI Speech Backend
 - TODO Update Readme to include Azure AI Speech backend separate process
+- TODO Update Readme with latest Architecture Diagram that covers Azure AI Speech backend process
 
 ## Should
 
@@ -34,11 +35,11 @@
 ## Could
 
 - TODO Could add a 'Show me what this drink looks like' feature, which upon user request, the application would pop up an image of the menu item.
-- TODO Could add in Bing API for searching latest info on the web
+- TODO Could add in Bing API for searching latest coffee info on the web
 - TODO Create audio actions/tools/functions to open and close chat history as well as show menu
 
 ## Would
 
 <!-- - TODO Add timestamp (7:10 AM in the middle, small) if a message hasn't been added in a few minutes.  -->
 <!-- - TODO Add a dark theme -->
-- TODO Consider adding a chat box to the bottom of Chat History. This would make it Chat, instead of Chat History
+- TODO Consider adding a chat box to the bottom of Transcript History. This would make it a text chat experience, instead of audio Transcript History

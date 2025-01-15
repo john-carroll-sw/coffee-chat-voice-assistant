@@ -11,7 +11,7 @@ from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
 from order_state import order_state_singleton  # Import the order state singleton
 
-logger = logging.getLogger("voicerag")
+logger = logging.getLogger("coffee-chat")
 
 class ToolResultDirection(Enum):
     TO_SERVER = 1

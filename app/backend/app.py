@@ -93,6 +93,7 @@ async def create_app():
     current_directory = Path(__file__).parent
     app.add_routes([web.get('/', lambda _: web.FileResponse(current_directory / 'static/index.html'))])
     app.router.add_static('/', path=current_directory / 'static', name='static')
+    # app.router.add_static('/images', path=current_directory / 'images', name='images')  # Commented out
     
     return app
 
