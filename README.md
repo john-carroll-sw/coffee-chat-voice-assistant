@@ -123,9 +123,11 @@ You can run the project in your local VS Code Dev Container using the [Dev Conta
 ## Ingesting Menu Items into Azure AI Search
 
 ### From JSON
+
 If you have a JSON file containing the menu items for your café, you can use the provided Jupyter notebook to ingest the data into Azure AI Search.
 
 #### Steps:
+
 1. Open the `menu_ingestion_search_json.ipynb` notebook.
 2. Follow the instructions to configure Azure OpenAI and Azure AI Search services.
 3. Prepare the JSON data for ingestion.
@@ -136,9 +138,11 @@ This notebook demonstrates how to configure Azure OpenAI and Azure AI Search ser
 [Link to JSON Ingestion Notebook](scripts/menu_ingestion_search_json.ipynb)
 
 ### From PDF
+
 If you have a PDF file of a café's menu that you would like to use, you can use the provided Jupyter notebook to extract text from the PDF, parse it into structured JSON format, and ingest the data into Azure AI Search.
 
 #### Steps:
+
 1. Open the `menu_ingestion_search_pdf.ipynb` notebook.
 2. Follow the instructions to extract text from the PDF using OCR.
 3. Parse the extracted text using GPT-4o into structured JSON format.
@@ -186,8 +190,7 @@ The steps below will provision Azure resources and deploy the application code t
    * **Important**: Beware that the resources created by this command will incur immediate costs, primarily from the AI Search resource. These resources may accrue costs even if you interrupt the command before it is fully executed. You can run `azd down` or delete the resources manually to avoid unnecessary spending.
    * You will be prompted to select two locations, one for the majority of resources and one for the OpenAI resource, which is currently a short list. That location list is based on the [OpenAI model availability table](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#global-standard-model-availability) and may become outdated as availability changes.
 
-1. After the application has been successfully deployed you will see a URL printed to the console.  Navigate to that URL to interact with the app in your browser. To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "What is the whistleblower policy for Contoso electronics?" You can also now run the app locally by following the instructions in [the next section](#development-server).
-
+1. After the application has been successfully deployed you will see a URL printed to the console.  Navigate to that URL to interact with the app in your browser. To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "Could I get a small latte?" You can also now run the app locally by following the instructions in [the next section](#development-server).
 
 ## Development server
 
@@ -221,7 +224,7 @@ You can run this app locally using either the Azure services you provisioned by 
 
    Once the app is running, when you navigate to the URL above you should see the start screen of the app shown in the [Visual Demonstrations](#visual-demonstrations) section.
 
-   To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "What is the whistleblower policy for Contoso electronics?"
+   To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "Could I get a small latte?"
 
 ## Contributing
 
@@ -229,6 +232,14 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 ## Resources
 
+- [OpenAI Realtime API Documentation](https://platform.openai.com/docs/guides/realtime)
 - [Azure OpenAI Documentation](https://learn.microsoft.com/en-us/azure/ai-services/openai/)
-- [VoiceRAG Repository](https://github.com/Azure-Samples/aisearch-openai-rag-audio): This repo contains an example of how to implement RAG support in applications that use voice as their user interface, powered by the GPT-4o realtime API for audio. We describe the pattern in more detail in this [blog post](https://aka.ms/voicerag), and you can see this sample app in action in this [short video](https://youtu.be/vXJka8xZ9Ko).
-- [Demo Video](https://youtu.be/your-demo-video)
+- [Azure AI Services Documentation](https://learn.microsoft.com/en-us/azure/cognitive-services/)
+- [Azure AI Search Documentation](https://learn.microsoft.com/en-us/azure/search/)
+- [Azure AI Services Tutorials](https://learn.microsoft.com/en-us/training/paths/azure-ai-fundamentals/)
+- [Azure AI Community Support](https://techcommunity.microsoft.com/t5/azure-ai/ct-p/AzureAI)
+- [Azure AI GitHub Samples](https://github.com/Azure-Samples)
+- [Azure AI Services API Reference](https://learn.microsoft.com/en-us/rest/api/cognitiveservices/)
+- [Azure AI Services Pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/)
+- [Azure Developer CLI Documentation](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/)
+- [Azure Developer CLI GitHub Repository](https://github.com/Azure/azure-dev)
