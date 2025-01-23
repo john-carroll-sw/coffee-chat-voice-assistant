@@ -201,10 +201,10 @@ You can run this app locally using either the Azure services you provisioned by 
 2. If did *not* use `azd up`, you will need to create `app/backend/.env` file with the necessary environment variables. You can use the provided sample file as a template:
 
    ```shell
-   cp app/backend/.env-sample.ini app/backend/.env
+   cp app/backend/.env-sample app/backend/.env
    ```
 
-   Then, fill in the required values in the `app/backend/.env` file. You can find the sample file [here](app/backend/.env-sample.ini).
+   Then, fill in the required values in the `app/backend/.env` file. You can find the sample file [here](app/backend/.env-sample).
 
 3. Run this command to start the app:
 
