@@ -198,7 +198,7 @@ You can run this app locally using either the Azure services you provisioned by 
 
 1. If you deployed with `azd up`, you should see a `app/backend/.env` file with the necessary environment variables.
 
-2. If did *not* use `azd up`, you will need to create `app/backend/.env` file with the necessary environment variables. You can use the provided sample file as a template:
+2. If you did *not* use `azd up`, you will need to create `app/backend/.env` file with the necessary environment variables. You can use the provided sample file as a template:
 
    ```shell
    cp app/backend/.env-sample app/backend/.env
