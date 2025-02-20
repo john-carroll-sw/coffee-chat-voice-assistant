@@ -220,7 +220,7 @@ You can run this app locally using either the Azure services you provisioned by 
    ./scripts/start.sh
    ```
 
-4. The app is available on [http://localhost:8765](http://localhost:8765).
+4. The app is available on [http://localhost:8000](http://localhost:8000).
 
    Once the app is running, when you navigate to the URL above you should see the start screen of the app shown in the [Visual Demonstrations](#visual-demonstrations) section.
 

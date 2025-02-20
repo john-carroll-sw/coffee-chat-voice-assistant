@@ -71,8 +71,6 @@ async def create_app():
         "4. Where appropriate, ask the customer if they would like to add whipped cream ($0.50), a flavor shot ($0.75), or an extra shot of espresso ($1.00) as separate items to their order. Ensure these are added as individual line items with their respective costs in the itemized order. "
     )
 
-
-
     attach_tools_rtmt(rtmt,
         credentials=search_credential,
         search_endpoint=os.environ.get("AZURE_SEARCH_ENDPOINT"),
@@ -98,6 +96,6 @@ async def create_app():
     return app
 
 if __name__ == "__main__":
-    host = "localhost"
-    port = 8765
+    host = os.environ.get("HOST", "localhost")  # Change default host to localhost
+    port = int(os.environ.get("PORT", 8000))  # Change default port to 8000
     web.run_app(create_app(), host=host, port=port)
