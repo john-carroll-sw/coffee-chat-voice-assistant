@@ -85,8 +85,8 @@ async def create_app():
 
     rtmt.attach_to_app(app, "/realtime")
 
-    azurespeech = AzureSpeech(system_message=rtmt.system_message)
-    azurespeech.attach_to_app(app, "/azurespeech")
+    # azurespeech = AzureSpeech(system_message=rtmt.system_message)
+    # azurespeech.attach_to_app(app, "/azurespeech")
 
     current_directory = Path(__file__).parent
     app.add_routes([web.get('/', lambda _: web.FileResponse(current_directory / 'static/index.html'))])
