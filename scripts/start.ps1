@@ -24,10 +24,6 @@ Write-Host ""
 Write-Host "Starting backend"
 Write-Host ""
 Set-Location ../backend
-
-# Activate the virtual environment located in app/backend/.venv
-& "..\app\backend\.venv\Scripts\Activate.ps1"
-
 $venvPythonPath = "./.venv/scripts/python.exe"
 if (Test-Path -Path "/usr") {
   # fallback to Linux venv path
