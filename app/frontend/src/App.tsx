@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Mic, MicOff, Menu, MessageSquare } from "lucide-react";
+import { Mic, MicOff, Menu, MessageSquare, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { Card } from "@/components/ui/card";
@@ -23,32 +23,18 @@ import { ExtensionMiddleTierToolResponse } from "./types";
 import { ThemeProvider, useTheme } from "./context/theme-context";
 import { DummyDataProvider, useDummyDataContext } from "@/context/dummy-data-context";
 import { AzureSpeechProvider, useAzureSpeechOnContext } from "@/context/azure-speech-context";
+import { AuthProvider, useAuth } from "@/context/auth-context";
 
 import dummyTranscriptsData from "@/data/dummyTranscripts.json";
 import dummyOrderData from "@/data/dummyOrder.json";
 
-function App() {
+function CoffeeApp() {
     const [isRecording, setIsRecording] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const { useAzureSpeechOn } = useAzureSpeechOnContext();
     const { useDummyData } = useDummyDataContext();
     const { theme } = useTheme();
-    // const [imageDialogOpen, setImageDialogOpen] = useState(false);
-    // const [imageUrl, setImageUrl] = useState("");
-
-    // const handleShowImage = (url: string) => {
-    //     setImageUrl(url);
-    //     setImageDialogOpen(true);
-    // };
-
-    // // Example usage of handleShowImage when a user requests to see an image of a specific drink
-    // const onUserRequestShowImage = (drinkName: string) => {
-    //     const drink = dummyOrderData.find(item => item.item === drinkName);
-    //     if (drink) {
-    //         const imageUrl = `/images/${drinkName.toLowerCase().replace(/\s+/g, "_")}_image.jpg`;
-    //         handleShowImage(imageUrl);
-    //     }
-    // };
+    const { logout, authEnabled } = useAuth();
 
     const [transcripts, setTranscripts] = useState<Array<{ text: string; isUser: boolean; timestamp: Date }>>(() => {
         return [];
@@ -194,8 +180,13 @@ function App() {
                     <h1 className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-center text-4xl font-bold text-transparent md:text-6xl">
                         Coffee Chat
                     </h1>
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 transform">
+                    <div className="absolute right-0 top-1/2 flex -translate-y-1/2 transform items-center gap-2">
                         <Settings isMobile={isMobile} />
+                        {authEnabled && (
+                            <Button variant="ghost" size="icon" className="rounded-full" onClick={logout} title="Logout">
+                                <LogOut className="h-4 w-4" />
+                            </Button>
+                        )}
                     </div>
                 </div>
 
@@ -285,14 +276,38 @@ function App() {
     );
 }
 
+// Main app component with authentication wrapper
+function App() {
+    const { isAuthenticated, isLoading, authEnabled } = useAuth();
+
+    if (isLoading) {
+        return (
+            <div className="flex min-h-screen items-center justify-center">
+                <div className="text-center">
+                    <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                    <p className="text-lg">Loading...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated && authEnabled) {
+        return null; // Auth provider will handle redirect
+    }
+
+    return <CoffeeApp />;
+}
+
 export default function RootApp() {
     return (
-        <ThemeProvider>
-            <DummyDataProvider>
-                <AzureSpeechProvider>
-                    <App />
-                </AzureSpeechProvider>
-            </DummyDataProvider>
-        </ThemeProvider>
+        <AuthProvider>
+            <ThemeProvider>
+                <DummyDataProvider>
+                    <AzureSpeechProvider>
+                        <App />
+                    </AzureSpeechProvider>
+                </DummyDataProvider>
+            </ThemeProvider>
+        </AuthProvider>
     );
 }

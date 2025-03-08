@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo 'Creating Python virtual environment and installing dependencies...'
 sh scripts/load_python_env.sh
@@ -25,9 +25,8 @@ fi
 echo ""
 echo "Starting backend"
 echo ""
-cd "$(dirname "$0")/.."
-source ./app/backend/.venv/bin/activate
-python ./app/backend/app.py
+cd ../../
+app/backend/.venv/bin/python app/backend/app.py
 if [ $? -ne 0 ]; then
     echo "Failed to start backend"
     exit $?
