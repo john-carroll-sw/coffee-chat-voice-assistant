@@ -27,6 +27,8 @@ Beyond coffee enthusiasts, this technology can enhance accessibility and inclusi
     - [From PDF](#from-pdf)
       - [Steps:](#steps-1)
   - [Deploying the app](#deploying-the-app)
+    - [Option 1: Deploy using Docker (Recommended)](#option-1-deploy-using-docker-recommended)
+    - [Option 2: Deploy to Azure](#option-2-deploy-to-azure)
   - [Development server](#development-server)
   - [Contributing](#contributing)
   - [Resources](#resources)
@@ -108,14 +110,26 @@ You can run the project in your local VS Code Dev Container using the [Dev Conta
 
 ### Local environment
 
-1. Install the required tools:
+1. Install the required tools by running the prerequisites script:
+   ```bash
+   # Make the script executable
+   chmod +x ./scripts/install_prerequisites.sh
+   
+   # Run the script
+   ./scripts/install_prerequisites.sh
+   ```
+
+   The script will install:
+   * Azure CLI tools
+   * Log you into Azure
+   * Check for Docker and prompt for installation if needed
+
+   Alternatively, you can manually install:
    * [Azure Developer CLI](https://aka.ms/azure-dev/install)
    * [Node.js](https://nodejs.org/)
    * [Python >=3.11](https://www.python.org/downloads/)
-      * **Important**: Python and the pip package manager must be in the path in Windows for the setup scripts to work.
-      * **Important**: Ensure you can run `python --version` from console. On Ubuntu, you might need to run `sudo apt install python-is-python3` to link `python` to `python3`.
    * [Git](https://git-scm.com/downloads)
-   * [Powershell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell) - For Windows users only.
+   * [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 2. Clone the repo (`git clone https://github.com/john-carroll-sw/coffee-chat-voice-assistant`)
 3. Proceed to the next section to [deploy the app](#deploying-the-app).
@@ -156,49 +170,57 @@ This notebook demonstrates how to extract text from a menu PDF using OCR, parse 
 
 ## Deploying the app
 
-The steps below will provision Azure resources and deploy the application code to Azure Container Apps.
+### Option 1: Deploy using Docker (Recommended)
 
-1. Login to your Azure account:
+The easiest way to run the application is using Docker:
 
-    ```shell
-    azd auth login
-    ```
+1. Make sure you have an `.env` file in the `app/backend/` directory. You can copy the sample file:
 
-    For GitHub Codespaces users, if the previous command fails, try:
+   ```bash
+   cp app/backend/.env-sample app/backend/.env
+   ```
 
-   ```shell
-    azd auth login --use-device-code
-    ```
+   Then edit the file with your Azure service details.
 
-1. Create a new azd environment:
+2. Build and run the Docker container:
 
-    ```shell
-    azd env new
-    ```
+   ```bash
+   # Build the Docker image
+   docker build -t coffee-chat-app -f ./app/Dockerfile ./app
+   
+   # Run the container with your environment variables
+   docker run -p 8000:8000 --env-file ./app/backend/.env coffee-chat-app:latest
+   ```
 
-    Enter a name that will be used for the resource group.
-    This will create a new folder in the `.azure` folder, and set it as the active environment for any calls to `azd` going forward.
+3. Navigate to [http://localhost:8000](http://localhost:8000) to use the application.
 
-1. (Optional) This is the point where you can customize the deployment by setting azd environment variables, in order to [use existing services](docs/existing_services.md) or [customize the voice choice](docs/customizing_deploy.md).
+### Option 2: Deploy to Azure
 
-1. Run this single command to provision the resources, deploy the code, and setup integrated vectorization for the sample data:
+To deploy the app to Azure:
 
-   ```shell
-   azd up
-   ````
+1. Make sure you have an `.env` file set up as described above.
 
-   * **Important**: Beware that the resources created by this command will incur immediate costs, primarily from the AI Search resource. These resources may accrue costs even if you interrupt the command before it is fully executed. You can run `azd down` or delete the resources manually to avoid unnecessary spending.
-   * You will be prompted to select two locations, one for the majority of resources and one for the OpenAI resource, which is currently a short list. That location list is based on the [OpenAI model availability table](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#global-standard-model-availability) and may become outdated as availability changes.
+2. Run the deployment script:
 
-1. After the application has been successfully deployed you will see a URL printed to the console.  Navigate to that URL to interact with the app in your browser. To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "Could I get a small latte?" You can also now run the app locally by following the instructions in [the next section](#development-server).
+   ```bash
+   # Make the script executable
+   chmod +x ./scripts/deploy.sh
+   
+   # Run the deployment
+   ./scripts/deploy.sh \
+     --env-file ./app/backend/.env \
+     --dockerfile ./app/Dockerfile \
+     --context ./app \
+     coffee-chat-assistant
+   ```
+
+3. After deployment completes, your app will be available at the URL displayed in the console.
 
 ## Development server
 
-You can run this app locally using either the Azure services you provisioned by following the [deployment instructions](#deploying-the-app), or by pointing the local app at already [existing services](docs/existing_services.md).
+You can run this app locally using the provided start scripts:
 
-1. If you deployed with `azd up`, you should see a `app/backend/.env` file with the necessary environment variables.
-
-2. If you did *not* use `azd up`, you will need to create `app/backend/.env` file with the necessary environment variables. You can use the provided sample file as a template:
+1. Create an `app/backend/.env` file with the necessary environment variables. You can use the provided sample file as a template:
 
    ```shell
    cp app/backend/.env-sample app/backend/.env
@@ -206,7 +228,7 @@ You can run this app locally using either the Azure services you provisioned by 
 
    Then, fill in the required values in the `app/backend/.env` file. You can find the sample file [here](app/backend/.env-sample).
 
-3. Run this command to start the app:
+2. Run this command to start the app:
 
    Windows:
 
@@ -220,7 +242,7 @@ You can run this app locally using either the Azure services you provisioned by 
    ./scripts/start.sh
    ```
 
-4. The app is available on [http://localhost:8000](http://localhost:8000).
+3. The app is available on [http://localhost:8000](http://localhost:8000).
 
    Once the app is running, when you navigate to the URL above you should see the start screen of the app shown in the [Visual Demonstrations](#visual-demonstrations) section.
 
