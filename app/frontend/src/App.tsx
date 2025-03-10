@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Mic, MicOff, Menu, MessageSquare, LogOut } from "lucide-react";
+import { Mic, MicOff, Menu, MessageSquare, LogOut, Github } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { Card } from "@/components/ui/card";
@@ -177,6 +177,18 @@ function CoffeeApp() {
         <div className={`min-h-screen bg-background p-4 text-foreground ${theme}`}>
             <div className="mx-auto max-w-7xl">
                 <div className="relative mb-6 flex flex-col items-center md:mb-4">
+                    {/* GitHub Repository Link - Top Left */}
+                    <a
+                        href="https://github.com/john-carroll-sw/coffee-chat-voice-assistant"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="absolute left-0 top-1/2 flex -translate-y-1/2 transform items-center gap-1 text-sm transition-colors hover:text-purple-500"
+                        title="View Source on GitHub"
+                    >
+                        <Github className="h-4 w-4" />
+                        <span className="hidden sm:inline">GitHub</span>
+                    </a>
+
                     <h1 className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-center text-4xl font-bold text-transparent md:text-6xl">
                         Coffee Chat
                     </h1>
