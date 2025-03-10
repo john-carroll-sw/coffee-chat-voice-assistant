@@ -26,10 +26,10 @@ Beyond coffee enthusiasts, this technology can enhance accessibility and inclusi
       - [Steps:](#steps)
     - [From PDF](#from-pdf)
       - [Steps:](#steps-1)
-  - [Deploying the app](#deploying-the-app)
-    - [Option 1: Deploy using Docker (Recommended)](#option-1-deploy-using-docker-recommended)
-    - [Option 2: Deploy to Azure](#option-2-deploy-to-azure)
-  - [Development server](#development-server)
+  - [Running the App Locally](#running-the-app-locally)
+    - [Option 1: Direct Local Execution (Recommended for Development)](#option-1-direct-local-execution-recommended-for-development)
+    - [Option 2: Docker-based Local Execution](#option-2-docker-based-local-execution)
+  - [Deploying to Azure](#deploying-to-azure)
   - [Contributing](#contributing)
   - [Resources](#resources)
 
@@ -168,35 +168,77 @@ This notebook demonstrates how to extract text from a menu PDF using OCR, parse 
 
 [Link to PDF Ingestion Notebook](scripts/menu_ingestion_search_pdf.ipynb)
 
-## Deploying the app
+## Running the App Locally
 
-### Option 1: Deploy using Docker (Recommended)
+You have two options for running the app locally for development and testing:
 
-The easiest way to run the application is using Docker:
+### Option 1: Direct Local Execution (Recommended for Development)
 
-1. Make sure you have an `.env` file in the `app/backend/` directory. You can copy the sample file:
+Run this app locally using the provided start scripts:
 
-   ```bash
+1. Create an `app/backend/.env` file with the necessary environment variables. You can use the provided sample file as a template:
+
+   ```shell
    cp app/backend/.env-sample app/backend/.env
    ```
 
-   Then edit the file with your Azure service details.
+   Then, fill in the required values in the `app/backend/.env` file.
 
-2. Build and run the Docker container:
+2. Run this command to start the app:
+
+   Windows:
+
+   ```pwsh
+   pwsh .\scripts\start.ps1
+   ```
+
+   Linux/Mac:
 
    ```bash
-   # Build the Docker image
-   docker build -t coffee-chat-app -f ./app/Dockerfile ./app
-   
-   # Run the container with your environment variables
-   docker run -p 8000:8000 --env-file ./app/backend/.env coffee-chat-app:latest
+   ./scripts/start.sh
    ```
+
+3. The app will be available at [http://localhost:8000](http://localhost:8000)
+
+### Option 2: Docker-based Local Execution
+
+For testing in an isolated container environment:
+
+1. Make sure you have an `.env` file in the `app/backend/` directory as described above.
+
+2. Run the Docker build script:
+
+   ```bash
+   # Make the script executable
+   chmod +x ./scripts/docker-build.sh
+   
+   # Run the build script
+   ./scripts/docker-build.sh
+   ```
+
+   This script automatically handles:
+   - Verifying/creating frontend environment variables
+   - Building the Docker image with proper environment settings
+   - Running the container with your backend configuration
 
 3. Navigate to [http://localhost:8000](http://localhost:8000) to use the application.
 
-### Option 2: Deploy to Azure
+Alternatively, you can manually build and run the Docker container:
 
-To deploy the app to Azure:
+```bash
+# Build the Docker image
+docker build -t coffee-chat-app \
+  --build-arg VITE_AUTH_URL="https://your-auth-url.com" \
+  --build-arg VITE_AUTH_ENABLED="true" \
+  -f ./app/Dockerfile ./app
+
+# Run the container with your environment variables
+docker run -p 8000:8000 --env-file ./app/backend/.env coffee-chat-app:latest
+```
+
+## Deploying to Azure
+
+To deploy the app to a production environment in Azure:
 
 1. Make sure you have an `.env` file set up as described above.
 
@@ -215,38 +257,6 @@ To deploy the app to Azure:
    ```
 
 3. After deployment completes, your app will be available at the URL displayed in the console.
-
-## Development server
-
-You can run this app locally using the provided start scripts:
-
-1. Create an `app/backend/.env` file with the necessary environment variables. You can use the provided sample file as a template:
-
-   ```shell
-   cp app/backend/.env-sample app/backend/.env
-   ```
-
-   Then, fill in the required values in the `app/backend/.env` file. You can find the sample file [here](app/backend/.env-sample).
-
-2. Run this command to start the app:
-
-   Windows:
-
-   ```pwsh
-   pwsh .\scripts\start.ps1
-   ```
-
-   Linux/Mac:
-
-   ```bash
-   ./scripts/start.sh
-   ```
-
-3. The app is available on [http://localhost:8000](http://localhost:8000).
-
-   Once the app is running, when you navigate to the URL above you should see the start screen of the app shown in the [Visual Demonstrations](#visual-demonstrations) section.
-
-   To try out the app, click the "Start conversation button", say "Hello", and then ask a question about your data like "Could I get a small latte?"
 
 ## Contributing
 

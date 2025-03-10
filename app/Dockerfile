@@ -2,9 +2,27 @@
 FROM node:20-slim AS build-stage
 
 # Set the working directory inside the container
+WORKDIR /frontend
+
+# Accept build arguments for frontend env variables
+ARG VITE_AUTH_URL
+ARG VITE_AUTH_ENABLED
+
+# Debug environment variables 
+RUN echo "Building with VITE_AUTH_URL=$VITE_AUTH_URL, VITE_AUTH_ENABLED=$VITE_AUTH_ENABLED"
+
 COPY frontend ./
 
-WORKDIR /frontend
+# Create .env file dynamically if not already in the copied files
+RUN if [ ! -f .env ]; then \
+      echo "Creating .env file"; \
+      echo "VITE_AUTH_URL=${VITE_AUTH_URL}" > .env; \
+      echo "VITE_AUTH_ENABLED=${VITE_AUTH_ENABLED}" >> .env; \
+    else \
+      echo "Using existing .env file"; \
+      cat .env; \
+    fi
+
 RUN npm install
 RUN npm run build
 

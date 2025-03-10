@@ -2,7 +2,9 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 
 // Get authentication settings from environment - default to disabled auth
 const authUrl = import.meta.env.VITE_AUTH_URL || "";
-const authEnabled = import.meta.env.VITE_AUTH_ENABLED === "true"; // Default to false
+const authEnabled = import.meta.env.VITE_AUTH_ENABLED === "true"; // Read from environment
+
+// console.log("Auth settings:", { authUrl, authEnabled, envValue: import.meta.env.VITE_AUTH_ENABLED });
 
 // Interface for authentication info
 interface AuthInfo {
