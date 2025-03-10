@@ -238,28 +238,38 @@ echo "Logging in to Azure Container Registry: $ACR_NAME"
 az acr login --name $ACR_NAME
 
 # MODIFIED: Build the Docker image with frontend environment variables
-echo "Building Docker image: $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG"
-docker build --platform linux/amd64 \
+# Use --no-cache flag to ensure a complete rebuild
+echo "Building Docker image (with no cache): $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG"
+# Add timestamp to tag for uniqueness
+BUILD_TIMESTAMP=$(date +%Y%m%d%H%M%S)
+UNIQUE_IMAGE_TAG="${DOCKER_IMAGE_TAG}-${BUILD_TIMESTAMP}"
+echo "Using unique image tag: $UNIQUE_IMAGE_TAG"
+
+# Build with no-cache to force a complete rebuild
+docker build --no-cache --platform linux/amd64 \
   -f $DOCKERFILE_PATH \
   --build-arg ENTRY_FILE=$ENTRY_FILE \
   --build-arg VITE_AUTH_URL="$VITE_AUTH_URL" \
   --build-arg VITE_AUTH_ENABLED="$VITE_AUTH_ENABLED" \
   -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG \
+  -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$UNIQUE_IMAGE_TAG \
   $DOCKER_CONTEXT
 
 # Push the Docker image to the Azure Container Registry
 echo "Pushing Docker image to Azure Container Registry: $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG"
 docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG
+docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$UNIQUE_IMAGE_TAG
 
 # Create a Web App for Containers if it doesn't exist
 if ! az webapp show --name $WEB_APP_NAME --resource-group $RESOURCE_GROUP &>/dev/null; then
     echo "Creating Web App for Containers: $WEB_APP_NAME"
     az webapp create --resource-group $RESOURCE_GROUP --plan $APP_SERVICE_PLAN --name $WEB_APP_NAME \
-        --deployment-container-image-name $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG
+        --deployment-container-image-name $ACR_NAME.azurecr.io/$IMAGE_NAME:$UNIQUE_IMAGE_TAG
 else
     echo "Web App $WEB_APP_NAME already exists. Updating container image."
+    # Use the unique tag to force an update
     az webapp config container set --name $WEB_APP_NAME --resource-group $RESOURCE_GROUP \
-        --docker-custom-image-name $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG \
+        --docker-custom-image-name $ACR_NAME.azurecr.io/$IMAGE_NAME:$UNIQUE_IMAGE_TAG \
         --docker-registry-server-url https://$ACR_NAME.azurecr.io
 fi
 
@@ -453,6 +463,10 @@ fi
 # Enable Always On for the web app to improve reliability
 echo "Enabling 'Always On' for the Web App..."
 az webapp config set --name $WEB_APP_NAME --resource-group $RESOURCE_GROUP --always-on true
+
+# Add a restart to ensure new container is used
+echo "Restarting web app to ensure changes are applied..."
+az webapp restart --name $WEB_APP_NAME --resource-group $RESOURCE_GROUP
 
 echo "==============================================================="
 echo "Deployment completed successfully!"

@@ -32,7 +32,7 @@ fi
 # Build the Docker image with build arguments from .env
 echo "🔨 Building Docker image..."
 export $(grep -v '^#' ./app/frontend/.env | xargs)
-docker build -t coffee-chat-app \
+docker build  --no-cache -t coffee-chat-app \
   --build-arg VITE_AUTH_URL="$VITE_AUTH_URL" \
   --build-arg VITE_AUTH_ENABLED="$VITE_AUTH_ENABLED" \
   -f ./app/Dockerfile ./app
