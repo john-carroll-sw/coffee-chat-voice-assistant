@@ -11,7 +11,8 @@ echo "Installing required extensions..."
 az extension add --name application-insights --yes || echo "Failed to install application-insights extension"
 
 # Default paths
-ENV_FILE_PATH="./app/backend/.env"
+BACKEND_ENV_FILE_PATH="./app/backend/.env"
+FRONTEND_ENV_FILE_PATH="./app/frontend/.env"
 DOCKERFILE_PATH="./app/Dockerfile"
 DOCKER_CONTEXT="./app"
 
@@ -19,7 +20,11 @@ DOCKER_CONTEXT="./app"
 while [[ $# -gt 0 ]]; do
     case $1 in
         --env-file)
-            ENV_FILE_PATH="$2"
+            BACKEND_ENV_FILE_PATH="$2"
+            shift 2
+            ;;
+        --frontend-env-file)
+            FRONTEND_ENV_FILE_PATH="$2"
             shift 2
             ;;
         --dockerfile)
@@ -37,21 +42,35 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Load environment variables from .env file
-echo "Loading environment variables from $ENV_FILE_PATH"
-if [ ! -f "$ENV_FILE_PATH" ]; then
-    echo "Error: Environment file $ENV_FILE_PATH not found."
+# Check for backend .env file
+echo "Looking for backend environment variables..."
+if [ ! -f "$BACKEND_ENV_FILE_PATH" ] && [ "$BACKEND_ENV_FILE_PATH" != "./app/backend/.env" ]; then
+    echo "Error: Specified backend environment file $BACKEND_ENV_FILE_PATH not found."
+    exit 1
+elif [ ! -f "$BACKEND_ENV_FILE_PATH" ] && [ -f "./app/backend/.env" ]; then
+    echo "Using default backend environment file: ./app/backend/.env"
+    BACKEND_ENV_FILE_PATH="./app/backend/.env"
+elif [ ! -f "$BACKEND_ENV_FILE_PATH" ]; then
+    echo "Error: Backend environment file not found at $BACKEND_ENV_FILE_PATH"
+    echo "Please create a backend .env file or specify one with --env-file"
     exit 1
 fi
 
+# Load backend environment variables
+echo "Loading backend environment variables from $BACKEND_ENV_FILE_PATH"
 set -a
-source "$ENV_FILE_PATH"
+source "$BACKEND_ENV_FILE_PATH"
 set +a
 
 # Check if the app name is provided
 if [ -z "$APP_NAME" ]; then
-    echo "Usage: $0 [--env-file path/to/env] [--dockerfile path/to/Dockerfile] [--context path/to/context] <app_name>"
-    echo "Example: $0 --env-file ./app/backend/.env --dockerfile ./app/Dockerfile coffee-chat-assistant"
+    echo "Usage: $0 [--env-file path/to/backend/env] [--frontend-env-file path/to/frontend/env] [--dockerfile path/to/Dockerfile] [--context path/to/context] <app_name>"
+    echo "Example: $0 coffee-chat-assistant"
+    echo "All parameters are optional and default to:"
+    echo "  --env-file ./app/backend/.env"
+    echo "  --frontend-env-file ./app/frontend/.env"
+    echo "  --dockerfile ./app/Dockerfile"
+    echo "  --context ./app"
     exit 1
 fi
 
@@ -59,6 +78,36 @@ fi
 if [ ! -f "$DOCKERFILE_PATH" ]; then
     echo "Error: Dockerfile not found at $DOCKERFILE_PATH"
     exit 1
+fi
+
+# Handle frontend environment variables
+echo "Checking for frontend environment variables..."
+if [ -f "$FRONTEND_ENV_FILE_PATH" ]; then
+  echo "✅ Frontend .env file found at $FRONTEND_ENV_FILE_PATH"
+  echo "Contents:"
+  cat "$FRONTEND_ENV_FILE_PATH"
+else
+    echo "⚠️ Frontend .env file not found at $FRONTEND_ENV_FILE_PATH, creating one..."
+    
+    # Create the directory if it doesn't exist
+    mkdir -p "$(dirname "$FRONTEND_ENV_FILE_PATH")"
+    
+    # Try to copy from backend env variables related to auth
+    grep "VITE_" "$BACKEND_ENV_FILE_PATH" > "$FRONTEND_ENV_FILE_PATH" 2>/dev/null || echo "" > "$FRONTEND_ENV_FILE_PATH"
+    
+    # If no VITE_ variables found, add the defaults
+    if [ ! -s "$FRONTEND_ENV_FILE_PATH" ]; then
+        echo "# Authentication Settings" > "$FRONTEND_ENV_FILE_PATH"
+        echo "VITE_AUTH_URL=" >> "$FRONTEND_ENV_FILE_PATH"
+        echo "VITE_AUTH_ENABLED=false" >> "$FRONTEND_ENV_FILE_PATH"
+        echo "Added default authentication settings to frontend .env"
+    fi
+fi
+
+# Export frontend environment variables for build args
+if [ -f "$FRONTEND_ENV_FILE_PATH" ]; then
+  export $(grep -v '^#' "$FRONTEND_ENV_FILE_PATH" | xargs)
+  echo "Frontend environment variables loaded."
 fi
 
 # Rest of the script remains unchanged
@@ -70,7 +119,7 @@ REQUIRED_VARS=("AZURE_RESOURCE_GROUP" "AZURE_LOCATION" "AZURE_ACR_NAME"
               
 for var in "${REQUIRED_VARS[@]}"; do
     if [ -z "${!var}" ]; then
-        echo "Error: Required environment variable $var is not set in $ENV_FILE_PATH"
+        echo "Error: Required environment variable $var is not set in $BACKEND_ENV_FILE_PATH"
         exit 1
     fi
 done
@@ -110,7 +159,7 @@ function retry {
 }
 
 echo "Starting deployment for app: $APP_NAME"
-echo "Using environment file: $ENV_FILE_PATH"
+echo "Using environment file: $BACKEND_ENV_FILE_PATH"
 echo "Using Dockerfile: $DOCKERFILE_PATH"
 echo "Using Docker context: $DOCKER_CONTEXT"
 echo "RESOURCE_GROUP: $RESOURCE_GROUP"
@@ -188,9 +237,15 @@ fi
 echo "Logging in to Azure Container Registry: $ACR_NAME"
 az acr login --name $ACR_NAME
 
-# Build the Docker image
+# MODIFIED: Build the Docker image with frontend environment variables
 echo "Building Docker image: $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG"
-docker build --platform linux/amd64 -f $DOCKERFILE_PATH --build-arg ENTRY_FILE=$ENTRY_FILE -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG $DOCKER_CONTEXT
+docker build --platform linux/amd64 \
+  -f $DOCKERFILE_PATH \
+  --build-arg ENTRY_FILE=$ENTRY_FILE \
+  --build-arg VITE_AUTH_URL="$VITE_AUTH_URL" \
+  --build-arg VITE_AUTH_ENABLED="$VITE_AUTH_ENABLED" \
+  -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG \
+  $DOCKER_CONTEXT
 
 # Push the Docker image to the Azure Container Registry
 echo "Pushing Docker image to Azure Container Registry: $ACR_NAME.azurecr.io/$IMAGE_NAME:$DOCKER_IMAGE_TAG"
@@ -209,13 +264,13 @@ else
 fi
 
 # Get all environment variable names from the specified .env file (not hardcoded .env)
-echo "Reading environment variables from $ENV_FILE_PATH"
-if [ ! -f "$ENV_FILE_PATH" ]; then
-    echo "Error: Environment file $ENV_FILE_PATH not found for setting web app environment variables."
+echo "Reading environment variables from $BACKEND_ENV_FILE_PATH"
+if [ ! -f "$BACKEND_ENV_FILE_PATH" ]; then
+    echo "Error: Environment file $BACKEND_ENV_FILE_PATH not found for setting web app environment variables."
     exit 1
 fi
 
-ENV_VARS=$(grep -v '^#' "$ENV_FILE_PATH" | grep -v '^AZURE_RESOURCE' | grep -v '^AZURE_LOCATION' \
+ENV_VARS=$(grep -v '^#' "$BACKEND_ENV_FILE_PATH" | grep -v '^AZURE_RESOURCE' | grep -v '^AZURE_LOCATION' \
           | grep -v '^AZURE_ACR' | grep -v '^AZURE_APP_SERVICE' | grep -v '^AZURE_KEY_VAULT' \
           | grep -v '^AZURE_LOG_ANALYTICS' | grep -v 'DOCKER_IMAGE_TAG' | grep '=' | cut -d '=' -f1)
 

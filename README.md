@@ -240,23 +240,40 @@ docker run -p 8000:8000 --env-file ./app/backend/.env coffee-chat-app:latest
 
 To deploy the app to a production environment in Azure:
 
-1. Make sure you have an `.env` file set up as described above.
+1. Make sure you have an `.env` file set up in the `app/backend/` directory. You can copy the sample file:
 
-2. Run the deployment script:
+   ```bash
+   cp app/backend/.env-sample app/backend/.env
+   ```
+
+2. Run the deployment script with minimal parameters:
 
    ```bash
    # Make the script executable
    chmod +x ./scripts/deploy.sh
    
-   # Run the deployment
-   ./scripts/deploy.sh \
-     --env-file ./app/backend/.env \
-     --dockerfile ./app/Dockerfile \
-     --context ./app \
-     coffee-chat-assistant
+   # Run the deployment with just the app name (uses all defaults)
+   ./scripts/deploy.sh <name-of-your-app>
    ```
 
-3. After deployment completes, your app will be available at the URL displayed in the console.
+   The script will automatically:
+   - Look for backend environment variables in `./app/backend/.env`
+   - Look for or create frontend environment variables in `./app/frontend/.env`
+   - Use the Dockerfile at `./app/Dockerfile`
+   - Use the Docker context at `./app`
+   
+3. For more control, you can specify custom paths:
+
+   ```bash
+   ./scripts/deploy.sh \
+     --env-file /path/to/custom/backend.env \
+     --frontend-env-file /path/to/custom/frontend.env \
+     --dockerfile /path/to/custom/Dockerfile \
+     --context /path/to/custom/context \
+     <name-of-your-app>
+   ```
+
+4. After deployment completes, your app will be available at the URL displayed in the console.
 
 ## Contributing
 
